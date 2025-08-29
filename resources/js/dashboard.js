@@ -1,12 +1,17 @@
 // Global dashboard app object
 window.dashboardApp = {
     extendSession: null,
-    resetSessionTimer: null
+    resetSessionTimer: null,
+    userData: null,
+    refreshUserData: fetchUserData
 };
 
 document.addEventListener('DOMContentLoaded', () => {
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+    // Secure user data fetching
+    fetchUserData();
 
     // Session timeout functionality
     let sessionTimeout;
@@ -241,4 +246,69 @@ document.addEventListener('DOMContentLoaded', () => {
     */
 });
 
+// Secure user data fetching function
+async function fetchUserData() {
+    try {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+            console.error('CSRF token not found');
+            return;
+        }
 
+        const response = await fetch('/api/user/profile', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                // Unauthorized, redirect to login
+                window.location.href = '/login';
+                return;
+            }
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+            // Update user display name in header
+            const userNameElement = document.getElementById('user-name');
+            if (userNameElement) {
+                userNameElement.textContent = data.data.display_name;
+            }
+
+            // Update welcome message
+            const welcomeNameElement = document.getElementById('welcome-name');
+            if (welcomeNameElement) {
+                welcomeNameElement.textContent = data.data.display_name;
+            }
+
+            // Store minimal user data for app functionality (no sensitive info)
+            window.dashboardApp.userData = {
+                displayName: data.data.display_name,
+                firstName: data.data.first_name,
+                memberSince: data.data.member_since
+            };
+
+            console.log('User data loaded securely');
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        
+        // Fallback: show generic welcome message
+        const userNameElement = document.getElementById('user-name');
+        if (userNameElement) {
+            userNameElement.textContent = 'Citizen';
+        }
+        
+        const welcomeNameElement = document.getElementById('welcome-name');
+        if (welcomeNameElement) {
+            welcomeNameElement.textContent = 'Citizen';
+        }
+    }
+}

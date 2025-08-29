@@ -22,6 +22,28 @@ Route::post('/otp/verify', [OtpController::class, 'verify'])->name('otp.verify')
 Route::get('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend');
 Route::post('/otp/send-registration', [OtpController::class, 'sendRegistrationOtpRequest'])->name('otp.send.registration');
 
+// Secure API endpoint for user data (requires authentication)
+Route::middleware('auth')->group(function () {
+    Route::get('/api/user/profile', function () {
+        $user = Auth::user();
+        $email = $user->email;
+        $emailParts = explode('@', $email);
+        $maskedEmail = substr($emailParts[0], 0, 1) . '***@' . $emailParts[1];
+        
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'display_name' => $user->full_name,
+                'first_name' => $user->first_name,
+                'email_masked' => $maskedEmail,
+                'member_since' => $user->created_at->format('M Y')
+            ]
+        ])->header('Cache-Control', 'no-store, no-cache, must-revalidate, private')
+          ->header('Pragma', 'no-cache')
+          ->header('Expires', '0');
+    });
+});
+
 // Test route for OTP functionality
 Route::get('/test-otp', function() {
     $user = new App\Models\User();

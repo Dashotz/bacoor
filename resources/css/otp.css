@@ -1,0 +1,108 @@
+/* OTP verification page styles */
+body {
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: #f2f6fb;
+    color: #0a2540;
+}
+
+.otp-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.otp-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(10, 59, 122, 0.15);
+    padding: 32px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.otp-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.otp-title {
+    color: #0a3b7a;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+}
+
+.otp-subtitle {
+    color: #5b6b7a;
+    margin: 0;
+}
+
+.otp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.otp-input {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 8px;
+    border: 2px solid #e4ecf4;
+    border-radius: 12px;
+    padding: 16px;
+    outline: none;
+}
+
+.otp-input:focus {
+    border-color: #1a66cf;
+    box-shadow: 0 0 0 3px rgba(26, 102, 207, 0.15);
+}
+
+.otp-button {
+    background: #1353ad;
+    color: #fff;
+    border: 0;
+    border-radius: 12px;
+    padding: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.otp-button:hover {
+    background: #1a66cf;
+}
+
+.otp-resend {
+    text-align: center;
+    margin-top: 16px;
+}
+
+.otp-resend a {
+    color: #1353ad;
+    text-decoration: none;
+}
+
+.otp-resend a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    color: #b42318;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.success-message {
+    color: #0f5132;
+    text-align: center;
+    margin-bottom: 16px;
+    background-color: #d1e7dd;
+    border: 1px solid #badbcc;
+    padding: 10px;
+    border-radius: 4px;
+}

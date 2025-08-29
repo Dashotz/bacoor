@@ -40,7 +40,7 @@
                 <a href="#" class="nav-link">Updates</a>
             </nav>
             <div class="dash-user" style="display:flex;align-items:center;gap:10px">
-                <span>Welcome, {{ Auth::user()->name }}</span>
+                <span>Welcome, {{ Auth::user()->full_name }}</span>
                 <form method="POST" action="{{ route('logout') }}" id="logout-form">
                     @csrf
                     <button type="submit" class="logout" id="logout-btn">Logout</button>
@@ -56,7 +56,7 @@
             @endif
             
             <section class="welcome">
-                <h1>Welcome, {{ Auth::user()->name }}!</h1>
+                <h1>Welcome, {{ Auth::user()->full_name }}!</h1>
                 <p>Your citizen portal gives you access to Bacoor services and updates.</p>
                 <div class="session-info">
                     <small>Session expires in <span id="session-timer">3:00</span> minutes of inactivity</small>

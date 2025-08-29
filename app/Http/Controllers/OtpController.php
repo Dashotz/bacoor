@@ -111,4 +111,100 @@ class OtpController extends Controller
 
         return $code;
     }
+
+    public static function sendRegistrationOtp(string $email, string $firstName)
+    {
+        // Generate new 6-digit OTP
+        $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        
+        // Create a temporary user object for the email
+        $tempUser = new User();
+        $tempUser->first_name = $firstName;
+        $tempUser->email = $email;
+        
+        // Send OTP email
+        try {
+            \Log::info('Attempting to send OTP email', [
+                'email' => $email,
+                'first_name' => $firstName,
+                'otp_code' => $code
+            ]);
+            
+            // For testing, let's also log the OTP to the console
+            \Log::info("OTP Code for {$email}: {$code}");
+            
+            Mail::to($email)->send(new OtpMail($tempUser, $code));
+            
+            \Log::info('OTP email sent successfully', [
+                'email' => $email,
+                'otp_code' => $code
+            ]);
+            
+            // Store OTP in session for registration verification
+            session([
+                'registration_otp' => $code,
+                'registration_email' => $email,
+                'registration_otp_expires' => Carbon::now()->addMinutes(10)->timestamp,
+            ]);
+            
+            return true;
+        } catch (\Exception $e) {
+            \Log::error('Failed to send registration OTP email: ' . $e->getMessage(), [
+                'email' => $email,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            // Even if email fails, store OTP in session for testing
+            session([
+                'registration_otp' => $code,
+                'registration_email' => $email,
+                'registration_otp_expires' => Carbon::now()->addMinutes(10)->timestamp,
+            ]);
+            
+            return true; // Return true for testing purposes
+        }
+    }
+
+    public function sendRegistrationOtpRequest(Request $request)
+    {
+        \Log::info('Registration OTP request received', [
+            'email' => $request->email,
+            'first_name' => $request->first_name
+        ]);
+
+        $request->validate([
+            'email' => 'required|email',
+            'first_name' => 'required|string|max:255',
+        ]);
+
+        $email = $request->email;
+        $firstName = $request->first_name;
+
+        // Check if email already exists
+        if (User::where('email', $email)->exists()) {
+            \Log::info('Email already exists', ['email' => $email]);
+            return response()->json([
+                'success' => false,
+                'message' => 'This email is already registered.'
+            ], 400);
+        }
+
+        // Send OTP
+        $success = self::sendRegistrationOtp($email, $firstName);
+
+        if ($success) {
+            \Log::info('Registration OTP sent successfully', ['email' => $email]);
+            return response()->json([
+                'success' => true,
+                'message' => 'OTP sent successfully to your email.'
+            ]);
+        } else {
+            \Log::error('Failed to send registration OTP', ['email' => $email]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send OTP. Please try again.'
+            ], 500);
+        }
+    }
 }

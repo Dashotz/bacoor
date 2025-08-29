@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#0a3b7a" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <style>
         /* Fallback minimal styles if Vite hasn't built yet */
         body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f2f6fb;color:#0a2540}
@@ -95,14 +96,37 @@
                         @endif
                         <div class="form-grid">
                             <div class="form-field">
-                                <label for="reg_name">Full Name</label>
-                                <input type="text" id="reg_name" name="name" value="{{ old('name') }}" placeholder="Juan Dela Cruz" required />
-                                @error('name')<div class="legal" style="color:#b42318">{{ $message }}</div>@enderror
+                                <label for="reg_first_name">First Name</label>
+                                <input type="text" id="reg_first_name" name="first_name" value="{{ old('first_name') }}" placeholder="Juan" required />
+                                @error('first_name')<div class="legal" style="color:#b42318">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="form-field">
+                                <label for="reg_middle_name">Middle Name</label>
+                                <input type="text" id="reg_middle_name" name="middle_name" value="{{ old('middle_name') }}" placeholder="Leave blank if not applicable" />
+                                @error('middle_name')<div class="legal" style="color:#b42318">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="form-field">
+                                <label for="reg_surname">Surname</label>
+                                <input type="text" id="reg_surname" name="surname" value="{{ old('surname') }}" placeholder="Dela Cruz" required />
+                                @error('surname')<div class="text-red-600 text-sm">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="form-field">
+                                <label for="reg_suffix">Suffix</label>
+                                <input type="text" id="reg_suffix" name="suffix" value="{{ old('suffix') }}" placeholder="Leave blank if not applicable" />
+                                @error('suffix')<div class="legal" style="color:#b42318">{{ $message }}</div>@enderror
                             </div>
                             <div class="form-field">
                                 <label for="reg_email">Email</label>
                                 <input type="email" id="reg_email" name="email" value="{{ old('email') }}" placeholder="you@example.com" required />
                                 @error('email')<div class="legal" style="color:#b42318">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="form-field">
+                                <label for="reg_otp">Verification Code</label>
+                                <div class="otp-input-wrapper">
+                                    <input type="text" id="reg_otp" name="otp" placeholder="Enter verification code" required />
+                                    <button type="button" class="otp-button" id="send-otp-btn">Send OTP</button>
+                                </div>
+                                @error('otp')<div class="legal" style="color:#b42318">{{ $message }}</div>@enderror
                             </div>
                             <div class="form-field">
                                 <label for="reg_password">Password</label>
@@ -190,6 +214,19 @@
         </footer>
     </div>
 
+    <!-- Success Registration Popup -->
+    <div id="success-popup" class="success-popup" style="display: none;">
+        <div class="success-popup-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        <h3>Registration Successful! 🎉</h3>
+        <p>Your account has been created successfully. You can now log in with your email and password.</p>
+        <button class="success-popup-button" id="close-popup-btn">Close</button>
+    </div>
+    
+    <div id="success-popup-overlay" class="success-popup-overlay" style="display: none;"></div>
 
 </body>
 </html>

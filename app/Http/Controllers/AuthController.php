@@ -15,8 +15,12 @@ class AuthController extends Controller
     {
         try {
             $validated = $request->validate([
-                'name' => ['required', 'string', 'max:255'],
+                'first_name' => ['required', 'string', 'max:255'],
+                'middle_name' => ['nullable', 'string', 'max:255'],
+                'surname' => ['required', 'string', 'max:255'],
+                'suffix' => ['nullable', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+                'otp' => ['required', 'string', 'size:6'],
                 'password' => [
                     'required', 
                     'confirmed', 
@@ -24,13 +28,40 @@ class AuthController extends Controller
                     'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/',
                 ],
             ], [
+                'first_name.required' => 'First name is required.',
+                'surname.required' => 'Surname is required.',
+                'otp.required' => 'Verification code is required.',
+                'otp.size' => 'Verification code must be 6 digits.',
                 'password.min' => 'Password must be at least 8 characters long.',
                 'password.regex' => 'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.',
                 'password.confirmed' => 'Password confirmation does not match.',
             ]);
 
+            // Validate OTP
+            $storedOtp = session('registration_otp');
+            $storedEmail = session('registration_email');
+            $otpExpires = session('registration_otp_expires');
+            
+            if (!$storedOtp || $storedEmail !== $validated['email'] || !$otpExpires || time() > $otpExpires) {
+                return back()
+                    ->withErrors(['otp' => 'Invalid or expired verification code. Please request a new one.'])
+                    ->withInput($request->except('password', 'password_confirmation', 'otp'));
+            }
+            
+            if ($storedOtp !== $validated['otp']) {
+                return back()
+                    ->withErrors(['otp' => 'Invalid verification code. Please check and try again.'])
+                    ->withInput($request->except('password', 'password_confirmation', 'otp'));
+            }
+            
+            // Clear OTP session data
+            session()->forget(['registration_otp', 'registration_email', 'registration_otp_expires']);
+
             $user = User::create([
-                'name' => $validated['name'],
+                'first_name' => $validated['first_name'],
+                'middle_name' => $validated['middle_name'],
+                'surname' => $validated['surname'],
+                'suffix' => $validated['suffix'],
                 'email' => $validated['email'],
                 'password' => $validated['password'], // hashed via cast in User model
             ]);
@@ -39,7 +70,7 @@ class AuthController extends Controller
             \Log::info('User registered successfully', [
                 'user_id' => $user->id,
                 'email' => $user->email,
-                'name' => $user->name
+                'full_name' => $user->full_name
             ]);
 
             return redirect('/')
@@ -53,7 +84,7 @@ class AuthController extends Controller
             
             return back()
                 ->withErrors(['general' => 'Registration failed. Please try again.'])
-                ->withInput($request->except('password', 'password_confirmation'));
+                ->withInput($request->except('password', 'password_confirmation', 'otp'));
         }
     }
 
@@ -90,5 +121,3 @@ class AuthController extends Controller
         return redirect('/');
     }
 }
-
-

@@ -99,7 +99,7 @@
             <p>Citizen Portal Verification</p>
         </div>
 
-        <p>Hello <strong>{{ $user->name }}</strong>,</p>
+        <p>Hello <strong>{{ $user->full_name ?? $user->first_name ?? 'User' }}</strong>,</p>
 
         <p>You have requested to access the City Government of Bacoor Citizen Portal. To complete your login, please use the verification code below:</p>
 

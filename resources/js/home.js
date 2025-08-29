@@ -104,31 +104,174 @@ document.addEventListener('DOMContentLoaded', () => {
             checkPasswordMatch();
         });
 
-        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+                confirmPasswordInput.addEventListener('input', checkPasswordMatch);
 
-                    // Form validation
-            const registerForm = document.getElementById('register');
-            if (registerForm) {
-                registerForm.addEventListener('submit', function(e) {
-                    const password = passwordInput.value;
-                    const confirmPassword = confirmPasswordInput.value;
-                    
-                    // Check if password meets all requirements
-                    const allRequirementsMet = checkPasswordRequirements(password);
-                    if (!allRequirementsMet) {
-                        e.preventDefault();
-                        alert('Please ensure your password meets all requirements.');
-                        return false;
+        // OTP functionality
+        const sendOtpBtn = document.getElementById('send-otp-btn');
+        const emailInput = document.getElementById('reg_email');
+        const firstNameInput = document.getElementById('reg_first_name');
+        
+        if (sendOtpBtn && emailInput && firstNameInput) {
+            sendOtpBtn.addEventListener('click', function() {
+                const email = emailInput.value.trim();
+                const firstName = firstNameInput.value.trim();
+                
+                if (!firstName) {
+                    alert('Please enter your first name first.');
+                    return;
+                }
+                
+                if (!email) {
+                    alert('Please enter your email address first.');
+                    return;
+                }
+                
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    alert('Please enter a valid email address.');
+                    return;
+                }
+                
+                // Disable button and show loading state
+                this.disabled = true;
+                this.textContent = 'Sending...';
+                
+                // Send OTP request to server
+                fetch('/otp/send-registration', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        first_name: firstName
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.textContent = 'OTP Sent!';
+                        this.style.background = '#059669';
+                        
+                        // Re-enable after 60 seconds
+                        setTimeout(() => {
+                            this.disabled = false;
+                            this.textContent = 'Send OTP';
+                            this.style.background = '';
+                        }, 60000);
+                    } else {
+                        alert(data.message || 'Failed to send OTP. Please try again.');
+                        this.disabled = false;
+                        this.textContent = 'Send OTP';
                     }
-                    
-                    // Check if passwords match
-                    if (password !== confirmPassword) {
-                        e.preventDefault();
-                        alert('Passwords do not match.');
-                        return false;
-                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to send OTP. Please try again.');
+                    this.disabled = false;
+                    this.textContent = 'Send OTP';
                 });
-            }
+            });
+        }
+
+        // Form validation
+        const registerForm = document.getElementById('register');
+        if (registerForm) {
+            registerForm.addEventListener('submit', function(e) {
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+                const otp = document.getElementById('reg_otp')?.value;
+                
+                // Check if password meets all requirements
+                const allRequirementsMet = checkPasswordRequirements(password);
+                if (!allRequirementsMet) {
+                    e.preventDefault();
+                    alert('Please ensure your password meets all requirements.');
+                    return false;
+                }
+                
+                // Check if passwords match
+                if (password !== confirmPassword) {
+                    e.preventDefault();
+                    alert('Passwords do not match.');
+                    return false;
+                }
+                
+                // Check if OTP is entered
+                if (!otp || otp.trim() === '') {
+                    e.preventDefault();
+                    alert('Please enter the verification code.');
+                    return false;
+                }
+            });
+        }
+    }
+});
+
+// Global functions for success popup
+function showSuccessPopup() {
+    const popup = document.getElementById('success-popup');
+    const overlay = document.getElementById('success-popup-overlay');
+    
+    if (popup && overlay) {
+        overlay.style.display = 'block';
+        popup.style.display = 'block';
+        
+        // Add animation classes
+        setTimeout(() => {
+            popup.classList.add('popup-enter-active');
+        }, 10);
+    }
+}
+
+// Test function - can be called from browser console for testing
+function testSuccessPopup() {
+    showSuccessPopup();
+}
+
+function closeSuccessPopup() {
+    const popup = document.getElementById('success-popup');
+    const overlay = document.getElementById('success-popup-overlay');
+    
+    if (popup && overlay) {
+        popup.classList.add('popup-exit-active');
+        
+        setTimeout(() => {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+            popup.classList.remove('popup-exit-active');
+        }, 300);
+    }
+}
+
+// Check for success message on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if there's a success message in the session
+    const successMessage = document.querySelector('.legal[style*="color:#059669"]');
+    if (successMessage && successMessage.textContent.includes('Registration successful')) {
+        // Show popup after a short delay
+        setTimeout(() => {
+            showSuccessPopup();
+        }, 500);
+    }
+    
+    // Add click event to overlay to close popup
+    const overlay = document.getElementById('success-popup-overlay');
+    if (overlay) {
+        overlay.addEventListener('click', closeSuccessPopup);
+    }
+    
+    // Add escape key to close popup
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeSuccessPopup();
+        }
+    });
+    
+    // Add click event to close button
+    const closeButton = document.getElementById('close-popup-btn');
+    if (closeButton) {
+        closeButton.addEventListener('click', closeSuccessPopup);
     }
 });
 

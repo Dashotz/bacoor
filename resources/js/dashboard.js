@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Session timeout functionality
     let sessionTimeout;
     let warningTimeout;
-    const SESSION_TIMEOUT_MINUTES = 3;
+    const SESSION_TIMEOUT_MINUTES = 3; // 3 minutes
     const WARNING_BEFORE_TIMEOUT = 1; // Show warning 1 minute before timeout
     let timeRemaining = SESSION_TIMEOUT_MINUTES * 60; // seconds
     let isWarningShown = false;
@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         updateSessionTimer();
         
-        // Send heartbeat to server
-        sendHeartbeat();
+        // Disabled heartbeat to prevent CSRF token issues
+        // sendHeartbeat();
     }
 
     function showSessionWarning() {
@@ -122,11 +122,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function forceLogout() {
         // Send logout request to server
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+            console.error('CSRF token not found, redirecting to login');
+            window.location.href = '/login';
+            return;
+        }
+        
         fetch('/session/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'X-CSRF-TOKEN': csrfToken,
                 'X-Requested-With': 'XMLHttpRequest'
             }
         }).finally(() => {
@@ -135,17 +142,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Heartbeat function disabled to prevent CSRF token issues
+    /*
     function sendHeartbeat() {
         console.log('Sending heartbeat to server...');
+        
+        // Get fresh CSRF token
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+            console.error('CSRF token not found, stopping heartbeat');
+            return;
+        }
+        
         fetch('/session/check', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'X-CSRF-TOKEN': csrfToken,
                 'X-Requested-With': 'XMLHttpRequest'
             }
         }).then(response => {
             console.log('Heartbeat response:', response.status);
+            if (response.status === 419) {
+                // CSRF token mismatch, try to refresh the page to get a new token
+                console.log('CSRF token mismatch, refreshing page...');
+                window.location.reload();
+                return;
+            }
             if (!response.ok) {
                 // Session expired on server, redirect to login
                 console.log('Session expired on server, redirecting to login');
@@ -156,11 +179,30 @@ document.addEventListener('DOMContentLoaded', () => {
             // Ignore errors, just keep session alive
         });
     }
+    */
 
-    // Reset timer on user activity
+    // Reset timer on user activity (simplified to prevent heartbeat issues)
     const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
     activityEvents.forEach(event => {
-        document.addEventListener(event, resetSessionTimer, true);
+        document.addEventListener(event, (e) => {
+            // Don't reset timer for logout button clicks
+            if (e.target && e.target.id === 'logout-btn') {
+                return;
+            }
+            // Simplified timer reset without heartbeat
+            timeRemaining = SESSION_TIMEOUT_MINUTES * 60;
+            isWarningShown = false;
+            
+            if (sessionTimeout) {
+                clearTimeout(sessionTimeout);
+            }
+            if (warningTimeout) {
+                clearTimeout(warningTimeout);
+            }
+            
+            hideSessionWarning();
+            updateSessionTimer();
+        }, true);
     });
     
     // Detect visibility changes (alt-tabbing, switching windows, etc.)
@@ -190,10 +232,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('Session timer started with', SESSION_TIMEOUT_MINUTES, 'minutes timeout (continues counting when away, resets only on interaction)');
 
-    // Send heartbeat to server every 30 seconds to keep session alive
+    // Temporarily disabled heartbeat to prevent CSRF token issues
+    // Send heartbeat to server every 5 minutes to keep session alive (much reduced frequency)
+    /*
     setInterval(() => {
         sendHeartbeat();
-    }, 30000);
+    }, 300000); // 5 minutes
+    */
 });
 
 

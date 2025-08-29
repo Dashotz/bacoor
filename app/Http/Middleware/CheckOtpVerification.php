@@ -12,6 +12,11 @@ class CheckOtpVerification
 {
     public function handle(Request $request, Closure $next): Response
     {
+        // Skip OTP verification for logout routes
+        if ($request->is('logout')) {
+            return $next($request);
+        }
+        
         // Check if user is authenticated
         if (!Auth::check()) {
             return redirect()->route('login.form');
@@ -31,7 +36,7 @@ class CheckOtpVerification
                 $lastActivity = Carbon::createFromTimestamp($lastActivity);
             }
             
-            if (Carbon::now()->diffInMinutes($lastActivity) >= 5) {
+            if (Carbon::now()->diffInMinutes($lastActivity) >= 30) { // 30 minutes instead of 5
                 Auth::logout();
                 session()->flush();
                 return redirect()->route('login.form')->withErrors(['email' => 'Session expired due to inactivity. Please log in again.']);

@@ -41,10 +41,10 @@
             </nav>
             <div class="dash-user" style="display:flex;align-items:center;gap:10px">
                 <span>Welcome, {{ Auth::user()->name }}</span>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="logout">Logout</button>
-            </form>
+                <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                    @csrf
+                    <button type="submit" class="logout" id="logout-btn">Logout</button>
+                </form>
             </div>
         </header>
 

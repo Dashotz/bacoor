@@ -20,9 +20,14 @@ class SessionTimeout
      */
     public function handle(Request $request, Closure $next): \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
     {
+        // Skip session timeout check for logout and session management routes
+        if ($request->is('logout') || $request->is('session/*')) {
+            return $next($request);
+        }
+        
         if (Auth::check()) {
             $lastActivity = Session::get('last_activity');
-            $timeout = config('session.lifetime', 3) * 60; // Convert minutes to seconds
+            $timeout = config('session.lifetime', 120) * 60; // Convert minutes to seconds (default: 2 hours)
             $currentTime = Carbon::now();
             
             // If no last_activity is set, set it now (first request after login)
@@ -42,14 +47,17 @@ class SessionTimeout
             
             $timeSinceLastActivity = $currentTime->diffInSeconds($lastActivity);
             
-            Log::info('Session timeout: Checking activity', [
-                'user_id' => Auth::id(),
-                'last_activity' => $lastActivity->toDateTimeString(),
-                'current_time' => $currentTime->toDateTimeString(),
-                'time_since_last' => $timeSinceLastActivity,
-                'timeout' => $timeout,
-                'expired' => $timeSinceLastActivity > $timeout
-            ]);
+            // Only log every 10th request to reduce log spam
+            if (rand(1, 10) === 1) {
+                Log::info('Session timeout: Checking activity', [
+                    'user_id' => Auth::id(),
+                    'last_activity' => $lastActivity->toDateTimeString(),
+                    'current_time' => $currentTime->toDateTimeString(),
+                    'time_since_last' => $timeSinceLastActivity,
+                    'timeout' => $timeout,
+                    'expired' => $timeSinceLastActivity > $timeout
+                ]);
+            }
             
             if ($timeSinceLastActivity > $timeout) {
                 // Session has expired, log out the user

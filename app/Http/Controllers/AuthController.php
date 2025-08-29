@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Http\Controllers\OtpController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
@@ -12,23 +13,48 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Password::defaults()],
-        ]);
+        try {
+            $validated = $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+                'password' => [
+                    'required', 
+                    'confirmed', 
+                    'min:8',
+                    'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/',
+                ],
+            ], [
+                'password.min' => 'Password must be at least 8 characters long.',
+                'password.regex' => 'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.',
+                'password.confirmed' => 'Password confirmation does not match.',
+            ]);
 
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => $validated['password'], // hashed via cast in User model
-        ]);
+            $user = User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => $validated['password'], // hashed via cast in User model
+            ]);
 
-        // Optionally log in the user after registration
-        // auth()->login($user);
+            // Log the successful creation
+            \Log::info('User registered successfully', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'name' => $user->name
+            ]);
 
-        return redirect('/')
-            ->with('status', 'Registration successful. You may now log in.');
+            return redirect('/')
+                ->with('status', 'Registration successful! You may now log in.');
+                
+        } catch (\Exception $e) {
+            \Log::error('Registration failed', [
+                'error' => $e->getMessage(),
+                'request_data' => $request->except('password', 'password_confirmation')
+            ]);
+            
+            return back()
+                ->withErrors(['general' => 'Registration failed. Please try again.'])
+                ->withInput($request->except('password', 'password_confirmation'));
+        }
     }
 
     public function login(Request $request)

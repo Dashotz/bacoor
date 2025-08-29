@@ -60,4 +60,93 @@
     .form-grid{grid-template-columns:1fr}
 }
 
+/* Password input wrapper */
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-wrapper input {
+    flex: 1;
+    padding-right: 50px;
+}
+
+.password-input-wrapper + .password-requirements {
+    margin-top: 4px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.2s;
+}
+
+.password-toggle:hover {
+    color: #374151;
+}
+
+/* Password requirements */
+.password-requirements {
+    margin-top: 6px;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 6px 8px;
+    background: #f9fafb;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 8px;
+}
+
+.requirement {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+.requirement-icon {
+    width: 4px;
+    height: 4px;
+    background: #ef4444;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.requirement.met .requirement-icon {
+    background: #059669;
+}
+
+
+
+/* Password match indicator */
+.password-match {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    color: #059669;
+}
+
+.password-no-match {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    color: #ef4444;
+}
+
+.match-icon, .no-match-icon {
+    font-size: 12px;
+}
+
 

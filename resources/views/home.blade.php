@@ -49,7 +49,19 @@
                         </div>
                         <div class="form-field">
                             <label for="login_password">Password</label>
-                            <input type="password" id="login_password" name="password" placeholder="••••••••" required />
+                            <div class="password-input-wrapper">
+                                <input type="password" id="login_password" name="password" placeholder="••••••••" required />
+                                <button type="button" class="password-toggle" data-target="login_password">
+                                    <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <svg class="eye-slash-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.45 18.45 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                         <div class="form-actions">
                             <label class="remember">
@@ -64,9 +76,21 @@
                     <form id="register" class="tab-panel {{ $activeTab ?? 'login' === 'register' ? 'active' : '' }}" method="POST" action="{{ route('register') }}">
                         @csrf
                         <h2 class="panel-title">Create your account</h2>
+                        @if (session('status'))
+                        <div class="form-field" role="alert">
+                            <div class="legal" style="color:#059669; background: #d1fae5; padding: 8px 12px; border-radius: 6px; border: 1px solid #a7f3d0;">
+                                {{ session('status') }}
+                            </div>
+                        </div>
+                        @endif
+                        
                         @if ($errors->any())
                         <div class="form-field" role="alert">
-                            <div class="legal" style="color:#b42318">Please fix the errors below.</div>
+                            @if ($errors->has('general'))
+                                <div class="legal" style="color:#b42318">{{ $errors->first('general') }}</div>
+                            @else
+                                <div class="legal" style="color:#b42318">Please fix the errors below.</div>
+                            @endif
                         </div>
                         @endif
                         <div class="form-grid">
@@ -82,12 +106,67 @@
                             </div>
                             <div class="form-field">
                                 <label for="reg_password">Password</label>
-                                <input type="password" id="reg_password" name="password" placeholder="Create a strong password" required />
+                                <div class="password-input-wrapper">
+                                    <input type="password" id="reg_password" name="password" placeholder="Create a strong password" required />
+                                    <button type="button" class="password-toggle" data-target="reg_password">
+                                        <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                        <svg class="eye-slash-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="password-requirements">
+                                    <div class="requirement" data-requirement="length">
+                                        <span class="requirement-icon"></span>
+                                        <span>At least 8 characters</span>
+                                    </div>
+                                    <div class="requirement" data-requirement="uppercase">
+                                        <span class="requirement-icon"></span>
+                                        <span>1 uppercase letter</span>
+                                    </div>
+                                    <div class="requirement" data-requirement="lowercase">
+                                        <span class="requirement-icon"></span>
+                                        <span>1 lowercase letter</span>
+                                    </div>
+                                    <div class="requirement" data-requirement="number">
+                                        <span class="requirement-icon"></span>
+                                        <span>1 number</span>
+                                    </div>
+                                    <div class="requirement" data-requirement="special">
+                                        <span class="requirement-icon"></span>
+                                        <span>1 special character</span>
+                                    </div>
+                                </div>
+
                                 @error('password')<div class="legal" style="color:#b42318">{{ $message }}</div>@enderror
                             </div>
                             <div class="form-field">
                                 <label for="reg_password_confirmation">Confirm Password</label>
-                                <input type="password" id="reg_password_confirmation" name="password_confirmation" placeholder="Re-enter password" required />
+                                <div class="password-input-wrapper">
+                                    <input type="password" id="reg_password_confirmation" name="password_confirmation" placeholder="Re-enter password" required />
+                                    <button type="button" class="password-toggle" data-target="reg_password_confirmation">
+                                        <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                        <svg class="eye-slash-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.45 18.45 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="password-match" id="password-match" style="display: none;">
+                                    <span class="match-icon">✅</span>
+                                    <span>Passwords match</span>
+                                </div>
+                                <div class="password-no-match" id="password-no-match" style="display: none;">
+                                    <span class="no-match-icon">❌</span>
+                                    <span>Passwords do not match</span>
+                                </div>
                             </div>
                         </div>
                         <div class="legal">
@@ -110,5 +189,7 @@
             <p>© <span id="year"></span> City Government of Bacoor</p>
         </footer>
     </div>
+
+
 </body>
 </html>

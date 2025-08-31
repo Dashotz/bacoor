@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->append(App\Http\Middleware\SecurityHeadersMiddleware::class);
-        $middleware->append(App\Http\Middleware\SessionTimeout::class);
+        // $middleware->append(App\Http\Middleware\SessionTimeout::class); // Disabled - designed for session auth, not JWT
         
         // Configure auth middleware to redirect to login
         $middleware->alias([
@@ -26,7 +26,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'api/*',
             'otp/*',
-            'session/*'
+            'session/*',
+            'forgot-password',
+            'reset-password'
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

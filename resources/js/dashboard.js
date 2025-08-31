@@ -11,20 +11,27 @@ document.addEventListener('DOMContentLoaded', () => {
     if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
     // Check if user is authenticated with JWT
-    if (!window.jwtAuth || !window.jwtAuth.isAuthenticated()) {
-        console.log('User not authenticated, redirecting to login');
-        window.location.href = '/';
-        return;
-    }
-
-    // Secure user data fetching
-    fetchUserData();
+    // Wait a bit for JWT auth to initialize
+    setTimeout(() => {
+        if (!window.jwtAuth || !window.jwtAuth.isAuthenticated()) {
+            window.location.href = '/';
+            return;
+        }
+        
+        // Secure user data fetching
+        fetchUserData();
+        
+        // Start the session timer only if user is authenticated
+        if (window.jwtAuth && window.jwtAuth.isAuthenticated()) {
+            updateSessionTimer();
+        }
+    }, 1000); // Wait 1 second for JWT auth to initialize
 
     // Session timeout functionality
     let sessionTimeout;
     let warningTimeout;
-    const SESSION_TIMEOUT_MINUTES = 3; // 3 minutes
-    const WARNING_BEFORE_TIMEOUT = 1; // Show warning 1 minute before timeout
+    const SESSION_TIMEOUT_MINUTES = 30; // 30 minutes (increased from 3)
+    const WARNING_BEFORE_TIMEOUT = 5; // Show warning 5 minutes before timeout
     let timeRemaining = SESSION_TIMEOUT_MINUTES * 60; // seconds
     let isWarningShown = false;
 
@@ -165,30 +172,20 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Detect visibility changes (alt-tabbing, switching windows, etc.)
     document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            console.log('Page became hidden (alt-tab, window switch, etc.)');
-            // Don't reset timer when page becomes hidden - let it continue counting
-        } else {
-            console.log('Page became visible again');
-            // Don't reset timer when returning - only reset on actual interaction
-        }
+        // Don't reset timer when page becomes hidden - let it continue counting
+        // Don't reset timer when returning - only reset on actual interaction
     });
     
     // Detect window focus/blur (additional alt-tab detection)
     window.addEventListener('blur', () => {
-        console.log('Window lost focus');
         // Don't reset timer when window loses focus
     });
     
     window.addEventListener('focus', () => {
-        console.log('Window gained focus');
         // Don't reset timer when window gains focus - only reset on actual interaction
     });
 
-    // Start the session timer
-    updateSessionTimer();
-    
-    console.log('Session timer started with', SESSION_TIMEOUT_MINUTES, 'minutes timeout (continues counting when away, resets only on interaction)');
+    // Session timer is now started by the setTimeout above after authentication check
 });
 
 // Secure user data fetching function using JWT
@@ -196,7 +193,6 @@ async function fetchUserData() {
     try {
         // Check if JWT auth is available
         if (!window.jwtAuth || !window.jwtAuth.isAuthenticated()) {
-            console.error('JWT authentication not available or user not authenticated');
             window.location.href = '/';
             return;
         }
@@ -223,14 +219,10 @@ async function fetchUserData() {
                 firstName: userData.first_name,
                 memberSince: userData.member_since
             };
-
-            console.log('User data loaded securely via JWT');
         } else {
             throw new Error('Failed to fetch user profile');
         }
     } catch (error) {
-        console.error('Error fetching user data:', error);
-        
         // If JWT token is invalid, redirect to login
         if (window.jwtAuth) {
             window.jwtAuth.clearAuth();

@@ -114,6 +114,12 @@ class JWTAuth {
             console.error('Logout error:', error);
         } finally {
             this.clearAuth();
+            
+            // Clear remembered credentials on logout
+            localStorage.removeItem('remembered_email');
+            localStorage.removeItem('remembered_password');
+            localStorage.setItem('remember_me', 'false');
+            
             window.location.href = '/';
         }
     }
@@ -207,6 +213,20 @@ class JWTAuth {
                     email: document.getElementById('login_email').value,
                     password: document.getElementById('login_password').value
                 };
+                
+                // Save credentials if remember me is checked
+                const rememberMeCheckbox = document.getElementById('remember_me');
+                if (rememberMeCheckbox && rememberMeCheckbox.checked) {
+                    localStorage.setItem('remembered_email', formData.email);
+                    localStorage.setItem('remembered_password', formData.password);
+                    localStorage.setItem('remember_me', 'true');
+                } else {
+                    // Clear saved credentials if unchecked
+                    localStorage.removeItem('remembered_email');
+                    localStorage.removeItem('remembered_password');
+                    localStorage.setItem('remember_me', 'false');
+                }
+                
                 this.handleLogin(formData);
             });
         }

@@ -30,6 +30,57 @@ document.addEventListener('DOMContentLoaded', () => {
         activate('#login');
     }
 
+    // Remember Me functionality
+    const rememberMeCheckbox = document.getElementById('remember_me');
+    const loginEmailInput = document.getElementById('login_email');
+    const loginPasswordInput = document.getElementById('login_password');
+
+    // Load saved credentials if they exist
+    function loadSavedCredentials() {
+        const savedEmail = localStorage.getItem('remembered_email');
+        const savedPassword = localStorage.getItem('remembered_password');
+        const isRemembered = localStorage.getItem('remember_me') === 'true';
+        
+        if (savedEmail && savedPassword && isRemembered) {
+            loginEmailInput.value = savedEmail;
+            loginPasswordInput.value = savedPassword;
+            rememberMeCheckbox.checked = true;
+        }
+    }
+
+    // Save credentials when form is submitted
+    function saveCredentials() {
+        if (rememberMeCheckbox.checked) {
+            localStorage.setItem('remembered_email', loginEmailInput.value);
+            localStorage.setItem('remembered_password', loginPasswordInput.value);
+            localStorage.setItem('remember_me', 'true');
+        } else {
+            // Clear saved credentials if unchecked
+            localStorage.removeItem('remembered_email');
+            localStorage.removeItem('remembered_password');
+            localStorage.removeItem('remember_me');
+        }
+    }
+
+    // Handle remember me checkbox change
+    if (rememberMeCheckbox) {
+        rememberMeCheckbox.addEventListener('change', function() {
+            if (!this.checked) {
+                // Clear saved credentials when unchecked
+                localStorage.removeItem('remembered_email');
+                localStorage.removeItem('remembered_password');
+                localStorage.setItem('remember_me', 'false');
+                
+                // Clear the input fields when unchecked
+                loginEmailInput.value = '';
+                loginPasswordInput.value = '';
+            }
+        });
+    }
+
+    // Load saved credentials on page load
+    loadSavedCredentials();
+
     // Password functionality
     // Password toggle functionality
     document.querySelectorAll('.password-toggle').forEach(button => {

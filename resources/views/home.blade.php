@@ -65,10 +65,10 @@
                         </div>
                         <div class="form-actions">
                             <label class="remember">
-                                <input type="checkbox" name="remember" />
+                                <input type="checkbox" id="remember_me" name="remember" />
                                 <span>Remember me</span>
                             </label>
-                            <a class="link" href="#">Forgot password?</a>
+                            <a class="link" href="/forgot-password">Forgot password?</a>
                         </div>
                         <button type="submit" class="cta">Log In</button>
                     </form>

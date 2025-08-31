@@ -68,8 +68,9 @@
                     });
 
                     if (response.ok) {
-                        // OTP verified successfully, redirect to dashboard
-                        window.location.href = '/dashboard';
+                        // OTP verified successfully, redirect to dashboard with JWT token
+                        const token = localStorage.getItem('jwt_token');
+                        window.location.href = `/dashboard?token=${encodeURIComponent(token)}`;
                     } else {
                         const data = await response.json();
                         // Show error message
@@ -121,9 +122,9 @@
                     });
 
                     if (response.ok) {
-                        console.log('OTP generated successfully');
+                        // OTP generated successfully
                     } else {
-                        console.error('Failed to generate OTP');
+                        // Failed to generate OTP
                     }
                 } catch (error) {
                     console.error('Error generating OTP:', error);

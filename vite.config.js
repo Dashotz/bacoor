@@ -13,6 +13,7 @@ export default defineConfig({
                 'resources/css/dashboard.css',
                 'resources/js/dashboard.js',
                 'resources/css/otp.css',
+                'resources/js/jwt-auth.js',
             ],
             refresh: true,
         }),

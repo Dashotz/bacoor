@@ -29,13 +29,14 @@ class CheckOtpVerification
             return redirect('/');
         }
 
-        // Check if OTP has been verified by checking the database
-        $latestOtp = Otp::where('user_id', $user->id)
+        // Check if OTP has been verified by checking the database for a recently used OTP
+        // Look for an OTP that was used within the last 15 minutes (OTP expires in 10 minutes)
+        $recentOtp = Otp::where('user_id', $user->id)
                         ->where('used', true)
-                        ->latest()
+                        ->where('updated_at', '>', Carbon::now()->subMinutes(15))
                         ->first();
 
-        if (!$latestOtp) {
+        if (!$recentOtp) {
             // Clear JWT token and redirect to OTP verification
             return redirect('/otp');
         }

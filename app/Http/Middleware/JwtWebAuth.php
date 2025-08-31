@@ -14,6 +14,13 @@ class JwtWebAuth
     public function handle(Request $request, Closure $next): Response
     {
         try {
+            // For web routes, try to get JWT token from URL query parameter first
+            $token = $request->query('token');
+            if ($token) {
+                // Set the token in the request headers so JWTAuth can parse it
+                $request->headers->set('Authorization', 'Bearer ' . $token);
+            }
+            
             $user = JWTAuth::parseToken()->authenticate();
             if (!$user) {
                 return redirect('/');

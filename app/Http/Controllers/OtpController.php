@@ -65,8 +65,7 @@ class OtpController extends Controller
         // Mark OTP as used
         $otp->markAsUsed();
 
-        // Set OTP verification flag in session for dashboard access
-        session(['otp_verified' => true]);
+        // OTP verification is now tracked in the database, no need for session
         
         return response()->json(['message' => 'OTP verified successfully']);
     }

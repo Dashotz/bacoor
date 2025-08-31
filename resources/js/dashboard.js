@@ -10,6 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
+    // Check if user is authenticated with JWT
+    if (!window.jwtAuth || !window.jwtAuth.isAuthenticated()) {
+        console.log('User not authenticated, redirecting to login');
+        window.location.href = '/';
+        return;
+    }
+
     // Secure user data fetching
     fetchUserData();
 
@@ -60,9 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
         hideSessionWarning();
         
         updateSessionTimer();
-        
-        // Disabled heartbeat to prevent CSRF token issues
-        // sendHeartbeat();
     }
 
     function showSessionWarning() {
@@ -126,67 +130,16 @@ document.addEventListener('DOMContentLoaded', () => {
     window.dashboardApp.resetSessionTimer = resetSessionTimer;
 
     function forceLogout() {
-        // Send logout request to server
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        if (!csrfToken) {
-            console.error('CSRF token not found, redirecting to login');
-            window.location.href = '/login';
-            return;
+        // Use JWT logout instead of CSRF-based logout
+        if (window.jwtAuth) {
+            window.jwtAuth.handleLogout();
+        } else {
+            // Fallback: redirect to login
+            window.location.href = '/';
         }
-        
-        fetch('/session/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        }).finally(() => {
-            // Redirect to login page
-            window.location.href = '/login';
-        });
     }
 
-    // Heartbeat function disabled to prevent CSRF token issues
-    /*
-    function sendHeartbeat() {
-        console.log('Sending heartbeat to server...');
-        
-        // Get fresh CSRF token
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        if (!csrfToken) {
-            console.error('CSRF token not found, stopping heartbeat');
-            return;
-        }
-        
-        fetch('/session/check', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        }).then(response => {
-            console.log('Heartbeat response:', response.status);
-            if (response.status === 419) {
-                // CSRF token mismatch, try to refresh the page to get a new token
-                console.log('CSRF token mismatch, refreshing page...');
-                window.location.reload();
-                return;
-            }
-            if (!response.ok) {
-                // Session expired on server, redirect to login
-                console.log('Session expired on server, redirecting to login');
-                window.location.href = '/login';
-            }
-        }).catch((error) => {
-            console.error('Heartbeat error:', error);
-            // Ignore errors, just keep session alive
-        });
-    }
-    */
-
-    // Reset timer on user activity (simplified to prevent heartbeat issues)
+    // Reset timer on user activity
     const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
     activityEvents.forEach(event => {
         document.addEventListener(event, (e) => {
@@ -194,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target && e.target.id === 'logout-btn') {
                 return;
             }
-            // Simplified timer reset without heartbeat
+            // Reset timer on user activity
             timeRemaining = SESSION_TIMEOUT_MINUTES * 60;
             isWarningShown = false;
             
@@ -236,79 +189,52 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSessionTimer();
     
     console.log('Session timer started with', SESSION_TIMEOUT_MINUTES, 'minutes timeout (continues counting when away, resets only on interaction)');
-
-    // Temporarily disabled heartbeat to prevent CSRF token issues
-    // Send heartbeat to server every 5 minutes to keep session alive (much reduced frequency)
-    /*
-    setInterval(() => {
-        sendHeartbeat();
-    }, 300000); // 5 minutes
-    */
 });
 
-// Secure user data fetching function
+// Secure user data fetching function using JWT
 async function fetchUserData() {
     try {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        if (!csrfToken) {
-            console.error('CSRF token not found');
+        // Check if JWT auth is available
+        if (!window.jwtAuth || !window.jwtAuth.isAuthenticated()) {
+            console.error('JWT authentication not available or user not authenticated');
+            window.location.href = '/';
             return;
         }
 
-        const response = await fetch('/api/user/profile', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        });
-
-        if (!response.ok) {
-            if (response.status === 401) {
-                // Unauthorized, redirect to login
-                window.location.href = '/login';
-                return;
-            }
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
+        // Use JWT auth to get user profile
+        const userData = await window.jwtAuth.getUserProfile();
         
-        if (data.success && data.data) {
+        if (userData) {
             // Update user display name in header
             const userNameElement = document.getElementById('user-name');
             if (userNameElement) {
-                userNameElement.textContent = data.data.display_name;
+                userNameElement.textContent = userData.display_name;
             }
 
             // Update welcome message
             const welcomeNameElement = document.getElementById('welcome-name');
             if (welcomeNameElement) {
-                welcomeNameElement.textContent = data.data.display_name;
+                welcomeNameElement.textContent = userData.display_name;
             }
 
             // Store minimal user data for app functionality (no sensitive info)
             window.dashboardApp.userData = {
-                displayName: data.data.display_name,
-                firstName: data.data.first_name,
-                memberSince: data.data.member_since
+                displayName: userData.display_name,
+                firstName: userData.first_name,
+                memberSince: userData.member_since
             };
 
-            console.log('User data loaded securely');
+            console.log('User data loaded securely via JWT');
+        } else {
+            throw new Error('Failed to fetch user profile');
         }
     } catch (error) {
         console.error('Error fetching user data:', error);
         
-        // Fallback: show generic welcome message
-        const userNameElement = document.getElementById('user-name');
-        if (userNameElement) {
-            userNameElement.textContent = 'Citizen';
+        // If JWT token is invalid, redirect to login
+        if (window.jwtAuth) {
+            window.jwtAuth.clearAuth();
         }
-        
-        const welcomeNameElement = document.getElementById('welcome-name');
-        if (welcomeNameElement) {
-            welcomeNameElement.textContent = 'Citizen';
-        }
+        window.location.href = '/';
     }
 }

@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bacoor Dashboard</title>
-    @vite(['resources/css/app.css', 'resources/css/dashboard.css', 'resources/js/app.js', 'resources/js/dashboard.js'])
+    @vite(['resources/css/app.css', 'resources/css/dashboard.css', 'resources/js/app.js', 'resources/js/dashboard.js', 'resources/js/jwt-auth.js'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
     <style>
         body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f5f8fc}
     </style>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- User data will be fetched securely via API -->
     <script>
         // Global function for extending session
@@ -41,8 +41,7 @@
             </nav>
             <div class="dash-user" style="display:flex;align-items:center;gap:10px">
                 <span id="user-welcome">Welcome, <span id="user-name">Loading...</span></span>
-                <form method="POST" action="{{ route('logout') }}" id="logout-form">
-                    @csrf
+                <form id="logout-form">
                     <button type="submit" class="logout" id="logout-btn">Logout</button>
                 </form>
             </div>

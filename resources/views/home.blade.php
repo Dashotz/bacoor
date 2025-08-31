@@ -4,13 +4,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>City Government of Bacoor - Access</title>
-    @vite(['resources/css/app.css', 'resources/css/home.css', 'resources/js/app.js', 'resources/js/home.js'])
+    @vite(['resources/css/app.css', 'resources/css/home.css', 'resources/js/app.js', 'resources/js/home.js', 'resources/js/jwt-auth.js'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#0a3b7a" />
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
     <style>
         /* Fallback minimal styles if Vite hasn't built yet */
         body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f2f6fb;color:#0a2540}
@@ -36,8 +36,7 @@
                 </div>
 
                 <div class="tab-panels">
-                    <form id="login" class="tab-panel {{ $activeTab ?? 'login' === 'login' ? 'active' : '' }}" method="POST" action="{{ route('login') }}">
-                        @csrf
+                    <form id="login" class="tab-panel {{ $activeTab ?? 'login' === 'login' ? 'active' : '' }}">
                         <h2 class="panel-title">Welcome back</h2>
                         @if ($errors->has('email'))
                         <div class="form-field" role="alert">
@@ -74,8 +73,7 @@
                         <button type="submit" class="cta">Log In</button>
                     </form>
 
-                    <form id="register" class="tab-panel {{ $activeTab ?? 'login' === 'register' ? 'active' : '' }}" method="POST" action="{{ route('register') }}">
-                        @csrf
+                    <form id="register" class="tab-panel {{ $activeTab ?? 'login' === 'register' ? 'active' : '' }}">
                         <h2 class="panel-title">Create your account</h2>
                         @if (session('status'))
                         <div class="form-field" role="alert">

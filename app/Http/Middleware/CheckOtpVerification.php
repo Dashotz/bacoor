@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Models\Otp;
 
 class CheckOtpVerification
 {
@@ -17,34 +19,26 @@ class CheckOtpVerification
             return $next($request);
         }
         
-        // Check if user is authenticated
-        if (!Auth::check()) {
-            return redirect()->route('login.form');
-        }
-
-        // Check if OTP has been verified
-        if (!session('otp_verified')) {
-            Auth::logout();
-            return redirect()->route('login.form')->withErrors(['email' => 'Please complete OTP verification.']);
-        }
-
-        // Check session timeout (5 minutes of inactivity)
-        $lastActivity = session('last_activity');
-        if ($lastActivity) {
-            // Convert stored timestamp back to Carbon instance if it's a timestamp
-            if (is_numeric($lastActivity)) {
-                $lastActivity = Carbon::createFromTimestamp($lastActivity);
+        // Check if user has valid JWT token
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            if (!$user) {
+                return redirect('/');
             }
-            
-            if (Carbon::now()->diffInMinutes($lastActivity) >= 30) { // 30 minutes instead of 5
-                Auth::logout();
-                session()->flush();
-                return redirect()->route('login.form')->withErrors(['email' => 'Session expired due to inactivity. Please log in again.']);
-            }
+        } catch (\Exception $e) {
+            return redirect('/');
         }
 
-        // Update last activity timestamp
-        session(['last_activity' => Carbon::now()]);
+        // Check if OTP has been verified by checking the database
+        $latestOtp = Otp::where('user_id', $user->id)
+                        ->where('used', true)
+                        ->latest()
+                        ->first();
+
+        if (!$latestOtp) {
+            // Clear JWT token and redirect to OTP verification
+            return redirect('/otp');
+        }
 
         return $next($request);
     }

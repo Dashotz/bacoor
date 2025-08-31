@@ -2,122 +2,129 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Http\Controllers\OtpController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use App\Models\User;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
 {
+    /**
+     * Create a new AuthController instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
+
+    /**
+     * Register a new user.
+     */
     public function register(Request $request)
     {
-        try {
-            $validated = $request->validate([
-                'first_name' => ['required', 'string', 'max:255'],
-                'middle_name' => ['nullable', 'string', 'max:255'],
-                'surname' => ['required', 'string', 'max:255'],
-                'suffix' => ['nullable', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-                'otp' => ['required', 'string', 'size:6'],
-                'password' => [
-                    'required', 
-                    'confirmed', 
-                    'min:8',
-                    'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/',
-                ],
-            ], [
-                'first_name.required' => 'First name is required.',
-                'surname.required' => 'Surname is required.',
-                'otp.required' => 'Verification code is required.',
-                'otp.size' => 'Verification code must be 6 digits.',
-                'password.min' => 'Password must be at least 8 characters long.',
-                'password.regex' => 'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.',
-                'password.confirmed' => 'Password confirmation does not match.',
-            ]);
-
-            // Validate OTP
-            $storedOtp = session('registration_otp');
-            $storedEmail = session('registration_email');
-            $otpExpires = session('registration_otp_expires');
-            
-            if (!$storedOtp || $storedEmail !== $validated['email'] || !$otpExpires || time() > $otpExpires) {
-                return back()
-                    ->withErrors(['otp' => 'Invalid or expired verification code. Please request a new one.'])
-                    ->withInput($request->except('password', 'password_confirmation', 'otp'));
-            }
-            
-            if ($storedOtp !== $validated['otp']) {
-                return back()
-                    ->withErrors(['otp' => 'Invalid verification code. Please check and try again.'])
-                    ->withInput($request->except('password', 'password_confirmation', 'otp'));
-            }
-            
-            // Clear OTP session data
-            session()->forget(['registration_otp', 'registration_email', 'registration_otp_expires']);
-
-            $user = User::create([
-                'first_name' => $validated['first_name'],
-                'middle_name' => $validated['middle_name'],
-                'surname' => $validated['surname'],
-                'suffix' => $validated['suffix'],
-                'email' => $validated['email'],
-                'password' => $validated['password'], // hashed via cast in User model
-            ]);
-
-            // Log the successful creation
-            \Log::info('User registered successfully', [
-                'user_id' => $user->id,
-                'email' => $user->email,
-                'full_name' => $user->full_name
-            ]);
-
-            return redirect('/')
-                ->with('status', 'Registration successful! You may now log in.');
-                
-        } catch (\Exception $e) {
-            \Log::error('Registration failed', [
-                'error' => $e->getMessage(),
-                'request_data' => $request->except('password', 'password_confirmation')
-            ]);
-            
-            return back()
-                ->withErrors(['general' => 'Registration failed. Please try again.'])
-                ->withInput($request->except('password', 'password_confirmation', 'otp'));
-        }
-    }
-
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'surname' => 'required|string|max:255',
+            'suffix' => 'nullable|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
-        if (Auth::attempt($credentials, (bool) $request->boolean('remember'))) {
-            $request->session()->regenerate();
-            
-            // Send OTP instead of redirecting to dashboard
-            $user = Auth::user();
-            OtpController::sendOtp($user);
-            
-            // Logout temporarily until OTP is verified
-            Auth::logout();
-            
-            return redirect()->route('otp.show');
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'surname' => $request->surname,
+            'suffix' => $request->suffix,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $token = JWTAuth::fromUser($user);
+
+        return response()->json([
+            'message' => 'User successfully registered',
+            'user' => $user,
+            'token' => $token,
+        ], 201);
     }
 
-    public function logout(Request $request)
+    /**
+     * Get a JWT via given credentials.
+     */
+    public function login(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/');
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $credentials = $request->only('email', 'password');
+
+        try {
+            if (!$token = JWTAuth::attempt($credentials)) {
+                return response()->json([
+                    'message' => 'Invalid credentials',
+                ], 401);
+            }
+        } catch (JWTException $e) {
+            return response()->json([
+                'message' => 'Could not create token',
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Login successful',
+            'token' => $token,
+            'user' => Auth::user(),
+        ]);
+    }
+
+    /**
+     * Get the authenticated User.
+     */
+    public function me()
+    {
+        return response()->json(auth()->user());
+    }
+
+    /**
+     * Log the user out (Invalidate the token).
+     */
+    public function logout()
+    {
+        try {
+            auth()->logout();
+            return response()->json(['message' => 'Successfully logged out']);
+        } catch (JWTException $e) {
+            return response()->json(['message' => 'Error logging out'], 500);
+        }
+    }
+
+    /**
+     * Refresh a token.
+     */
+    public function refresh()
+    {
+        try {
+            $token = JWTAuth::refresh();
+            return response()->json([
+                'message' => 'Token refreshed successfully',
+                'token' => $token,
+            ]);
+        } catch (JWTException $e) {
+            return response()->json(['message' => 'Error refreshing token'], 500);
+        }
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
+        api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
@@ -17,11 +18,16 @@ return Application::configure(basePath: dirname(__DIR__))
         // Configure auth middleware to redirect to login
         $middleware->alias([
             'auth' => \App\Http\Middleware\Authenticate::class,
+            'jwt.web' => \App\Http\Middleware\JwtWebAuth::class,
             'otp.verified' => \App\Http\Middleware\CheckOtpVerification::class,
         ]);
         
-        // Set default redirect for unauthenticated users
-        $middleware->redirectTo('/login');
+        // Exclude API routes from CSRF verification
+        $middleware->validateCsrfTokens(except: [
+            'api/*',
+            'otp/*',
+            'session/*'
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

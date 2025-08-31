@@ -9,16 +9,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class OtpController extends Controller
 {
     public function show()
     {
-        if (!session('user_id') || !session('user_email')) {
-            return redirect()->route('login.form');
-        }
-        
+        // Don't require JWT authentication here - the frontend will send it
+        // when making OTP verification requests
         return view('otp');
+    }
+
+    public function generate(Request $request)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            if (!$user) {
+                return response()->json(['message' => 'Unauthorized'], 401);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        // Generate OTP for the user
+        $this->sendOtp($user);
+
+        return response()->json(['message' => 'OTP generated successfully']);
     }
 
     public function verify(Request $request)
@@ -27,9 +43,13 @@ class OtpController extends Controller
             'otp' => 'required|string|size:6',
         ]);
 
-        $user = User::find(session('user_id'));
-        if (!$user) {
-            return redirect()->route('login.form');
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            if (!$user) {
+                return response()->json(['message' => 'Unauthorized'], 401);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
 
         $otp = Otp::where('user_id', $user->id)
@@ -39,42 +59,33 @@ class OtpController extends Controller
             ->first();
 
         if (!$otp) {
-            return back()->withErrors(['otp' => 'Invalid or expired OTP code.']);
+            return response()->json(['message' => 'Invalid or expired OTP code.'], 400);
         }
 
         // Mark OTP as used
         $otp->markAsUsed();
 
-        // Clear OTP session data
-        session()->forget(['user_id', 'user_email', 'otp_verified']);
-
-        // Log in the user
-        Auth::login($user);
-
-        // Set OTP verification flag
+        // Set OTP verification flag in session for dashboard access
         session(['otp_verified' => true]);
         
-        // Set initial session activity timestamp for session timeout
-        session(['last_activity' => Carbon::now()->timestamp]);
-
-        return redirect()->intended(route('dashboard'));
+        return response()->json(['message' => 'OTP verified successfully']);
     }
 
     public function resend()
     {
-        if (!session('user_id') || !session('user_email')) {
-            return redirect()->route('login.form');
-        }
-
-        $user = User::find(session('user_id'));
-        if (!$user) {
-            return redirect()->route('login.form');
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            if (!$user) {
+                return response()->json(['message' => 'Unauthorized'], 401);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
 
         // Generate new OTP
         $this->sendOtp($user);
 
-        return back()->with('status', 'New OTP code has been sent to your email.');
+        return response()->json(['message' => 'New OTP code has been sent to your email.']);
     }
 
     public static function sendOtp(User $user)
@@ -92,21 +103,16 @@ class OtpController extends Controller
             'expires_at' => Carbon::now()->addMinutes(10),
         ]);
 
-        // Store user info in session for OTP page
-        session([
-            'user_id' => $user->id,
-            'user_email' => $user->email,
-        ]);
-
         // Send OTP email
         try {
             Mail::to($user->email)->send(new OtpMail($user, $code));
+            \Log::info("OTP email sent successfully to {$user->email}: {$code}");
         } catch (\Exception $e) {
             // Log the error but don't fail the OTP generation
             \Log::error('Failed to send OTP email: ' . $e->getMessage());
             
             // Fallback: still log the OTP for development
-            \Log::info("OTP for {$user->email}: {$code}");
+            \Log::info("OTP for user {$user->email}: {$code}");
         }
 
         return $code;
@@ -129,9 +135,6 @@ class OtpController extends Controller
                 'first_name' => $firstName,
                 'otp_code' => $code
             ]);
-            
-            // For testing, let's also log the OTP to the console
-            \Log::info("OTP Code for {$email}: {$code}");
             
             Mail::to($email)->send(new OtpMail($tempUser, $code));
             

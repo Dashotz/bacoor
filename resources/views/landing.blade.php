@@ -45,7 +45,7 @@
                      </div>
                 </div>
                 <div class="hero-media">
-                    <div class="image-cluster">
+                    <div class="image-cluster"></div>
                         <div class="image-large">
                             <img src="{{ asset('images/landing/hero-1.jpg') }}" alt="Collaborative meeting" />
                         </div>
@@ -61,34 +61,36 @@
         </section>
 
         <section class="cards-section">
-            <div class="container cards-grid">
+            <div class="container">
+                <h2>OUR SERVICES</h2>
+                <div class="cards-grid">
                 <article class="info-card">
                     <h3>City Treasurer's Office</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis enim aut in ea re p quod per se ipsum voluptatem mer.</p>
-                    <a href="#services" class="card-cta">Learn more →</a>
+                    <a href="#services" class="card-cta">Learn more</a>
                 </article>
-                <article class="info-card highlight">
-                    <h3>City Assessor's Office</h3>
-                    <p>Get Free Copy of Tax Declaration, Tax Mapping, Certification and more. Assessor and Appraisal services for local property.</p>
-                    <a href="#services" class="card-cta">Learn more →</a>
-                </article>
+                                 <article class="info-card">
+                     <h3>City Assessor's Office</h3>
+                     <p>Get Free Copy of Tax Declaration, Tax Mapping, Certification and more. Assessor and Appraisal services for local property.</p>
+                     <a href="#services" class="card-cta">Learn more</a>
+                 </article>
                 <article class="info-card">
                     <h3>Mayor's Permit</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis enim aut in ea re p quod per se ipsum voluptatem mer.</p>
-                    <a href="#services" class="card-cta">Learn more →</a>
+                    <a href="#services" class="card-cta">Learn more</a>
                 </article>
             </div>
 
-            <div class="container cards-grid compact">
+            <div class="cards-grid compact">
                 <article class="info-card">
                     <h3>City Health Office</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis enim aut in ea re.</p>
-                    <a href="#services" class="card-cta">Learn more →</a>
+                    <a href="#services" class="card-cta">Learn more</a>
                 </article>
                 <article class="info-card">
                     <h3>City Zoning's Office</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis enim aut in ea re.</p>
-                    <a href="#services" class="card-cta">Learn more →</a>
+                    <a href="#services" class="card-cta">Learn more</a>
                 </article>
             </div>
         </section>

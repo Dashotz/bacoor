@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#0a3b7a" />
     <style>body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f5f8fc;color:#0a2540}</style>
@@ -98,8 +99,11 @@
         <section id="about" class="about-section">
             <div class="container about-grid">
                 <div class="about-media">
-                    <div class="video-placeholder">
-                        <button class="play-btn" aria-label="Play video">▶</button>
+                    <div class="video-container">
+                        <video controls class="about-video" poster="{{ asset('images/vid-thumb.png') }}">
+                            <source src="{{ asset('videos/bacoor-video.mp4') }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                     </div>
                 </div>
                 <div class="about-copy">
@@ -131,7 +135,9 @@
         </section>
 
         <section id="services" class="process-section">
-            <div class="container process-grid">
+            <div class="container">
+                <h2>OUR PROCESS</h2>
+                <div class="process-grid">
                 <article class="process-card">
                     <h3>Client Design Consultation</h3>
                     <p>Submit your request and our team will guide you with clear requirements and timelines.</p>
@@ -144,6 +150,7 @@
                     <h3>Processing to Design Home</h3>
                     <p>Release results quickly and securely, with notifications sent to your email.</p>
                 </article>
+                </div>
             </div>
         </section>
 

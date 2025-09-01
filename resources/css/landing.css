@@ -56,8 +56,10 @@
 
 .about-section{padding:60px 0;background:#fff;border-radius:16px;margin:40px 0;box-shadow:0 4px 20px rgba(10,59,122,0.08)}
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
-.video-placeholder{background:#e2e8f0;border-radius:12px;height:400px;display:flex;align-items:center;justify-content:center}
-.play-btn{background:#0a3b7a;color:#fff;border:none;border-radius:999px;width:80px;height:80px;font-size:24px;cursor:pointer}
+.video-container{width:100%;height:100%;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(10,59,122,0.1);position:relative}
+.about-video{width:100%;height:100%;object-fit:cover;border-radius:12px}
+.about-video[poster]{object-fit:contain;background:#f8fafc}
+.about-video:not([poster]){object-fit:cover;background:none}
 .eyebrow{text-transform:uppercase;font-size:12px;letter-spacing:.12em;color:#0a3b7a;font-weight:800}
 .about-copy h2{margin:6px 0 8px;font-size:42px;font-weight:900;line-height:1.1;color:#0a2540}
 .bullets{list-style:none;padding:0;margin:12px 0;display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
@@ -72,9 +74,15 @@
 .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .gallery-tile{background:#e2e8f0;border-radius:12px;height:100px}
 
-.process-section{padding:24px 0}
-.process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.process-card{background:#fff;border:1px solid #e5eaf0;border-radius:12px;padding:16px}
+.process-section{padding:24px 0;text-align:center}
+.process-section h2{font-size:32px;font-weight:800;color:#0a2540;margin-bottom:32px;text-transform:uppercase}
+.process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;justify-items:center}
+.process-card{background:#fff;border:1px solid #e5eaf0;border-radius:12px;padding:16px;transition:all 0.3s ease;cursor:pointer;max-width:320px}
+.process-card:hover{transform:translateY(-4px);box-shadow:0 8px 25px rgba(10,59,122,0.15);border-color:#0a3b7a;background:#0a3b7a;color:#fff}
+.process-card h3{margin:0 0 8px;font-weight:700}
+.process-card:hover h3{color:#fff}
+.process-card p{margin:0 0 10px;color:#334}
+.process-card:hover p{color:#fff}
 
 .partner-section{padding:30px 0}
 .partner-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}

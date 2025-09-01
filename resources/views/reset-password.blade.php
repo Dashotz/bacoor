@@ -122,7 +122,7 @@
                 </form>
 
                 <div class="reset-password-footer">
-                    <p>Remember your password? <a href="/" class="link">Back to Login</a></p>
+                    <p>Remember your password? <a href="/login" class="link">Back to Login</a></p>
                 </div>
             </section>
 
@@ -266,7 +266,7 @@
                     if (response.ok) {
                         showSuccess(data.message || 'Password reset successfully!');
                         setTimeout(() => {
-                            window.location.href = '/';
+                            window.location.href = '/login';
                         }, 2000);
                     } else {
                         showError(data.message || 'Failed to reset password. Please try again.');

@@ -6,12 +6,16 @@ use App\Http\Controllers\OtpController;
 use App\Http\Controllers\ForgotPasswordController;
 
 Route::get('/', function () {
-    return view('home');
+    return view('landing');
 });
 
 Route::get('/login', function () {
-    return view('home', ['activeTab' => 'login']);
+    return view('login');
 })->name('login.form');
+
+Route::get('/register', function () {
+    return view('register');
+})->name('register.form');
 
 // Forgot Password routes
 Route::get('/forgot-password', [ForgotPasswordController::class, 'show'])->name('password.request');

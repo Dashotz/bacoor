@@ -14,22 +14,24 @@
 </head>
 <body>
     <header class="landing-header">
-        <div class="container">
+        <div class="header-grid">
             <div class="brand">
-                <img src="/favicon.ico" class="brand-logo" alt="Bacoor Seal" />
-                <span class="brand-title">Bacoor City eGov</span>
+                <img src="{{ asset('images/bacoor-logo.png') }}" class="brand-logo" alt="Bacoor City" />
+                <span class="brand-title">BACOOR CITY EGOV™</span>
             </div>
-            <nav class="nav">
-                <a class="nav-link active" href="#home">Home</a>
-                <a class="nav-link" href="#about">About Us</a>
-                <a class="nav-link" href="#services">Our Services</a>
-                <a class="nav-link" href="#contact">Contact Us</a>
-                <a class="nav-link login" href="/login">Login</a>
+            <nav class="main-menu" aria-label="Primary">
+                <a class="menu-link active" href="#home">HOME</a>
+                <a class="menu-link" href="#about">ABOUT US</a>
+                <a class="menu-link" href="#services">OUR SERVICES</a>
+                <a class="menu-link" href="#contact">CONTACT US</a>
             </nav>
+            <div class="auth-cta">
+                <a class="menu-link login" href="/login">LOGIN</a>
+            </div>
         </div>
     </header>
 
-    <main>
+    <main></main>
         <section id="home" class="hero-section">
             <div class="container hero-grid">
                 <div class="hero-copy">
@@ -41,9 +43,9 @@
                     </div>
                 </div>
                 <div class="hero-media">
-                    <div class="media-tile large"></div>
-                    <div class="media-tile small"></div>
-                    <div class="media-tile medium"></div>
+                    <img class="media-tile large" src="{{ asset('images/landing/hero-1.jpg') }}" alt="Citizens collaborating" />
+                    <img class="media-tile small" src="{{ asset('images/landing/hero-2.jpg') }}" alt="Office teamwork" />
+                    <img class="media-tile medium" src="{{ asset('images/landing/hero-3.jpg') }}" alt="Public service" />
                 </div>
             </div>
         </section>

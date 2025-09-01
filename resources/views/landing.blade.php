@@ -20,7 +20,7 @@
                 <span class="brand-title">BACOOR CITY EGOV™</span>
             </div>
             <nav class="main-menu" aria-label="Primary">
-                <a class="menu-link active" href="#home">HOME</a>
+                <a class="menu-link" href="#home">HOME</a>
                 <a class="menu-link" href="#about">ABOUT US</a>
                 <a class="menu-link" href="#services">OUR SERVICES</a>
                 <a class="menu-link" href="#contact">CONTACT US</a>
@@ -31,21 +31,31 @@
         </div>
     </header>
 
-    <main></main>
+    <main>
         <section id="home" class="hero-section">
             <div class="container hero-grid">
                 <div class="hero-copy">
-                    <p class="eyebrow">Welcome to</p>
-                    <h1 class="hero-title">City Assessor's Office</h1>
-                    <p class="hero-subtitle">Access services and programs of the City Government of Bacoor through your citizen account.</p>
+                    <p class="eyebrow">WELCOME TO</p>
+                                         <h1 class="hero-title">
+                         <span class="title-city">CITY</span><span class="title-assessors"> ASSESSOR'S</span>
+                         <span class="title-office">OFFICE</span>
+                     </h1>
                     <div class="hero-actions">
-                        <a class="btn primary" href="/login">Sign In</a>
+                        <a class="btn primary" href="/login">SIGN IN</a>
                     </div>
                 </div>
                 <div class="hero-media">
-                    <img class="media-tile large" src="{{ asset('images/landing/hero-1.jpg') }}" alt="Citizens collaborating" />
-                    <img class="media-tile small" src="{{ asset('images/landing/hero-2.jpg') }}" alt="Office teamwork" />
-                    <img class="media-tile medium" src="{{ asset('images/landing/hero-3.jpg') }}" alt="Public service" />
+                    <div class="hex-container">
+                        <div class="hex-tile large">
+                            <img src="{{ asset('images/landing/hero-1.jpg') }}" alt="Collaborative meeting" />
+                        </div>
+                        <div class="hex-tile small top-right">
+                            <img src="{{ asset('images/landing/hero-2.jpg') }}" alt="Presentation" />
+                        </div>
+                        <div class="hex-tile small bottom-right">
+                            <img src="{{ asset('images/landing/hero-3.jpg') }}" alt="Document discussion" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

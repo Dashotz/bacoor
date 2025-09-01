@@ -13,8 +13,9 @@
 .menu-link.login:hover{background:#082d5c}
 
 .hero-section{background:linear-gradient(180deg,#eaf2ff,transparent 60%)}
-.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding:48px 0}
-.eyebrow{text-transform:uppercase;font-size:12px;letter-spacing:.12em;color:#0a3b7a;font-weight:800;margin-bottom:8px}
+.hero-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:0;align-items:center;padding:48px 0}
+.eyebrow{text-transform:uppercase;font-size:12px;letter-spacing:.12em;color:#0a3b7a;font-weight:800;margin-bottom:8px;padding-left:0;margin-left:0}
+.hero-copy{text-align:left;padding-left:0;margin-left:-25%}
 .hero-title{font-size:56px;margin:0 0 20px;line-height:1.1;font-weight:900}
 .title-city{color:#0a2540}
 .title-assessors{color:#0a3b7a}
@@ -24,13 +25,15 @@
 .btn.secondary{background:#e2e8f0;color:#0a2540}
 .hero-actions{display:flex;gap:12px;margin-top:14px}
 .hero-media{position:relative}
-.hex-container{position:relative;width:100%;height:300px}
-.hex-tile{position:absolute;overflow:hidden;border-radius:12px}
-.hex-tile img{width:100%;height:100%;object-fit:cover}
-.hex-tile.large{width:280px;height:200px;top:50px;left:0;z-index:2}
-.hex-tile.small{width:140px;height:140px}
-.hex-tile.top-right{top:0;right:0;z-index:3}
-.hex-tile.bottom-right{bottom:0;right:20px;z-index:1}
+.image-cluster{position:relative;width:100%;height:400px}
+.image-large{position:absolute;width:360px;height:260px;bottom:40px;right:35%;z-index:2;overflow:hidden;border-radius:0}
+.image-large img{width:100%;height:100%;object-fit:cover}
+.image-large::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(rgba(76, 123, 226, 0.3),rgba(78, 128, 238, 0.1));pointer-events:none}
+.image-small{position:absolute;width:350px;height:215px;overflow:hidden;border-radius:0}
+.image-small img{width:100%;height:100%;object-fit:cover}
+.image-small::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(rgba(76, 123, 226, 0.3),rgba(78, 128, 238, 0.1));pointer-events:none}
+.image-small.top{top:40px;right:-55%;z-index:3}
+.image-small.bottom{bottom: -25%;right:-65%;z-index:1}
 
 .cards-section{padding:24px 0}
 .cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:18px 0}

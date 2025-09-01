@@ -40,19 +40,19 @@
                          <span class="title-city">CITY</span><span class="title-assessors"> ASSESSOR'S</span>
                          <span class="title-office">OFFICE</span>
                      </h1>
-                    <div class="hero-actions">
-                        <a class="btn primary" href="/login">SIGN IN</a>
-                    </div>
+                                         <div class="hero-actions">
+                         <a class="btn primary" href="/register">REGISTER HERE!</a>
+                     </div>
                 </div>
                 <div class="hero-media">
-                    <div class="hex-container">
-                        <div class="hex-tile large">
+                    <div class="image-cluster">
+                        <div class="image-large">
                             <img src="{{ asset('images/landing/hero-1.jpg') }}" alt="Collaborative meeting" />
                         </div>
-                        <div class="hex-tile small top-right">
+                        <div class="image-small top">
                             <img src="{{ asset('images/landing/hero-2.jpg') }}" alt="Presentation" />
                         </div>
-                        <div class="hex-tile small bottom-right">
+                        <div class="image-small bottom">
                             <img src="{{ asset('images/landing/hero-3.jpg') }}" alt="Document discussion" />
                         </div>
                     </div>

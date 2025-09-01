@@ -126,11 +126,43 @@
         </section>
 
         <section class="gallery-section">
-            <div class="container gallery-grid">
-                <div class="gallery-tile"></div>
-                <div class="gallery-tile"></div>
-                <div class="gallery-tile"></div>
-                <div class="gallery-tile"></div>
+            <div class="container">
+                <h2>OUR GALLERY</h2>
+                <div class="carousel-container">
+                    <div class="carousel-track">
+                        <div class="carousel-slide">
+                            <img src="{{ asset('images/gallery/gallery-1.jpg') }}" alt="Bacoor City Office" />
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="{{ asset('images/gallery/gallery-2.jpg') }}" alt="City Services" />
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="{{ asset('images/gallery/gallery-3.jpg') }}" alt="Public Service" />
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="{{ asset('images/gallery/gallery-4.jpg') }}" alt="Community" />
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="{{ asset('images/gallery/gallery-5.jpg') }}" alt="City Hall" />
+                        </div>
+                        <!-- Duplicate images for seamless scrolling -->
+                        <div class="carousel-slide">
+                            <img src="{{ asset('images/gallery/gallery-1.jpg') }}" alt="Bacoor City Office" />
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="{{ asset('images/gallery/gallery-2.jpg') }}" alt="City Services" />
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="{{ asset('images/gallery/gallery-3.jpg') }}" alt="Public Service" />
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="{{ asset('images/gallery/gallery-4.jpg') }}" alt="Community" />
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="{{ asset('images/gallery/gallery-5.jpg') }}" alt="City Hall" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -139,15 +171,30 @@
                 <h2>OUR PROCESS</h2>
                 <div class="process-grid">
                 <article class="process-card">
-                    <h3>Client Design Consultation</h3>
+                    <div class="process-header">
+                        <div class="process-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Client Design Consultation</h3>
+                    </div>
                     <p>Submit your request and our team will guide you with clear requirements and timelines.</p>
                 </article>
                 <article class="process-card">
-                    <h3>Prototyping Home Design</h3>
+                    <div class="process-header">
+                        <div class="process-icon">
+                            <i class="fas fa-drafting-compass"></i>
+                        </div>
+                        <h3>Prototyping Home Design</h3>
+                    </div>
                     <p>We validate your documents and keep you updated on progress with transparent steps.</p>
                 </article>
                 <article class="process-card">
-                    <h3>Processing to Design Home</h3>
+                    <div class="process-header">
+                        <div class="process-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3>Processing to Design Home</h3>
+                    </div>
                     <p>Release results quickly and securely, with notifications sent to your email.</p>
                 </article>
                 </div>

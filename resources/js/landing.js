@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Image Gallery Banner (static display)
+    // No carousel functionality needed - displays all images at once
 });
 
 

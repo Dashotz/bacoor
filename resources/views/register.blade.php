@@ -38,12 +38,10 @@
                     </a>
                 </div>
 
-                <div class="auth-tabs" style="display:flex;gap:8px">
-                    <span class="tab-button active" data-target="#register">Register</span>
-                </div>
+
 
                 <div class="tab-panels">
-                    <form id="register" class="tab-panel active">
+                    <form id="register" class="tab-panel active" style="display: block;">
                         <h2 class="panel-title">Create your account</h2>
                         @if (session('status'))
                         <div class="form-field" role="alert">

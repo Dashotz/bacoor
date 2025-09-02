@@ -29,19 +29,7 @@
             <div class="auth-cta">
                 <a class="menu-link login" href="/login">LOGIN</a>
             </div>
-            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
         </div>
-        <nav class="mobile-menu" aria-label="Mobile navigation">
-            <a class="mobile-menu-link" href="#home">HOME</a>
-            <a class="mobile-menu-link" href="#about">ABOUT US</a>
-            <a class="mobile-menu-link" href="#services">OUR SERVICES</a>
-            <a class="mobile-menu-link" href="#contact">CONTACT US</a>
-            <a class="mobile-menu-link login" href="/login">LOGIN</a>
-        </nav>
     </header>
 
     <main>

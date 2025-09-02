@@ -107,11 +107,11 @@
 .placeholder-2{width:400px;height:250px;top:250px;left:250px;z-index:3}
 .placeholder-3{width:400px;height:250px;top:120px;left:50px;z-index:2}
 
-.testimonials-section{padding-top: 100px;padding-bottom: 25px;}
+.testimonials-section{padding-top: 70px;padding-bottom: 25px;}
 .testimonials-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
 .testimonials-copy h2{font-size:48px;font-weight:900;line-height:1.1;color:#0a2540;margin:12px 0 16px;text-transform:uppercase}
 .testimonials-copy p{font-size:18px;line-height:1.6;color:#666666;margin:0}
-.testimonial-card{background:#fff;border:1px solid #e5eaf0;border-radius:12px;padding:30px;box-shadow:0 4px 20px rgba(10,59,122,0.08)}
+.testimonial-card{background:#fff;border:1px solid #e5eaf0;border-radius:12px;padding:30px;box-shadow:0 4px 20px rgba(10,59,122,0.08);width:100%;margin-left:0}
 .star-rating{display:flex;gap:4px;margin-bottom:20px}
 .star-rating i{color:#ffd700;font-size:18px}
 .testimonial-text{font-size:18px;line-height:1.6;color:#333;margin:0 0 24px;font-style:italic}

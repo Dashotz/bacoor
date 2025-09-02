@@ -261,38 +261,48 @@
     <footer id="contact" class="site-footer">
         <div class="container footer-grid">
             <div class="footer-col">
-                <h4>Information</h4>
-                <p>Modern online services for Bacoor citizens. Quick processing, clear requirements, and secure results.</p>
+                <h4>INFORMATION</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>
                 <div class="socials">
-                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
             <div class="footer-col">
-                <h4>Navigation</h4>
+                <h4>NAVIGATION</h4>
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Our Services</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="/login">Login</a></li>
+                    <li><a href="#home"><i class="fas fa-chevron-right"></i> Homepage</a></li>
+                    <li><a href="#about"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="#services"><i class="fas fa-chevron-right"></i> Our Services</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Contact Us</h4>
-                <ul>
-                    <li>Bacoor City, Cavite</li>
-                    <li><a href="mailto:info@bacoor.gov">info@bacoor.gov</a></li>
-                </ul>
+                <h4>CONTACT US</h4>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Bacoor City, Cavite</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>Hello@example.com</span>
+                    </div>
+                </div>
                 <form class="newsletter" action="#" onsubmit="return false">
-                    <input type="email" placeholder="Enter your email" />
-                    <button class="btn primary" type="submit">Subscribe</button>
+                    <input type="email" placeholder="Email Address" />
+                    <button class="btn subscribe-btn" type="submit">SUBSCRIBE</button>
                 </form>
             </div>
         </div>
+        <div class="footer-divider"></div>
         <div class="container footer-bottom">
-            <p>© <span id="year"></span> City Government of Bacoor</p>
+            <p>ALLRIGHT RESERVED - 2025 @</p>
             <nav class="tiny-nav">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms</a>
+                <a href="#">DISCLAIMER</a>
+                <a href="#">PRIVACY POLICY</a>
+                <a href="#">TERM OF USE</a>
             </nav>
         </div>
     </footer>

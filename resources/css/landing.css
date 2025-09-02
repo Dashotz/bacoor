@@ -181,6 +181,18 @@
   .tiny-nav{justify-content:center}
 }
 
+@media (max-width:1300px){
+  .hero-copy{margin-left:0;display:flex;flex-direction:column;justify-content:center;height:100%}
+  .hero-grid{align-items:center;gap:40px}
+  .hero-media{overflow:hidden;height:400px}
+  .image-large{right:40px;width:280px;height:200px}
+  .image-small.top{right:0px;width:280px;height:200px;top:60px}
+  .image-small.bottom{right:80px;width:280px;height:200px;top:120px}
+  .container{max-width:100%;overflow-x:hidden}
+  body{overflow-x:hidden}
+  .landing-header{overflow:hidden}
+}
+
 @media (max-width:768px){
   .hero-grid,.about-grid,.partner-grid,.testimonials-grid{grid-template-columns:1fr}
   .hero-media{display:none}
@@ -192,27 +204,55 @@
   .auth-cta{display:none}
   .brand{justify-self:start}
   .mobile-menu-toggle{display:flex}
-  .landing-header{position:relative}
+  .landing-header{position:relative;overflow-x:hidden}
   .cta-flex{flex-direction:column;gap:20px;text-align:center}
   .cta-banner h2{font-size:32px}
+  .container{max-width:100%;overflow-x:hidden}
+  body{overflow-x:hidden}
+  .partner-media{display:none}
 }
 
 @media (max-width:600px){
-  .container{padding:0 15px}
+  .container{padding:0 10px}
   .hero-title{font-size:32px}
-  .hero-copy{padding:20px 0}
-  .cards-section h2,.gallery-section h2,.process-section h2{font-size:28px}
+  .hero-copy{padding:10px 0;margin-left:0}
+  .hero-section{padding:20px 0}
+  .cards-section{padding:15px 0;padding-top:40px}
+  .gallery-section{padding:20px 0}
+  .process-section{padding:15px 0}
+  .about-section{padding:30px 0;margin:20px 0}
+  .partner-section{padding:30px 0}
+  .testimonials-section{padding-top:40px;padding-bottom:15px}
+  .testimonials-grid{gap:30px}
+  .testimonial-card{padding:20px;margin-top:20px}
+  .testimonial-text{font-size:16px;line-height:1.5}
+  .author-info{margin-top:16px}
+  .author-avatar{width:50px;height:50px}
+  .author-name{font-size:14px}
+  .author-title{font-size:12px}
+  .cards-section h2,.gallery-section h2,.process-section h2{font-size:28px;margin-bottom:20px}
   .testimonials-copy h2{font-size:28px}
   .about-copy h2{font-size:36px}
   .partner-copy h2{font-size:36px}
   .cta-banner h2{font-size:24px}
   .btn{padding:12px 20px;font-size:12px}
-  .testimonial-card{padding:20px}
-  .footer-grid{padding:20px 0}
-  .socials{justify-content:center}
-  .newsletter{flex-direction:column;gap:12px}
-  .newsletter input{width:100%}
-  .subscribe-btn{width:100%}
+  .footer-grid{padding:15px 0;gap:20px}
+  .footer-col h4{font-size:13px;margin-bottom:10px}
+  .footer-col p{font-size:12px;line-height:1.4;margin-bottom:10px;display:none}
+  .footer-col ul li{margin-bottom:6px}
+  .footer-col ul li a{font-size:12px}
+  .socials{justify-content:center;gap:6px}
+  .social-icon{width:24px;height:24px}
+  .contact-item{font-size:12px;margin-bottom:6px}
+  .contact-item i{font-size:12px}
+  .newsletter{display:none}
+  .footer-bottom{padding:10px 0;flex-direction:column;gap:8px;text-align:center}
+  .footer-bottom p{font-size:11px}
+  .tiny-nav{gap:12px;flex-wrap:wrap;justify-content:center}
+  .tiny-nav a{font-size:11px}
+  .header-grid{padding:15px 10px}
+  .landing-header{overflow-x:hidden}
+  body{overflow-x:hidden}
 }
 
 

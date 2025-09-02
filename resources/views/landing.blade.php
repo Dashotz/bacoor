@@ -210,18 +210,42 @@
                     <a href="#contact" class="btn secondary">Read more</a>
                 </div>
                 <div class="partner-media">
-                    <div class="placeholder"></div>
+                    <div class="placeholder placeholder-1">
+                        <img src="{{ asset('images/gallery/gallery-1.jpg') }}" alt="Bacoor City Services" />
+                    </div>
+                    <div class="placeholder placeholder-2">
+                        <img src="{{ asset('images/gallery/gallery-2.jpg') }}" alt="City Government" />
+                    </div>
+                    <div class="placeholder placeholder-3">
+                        <img src="{{ asset('images/gallery/gallery-3.jpg') }}" alt="Public Service" />
+                    </div>
                 </div>
             </div>
         </section>
 
         <section class="testimonials-section">
-            <div class="container">
-                <span class="eyebrow">Citizens' feedback</span>
-                <h2>Our testimonial from best clients</h2>
-                <div class="testimonial">
-                    <p>“Fast processing and very helpful staff. Being able to apply online saved me a lot of time.”</p>
-                    <div class="author">— Jane D., Bacoor Resident</div>
+            <div class="container testimonials-grid">
+                <div class="testimonials-copy">
+                    <span class="eyebrow">Clients feedback</span>
+                    <h2>Our testimonial from<br>best clients</h2>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="star-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="testimonial-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."</p>
+                    <div class="author-info">
+                        <div class="author-avatar"></div>
+                        <div class="author-details">
+                            <div class="author-name">JOHN DE</div>
+                            <div class="author-title">DEPARTMENT HEAD</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

@@ -35,6 +35,16 @@ class JWTAuth {
     // Handle login form submission
     async handleLogin(formData) {
         try {
+            // Get reCAPTCHA response
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (!recaptchaResponse) {
+                this.showErrorMessage('Please complete the reCAPTCHA verification');
+                return;
+            }
+
+            // Add reCAPTCHA response to form data
+            formData['g-recaptcha-response'] = recaptchaResponse;
+
             const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: {
@@ -57,10 +67,14 @@ class JWTAuth {
                 }, 500);
             } else {
                 this.showErrorMessage(data.message || 'Login failed');
+                // Reset reCAPTCHA on error
+                grecaptcha.reset();
             }
         } catch (error) {
             console.error('Login error:', error);
             this.showErrorMessage('An error occurred during login');
+            // Reset reCAPTCHA on error
+            grecaptcha.reset();
         }
     }
 
@@ -202,8 +216,39 @@ class JWTAuth {
         alert(errorMessage);
     }
 
+    // Setup password toggle functionality
+    setupPasswordToggle() {
+        const passwordToggles = document.querySelectorAll('.password-toggle');
+        
+        passwordToggles.forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('data-target');
+                const passwordInput = document.getElementById(targetId);
+                const eyeIcon = this.querySelector('.eye-icon');
+                const eyeSlashIcon = this.querySelector('.eye-slash-icon');
+                
+                if (passwordInput && eyeIcon && eyeSlashIcon) {
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        eyeIcon.style.display = 'none';
+                        eyeSlashIcon.style.display = 'block';
+                    } else {
+                        passwordInput.type = 'password';
+                        eyeIcon.style.display = 'block';
+                        eyeSlashIcon.style.display = 'none';
+                    }
+                }
+            });
+        });
+    }
+
     // Setup event listeners
     setupEventListeners() {
+        // Password toggle functionality
+        this.setupPasswordToggle();
+        
         // Login form
         const loginForm = document.getElementById('login');
         if (loginForm) {

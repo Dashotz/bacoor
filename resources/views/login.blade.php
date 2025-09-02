@@ -10,49 +10,56 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#0a3b7a" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f2f6fb;color:#0a2540}
     </style>
 </head>
 <body>
-    <div class="bacoor-auth">
-        <header class="bacoor-header">
-            <div class="bacoor-brand">
-                <img src="/favicon.ico" alt="Bacoor Seal" class="brand-logo" />
-                <div class="brand-text">
-                    <span class="brand-top">City Government of</span>
-                    <span class="brand-name">Bacoor</span>
-                </div>
+    <div class="login-container">
+        <!-- Left Panel - Dark Blue -->
+        <div class="login-left-panel">
+            <div class="placeholder-content">
+                <h2>INSERT IMAGES</h2>
+                <p>(BRB)</p>
             </div>
-        </header>
+        </div>
 
-        <main class="auth-container">
-            <section class="auth-card">
-                <div class="forgot-password-header" style="margin-bottom:12px">
-                    <a href="/" class="back-link">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M19 12H5M12 19l-7-7 7-7"/>
-                        </svg>
-                        Back to Home
-                    </a>
+        <!-- Right Panel - White with Form -->
+        <div class="login-right-panel">
+            <div class="login-content">
+                <!-- Header -->
+                <div class="login-header">
+                    <h3 class="welcome-text">WELCOME TO THE</h3>
+                    <h1 class="city-name">CITY OF <span class="bacoor-highlight">BACOOR</span></h1>
+                    
+                    <!-- Bacoor Logo/Seal -->
+                    <div class="bacoor-seal">
+                        <img src="/images/bacoor-logo.png" alt="Bacoor Seal" class="seal-image" />
+                    </div>
                 </div>
 
-                <div class="tab-panels">
-                    <form id="login" class="tab-panel active">
-                        <h2 class="panel-title">Welcome back</h2>
+                <!-- Login Form -->
+                <div class="login-form-container">
+                    <h2 class="signin-title">Sign in</h2>
+                    
+                    <form id="login">
+                        
                         @if ($errors->has('email'))
                         <div class="form-field" role="alert">
-                            <div class="legal" style="color:#b42318">{{ $errors->first('email') }}</div>
+                            <div class="error-message">{{ $errors->first('email') }}</div>
                         </div>
                         @endif
+
                         <div class="form-field">
                             <label for="login_email">Email</label>
-                            <input type="email" id="login_email" name="email" value="{{ old('email') }}" placeholder="you@example.com" required />
+                            <input type="email" id="login_email" name="email" value="{{ old('email') }}" placeholder="Enter your email" required />
                         </div>
+
                         <div class="form-field">
                             <label for="login_password">Password</label>
                             <div class="password-input-wrapper">
-                                <input type="password" id="login_password" name="password" placeholder="••••••••" required />
+                                <input type="password" id="login_password" name="password" placeholder="Enter your password" required />
                                 <button type="button" class="password-toggle" data-target="login_password">
                                     <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -65,34 +72,75 @@
                                 </button>
                             </div>
                         </div>
+
                         <div class="form-actions">
                             <label class="remember">
                                 <input type="checkbox" id="remember_me" name="remember" />
                                 <span>Remember me</span>
                             </label>
-                            <a class="link" href="/forgot-password">Forgot password?</a>
+                            <a class="forgot-link" href="/forgot-password">Forgot Password?</a>
                         </div>
-                        <div style="text-align:right;margin-top:8px">
-                            <span>Don’t have an account? </span><a href="/register" class="link">Register here</a>
+
+                        <!-- reCAPTCHA -->
+                        <div class="recaptcha-container">
+                            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
                         </div>
-                        <button type="submit" class="cta">Log In</button>
+
+                        <button type="submit" class="continue-btn">CONTINUE</button>
                     </form>
+
+                    <!-- Additional Links -->
+                    <div class="additional-links">
+                        <p class="signup-link">New User? <a href="/register" class="link-bold">SIGN UP HERE</a></p>
+                        <a href="#" class="status-link">Check My Application Status</a>
+                    </div>
                 </div>
-            </section>
-
-
-            <aside class="auth-aside">
-                <div class="hero">
-                    <h1>Serbisyong Tapat, Serbisyong Maaasahan</h1>
-                    <p>Access services and programs of the City Government of Bacoor through your citizen account.</p>
-                </div>
-            </aside>
-        </main>
-
-        <footer class="bacoor-footer">
-            <p>© <span id="year"></span> City Government of Bacoor</p>
-        </footer>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Password toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, setting up password toggle');
+            const passwordToggles = document.querySelectorAll('.password-toggle');
+            console.log('Found password toggles:', passwordToggles.length);
+            
+            passwordToggles.forEach((toggle, index) => {
+                console.log('Setting up toggle', index);
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Password toggle clicked');
+                    
+                    const targetId = this.getAttribute('data-target');
+                    console.log('Target ID:', targetId);
+                    
+                    const passwordInput = document.getElementById(targetId);
+                    console.log('Password input found:', !!passwordInput);
+                    
+                    const eyeIcon = this.querySelector('.eye-icon');
+                    const eyeSlashIcon = this.querySelector('.eye-slash-icon');
+                    console.log('Icons found - eye:', !!eyeIcon, 'eye-slash:', !!eyeSlashIcon);
+                    
+                    if (passwordInput && eyeIcon && eyeSlashIcon) {
+                        if (passwordInput.type === 'password') {
+                            passwordInput.type = 'text';
+                            eyeIcon.style.display = 'none';
+                            eyeSlashIcon.style.display = 'block';
+                            console.log('Password shown');
+                        } else {
+                            passwordInput.type = 'password';
+                            eyeIcon.style.display = 'block';
+                            eyeSlashIcon.style.display = 'none';
+                            console.log('Password hidden');
+                        }
+                    } else {
+                        console.error('Missing elements for password toggle');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
 

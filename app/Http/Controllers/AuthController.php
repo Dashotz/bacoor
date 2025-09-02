@@ -64,10 +64,19 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|string|min:8',
+            'g-recaptcha-response' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
+        }
+
+        // Verify reCAPTCHA
+        $recaptchaResponse = $request->input('g-recaptcha-response');
+        if (!$this->verifyRecaptcha($recaptchaResponse)) {
+            return response()->json([
+                'message' => 'reCAPTCHA verification failed. Please try again.',
+            ], 422);
         }
 
         $credentials = $request->only('email', 'password');
@@ -126,5 +135,38 @@ class AuthController extends Controller
         } catch (JWTException $e) {
             return response()->json(['message' => 'Error refreshing token'], 500);
         }
+    }
+
+    /**
+     * Verify reCAPTCHA response
+     */
+    private function verifyRecaptcha($recaptchaResponse)
+    {
+        $secretKey = config('services.recaptcha.secret_key');
+        
+        if (empty($recaptchaResponse)) {
+            return false;
+        }
+
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $data = [
+            'secret' => $secretKey,
+            'response' => $recaptchaResponse,
+            'remoteip' => request()->ip()
+        ];
+
+        $options = [
+            'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
+                'content' => http_build_query($data)
+            ]
+        ];
+
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        $response = json_decode($result, true);
+
+        return isset($response['success']) && $response['success'] === true;
     }
 }

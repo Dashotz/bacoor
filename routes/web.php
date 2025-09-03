@@ -17,6 +17,8 @@ Route::get('/register', function () {
     return view('register');
 })->name('register.form');
 
+Route::post('/register', [AuthController::class, 'webRegister'])->name('register.submit');
+
 // Forgot Password routes
 Route::get('/forgot-password', [ForgotPasswordController::class, 'show'])->name('password.request');
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');

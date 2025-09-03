@@ -17,7 +17,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'webRegister']]);
     }
 
     /**
@@ -30,6 +30,13 @@ class AuthController extends Controller
             'middle_name' => 'nullable|string|max:255',
             'surname' => 'required|string|max:255',
             'suffix' => 'nullable|string|max:255',
+            'birth_date' => 'required|date|before:today',
+            'gender' => 'required|in:male,female',
+            'account_type' => 'required|in:individual,business',
+            'contact_number' => 'required|string|max:20',
+            'government_id_type' => 'required|string|max:255',
+            'government_id_number' => 'required|string|max:255',
+            'government_id_file' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -38,11 +45,26 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        // Handle government ID file upload
+        $governmentIdFilePath = null;
+        if ($request->hasFile('government_id_file')) {
+            $file = $request->file('government_id_file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $governmentIdFilePath = $file->storeAs('government_ids', $fileName, 'public');
+        }
+
         $user = User::create([
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,
             'surname' => $request->surname,
             'suffix' => $request->suffix,
+            'birth_date' => $request->birth_date,
+            'gender' => $request->gender,
+            'account_type' => $request->account_type,
+            'contact_number' => $request->contact_number,
+            'government_id_type' => $request->government_id_type,
+            'government_id_number' => $request->government_id_number,
+            'government_id_file_path' => $governmentIdFilePath,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -54,6 +76,95 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token,
         ], 201);
+    }
+
+    /**
+     * Register a new user via web form with OTP verification.
+     */
+    public function webRegister(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'surname' => 'required|string|max:255',
+            'suffix' => 'nullable|string|max:255',
+            'birth_date' => 'required|date|before:today',
+            'gender' => 'required|in:male,female',
+            'account_type' => 'required|in:individual,business',
+            'contact_number' => 'required|string|max:20',
+            'government_id_type' => 'required|string|max:255',
+            'government_id_number' => 'required|string|max:255',
+            'government_id_file' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'email' => 'required|string|email|max:255|unique:users',
+            'otp' => 'required|string|size:6',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Verify OTP
+        $otpCode = $request->otp;
+        $email = $request->email;
+        
+        if (!session()->has('registration_otp') || 
+            !session()->has('registration_email') || 
+            !session()->has('registration_otp_expires')) {
+            return redirect()->back()
+                ->withErrors(['otp' => 'Please request an OTP first.'])
+                ->withInput();
+        }
+
+        if (session('registration_email') !== $email) {
+            return redirect()->back()
+                ->withErrors(['otp' => 'OTP was sent to a different email address.'])
+                ->withInput();
+        }
+
+        if (session('registration_otp') !== $otpCode) {
+            return redirect()->back()
+                ->withErrors(['otp' => 'Invalid OTP code.'])
+                ->withInput();
+        }
+
+        if (session('registration_otp_expires') < time()) {
+            return redirect()->back()
+                ->withErrors(['otp' => 'OTP has expired. Please request a new one.'])
+                ->withInput();
+        }
+
+        // Handle government ID file upload
+        $governmentIdFilePath = null;
+        if ($request->hasFile('government_id_file')) {
+            $file = $request->file('government_id_file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $governmentIdFilePath = $file->storeAs('government_ids', $fileName, 'public');
+        }
+
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'surname' => $request->surname,
+            'suffix' => $request->suffix,
+            'birth_date' => $request->birth_date,
+            'gender' => $request->gender,
+            'account_type' => $request->account_type,
+            'contact_number' => $request->contact_number,
+            'government_id_type' => $request->government_id_type,
+            'government_id_number' => $request->government_id_number,
+            'government_id_file_path' => $governmentIdFilePath,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Clear OTP session data
+        session()->forget(['registration_otp', 'registration_email', 'registration_otp_expires']);
+
+        return redirect()->route('login.form')
+            ->with('status', 'Registration successful! You can now log in with your email and password.');
     }
 
     /**

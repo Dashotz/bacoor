@@ -29,8 +29,32 @@
             <div class="auth-cta">
                 <a class="menu-link login" href="/login">LOGIN</a>
             </div>
+            <button class="burger-btn" id="burger-btn" aria-label="Toggle mobile menu">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+            </button>
         </div>
     </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="mobile-sidebar" id="mobile-sidebar">
+        <div class="sidebar-header">
+            <img src="{{ asset('images/bacoor-logo.png') }}" class="sidebar-logo" alt="Bacoor City" />
+            <span class="sidebar-title">BACOOR CITY EGOV™</span>
+            <button class="sidebar-close" id="sidebar-close">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+            <a class="sidebar-link" href="#home">HOME</a>
+            <a class="sidebar-link" href="#about">ABOUT US</a>
+            <a class="sidebar-link" href="#services">OUR SERVICES</a>
+            <a class="sidebar-link" href="#contact">CONTACT US</a>
+            <a class="sidebar-link sidebar-login" href="/login">LOGIN</a>
+        </nav>
+    </div>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
     <main>
         <section id="home" class="hero-section">

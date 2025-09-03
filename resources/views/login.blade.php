@@ -5,6 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Log In - City Government of Bacoor</title>
     @vite(['resources/css/app.css', 'resources/css/home.css', 'resources/js/app.js', 'resources/js/home.js', 'resources/js/jwt-auth.js'])
+    
+    <script>
+        // Auto-dismiss notification after 6 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const notification = document.getElementById('success-notification');
+            if (notification) {
+                setTimeout(function() {
+                    closeNotification();
+                }, 6000);
+            }
+        });
+
+        function closeNotification() {
+            const notification = document.getElementById('success-notification');
+            if (notification) {
+                notification.style.animation = 'slideOutRight 0.3s ease-in forwards';
+                setTimeout(function() {
+                    notification.remove();
+                }, 300);
+            }
+        }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -16,6 +38,19 @@
     </style>
 </head>
 <body>
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container">
+        @if (session('status'))
+        <div class="notification success-notification" id="success-notification">
+            <div class="notification-content">
+                <div class="notification-icon">✓</div>
+                <div class="notification-message">{{ session('status') }}</div>
+                <button class="notification-close" onclick="closeNotification()">&times;</button>
+            </div>
+        </div>
+        @endif
+    </div>
+
     <div class="login-container">
         <!-- Left Panel - Dark Blue -->
         <div class="login-left-panel">
@@ -42,12 +77,6 @@
                 <!-- Login Form -->
                 <div class="login-form-container">
                     <h2 class="signin-title">Sign in</h2>
-                    
-                    @if (session('status'))
-                    <div class="success-message" style="background: #d1fae5; color: #065f46; padding: 12px 16px; border-radius: 8px; border: 1px solid #a7f3d0; margin-bottom: 20px; text-align: center;">
-                        {{ session('status') }}
-                    </div>
-                    @endif
                     
                     <form id="login">
                         

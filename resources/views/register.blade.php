@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
-<body>
+<body style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{ asset('images/back-register.png') }}'); background-size: 100% 40%; background-position: top center; background-repeat: no-repeat; background-attachment: fixed;">
     <div class="container">
         <div class="form-container">
             <!-- Bacoor Logo -->
@@ -23,21 +23,21 @@
             <form id="registerForm" method="POST" action="{{ route('register.submit') }}" enctype="multipart/form-data">
                 @csrf
                 
-                @if (session('status'))
+                        @if (session('status'))
                 <div class="success-message">
-                    {{ session('status') }}
-                </div>
-                @endif
+                                {{ session('status') }}
+                        </div>
+                        @endif
 
-                @if ($errors->any())
+                        @if ($errors->any())
                 <div class="error-message" style="background: #fef2f2; padding: 12px 16px; border-radius: 8px; border: 1px solid #fecaca; margin-bottom: 20px;">
-                    @if ($errors->has('general'))
+                            @if ($errors->has('general'))
                         {{ $errors->first('general') }}
-                    @else
+                            @else
                         Please fix the errors below.
-                    @endif
-                </div>
-                @endif
+                            @endif
+                        </div>
+                        @endif
 
                 <!-- Section 1: Basic Info -->
                 <div class="section-title">
@@ -53,7 +53,7 @@
                     <strong>*All fields required unless noted.</strong>
                 </div>
 
-                <div class="form-grid">
+                        <div class="form-grid">
                     <!-- Name Fields -->
                     <div class="form-field">
                         <label for="first_name"><span class="required">*</span> First Name</label>
@@ -67,7 +67,7 @@
                         @error('middle_name')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
                     
-                    <div class="form-field">
+                            <div class="form-field">
                         <label for="surname"><span class="required">*</span> Last Name</label>
                         <input type="text" id="surname" name="surname" value="{{ old('surname') }}" placeholder="Dela Cruz" required />
                         @error('surname')<div class="error-message">{{ $message }}</div>@enderror
@@ -125,51 +125,51 @@
                         @error('email')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
 
-                    <div class="form-field">
+                            <div class="form-field">
                         <label for="otp"><span class="required">*</span> Verification Code</label>
                         <div class="otp-section">
                             <div class="otp-input">
                                 <input type="text" id="otp" name="otp" placeholder="Enter verification code" required />
                             </div>
-                            <button type="button" class="otp-button" id="send-otp-btn">Send OTP</button>
-                        </div>
+                                    <button type="button" class="otp-button" id="send-otp-btn">Send OTP</button>
+                                </div>
                         @error('otp')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
+                            </div>
 
                     <!-- Password Fields -->
-                    <div class="form-field">
+                            <div class="form-field">
                         <label for="password"><span class="required">*</span> Password</label>
                         <input type="password" id="password" name="password" placeholder="Create a strong password" required />
-                        <div class="password-requirements">
-                            <div class="requirement" data-requirement="length">
-                                <span class="requirement-icon"></span>
-                                <span>At least 8 characters</span>
-                            </div>
-                            <div class="requirement" data-requirement="uppercase">
-                                <span class="requirement-icon"></span>
-                                <span>1 uppercase letter</span>
-                            </div>
-                            <div class="requirement" data-requirement="lowercase">
-                                <span class="requirement-icon"></span>
-                                <span>1 lowercase letter</span>
-                            </div>
-                            <div class="requirement" data-requirement="number">
-                                <span class="requirement-icon"></span>
-                                <span>1 number</span>
-                            </div>
-                            <div class="requirement" data-requirement="special">
-                                <span class="requirement-icon"></span>
-                                <span>1 special character</span>
-                            </div>
-                        </div>
+                                <div class="password-requirements">
+                                    <div class="requirement" data-requirement="length">
+                                        <span class="requirement-icon"></span>
+                                        <span>At least 8 characters</span>
+                                    </div>
+                                    <div class="requirement" data-requirement="uppercase">
+                                        <span class="requirement-icon"></span>
+                                        <span>1 uppercase letter</span>
+                                    </div>
+                                    <div class="requirement" data-requirement="lowercase">
+                                        <span class="requirement-icon"></span>
+                                        <span>1 lowercase letter</span>
+                                    </div>
+                                    <div class="requirement" data-requirement="number">
+                                        <span class="requirement-icon"></span>
+                                        <span>1 number</span>
+                                    </div>
+                                    <div class="requirement" data-requirement="special">
+                                        <span class="requirement-icon"></span>
+                                        <span>1 special character</span>
+                                    </div>
+                                </div>
                         @error('password')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
+                            </div>
 
-                    <div class="form-field">
+                            <div class="form-field">
                         <label for="password_confirmation"><span class="required">*</span> Confirm Password</label>
                         <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Re-enter password" required />
                         @error('password_confirmation')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
+                                </div>
 
                     <!-- Government ID -->
                     <div class="form-field">
@@ -185,13 +185,13 @@
                             <option value="national_id" {{ old('government_id_type') == 'national_id' ? 'selected' : '' }}>National ID</option>
                         </select>
                         @error('government_id_type')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
+                                </div>
 
                     <div class="form-field">
                         <label for="government_id_number"><span class="required">*</span> ID Number</label>
                         <input type="text" id="government_id_number" name="government_id_number" value="{{ old('government_id_number') }}" placeholder="Enter ID number" required />
                         @error('government_id_number')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
+                                </div>
 
                     <div class="form-field">
                         <label><span class="required">*</span> Upload ID</label>
@@ -202,7 +202,7 @@
                             </label>
                         </div>
                         @error('government_id_file')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
+                        </div>
                 </div>
 
                 <!-- Section 2: Terms and Regulation -->
@@ -219,7 +219,7 @@
                 <div class="button-group">
                     <button type="button" class="btn btn-secondary" onclick="window.history.back()">BACK</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
+    </div>
 
                 <div class="footer">
                     Copyright © 2025 All Rights Reserved
@@ -227,7 +227,7 @@
             </form>
         </div>
     </div>
-
+    
     <script>
         // Password validation
         const passwordInput = document.getElementById('password');

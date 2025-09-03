@@ -254,11 +254,32 @@ input[type="radio"] {
     color: #4b5563;
 }
 
+.back-to-home {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+}
+
+.back-link {
+    color: #0a3b7a;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: #0d4a8f;
+    text-decoration: underline;
+}
+
 .button-group {
     display: flex;
     gap: 16px;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .btn {
@@ -384,6 +405,15 @@ input[type="radio"] {
     .button-group {
         flex-direction: column;
         gap: 12px;
+    }
+    
+    .back-to-home {
+        top: 15px;
+        left: 15px;
+    }
+    
+    .back-link {
+        font-size: 15px;
     }
     
     .btn {

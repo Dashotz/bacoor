@@ -15,6 +15,11 @@
 <body style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{ asset('images/back-register.png') }}'); background-size: 100% 40%; background-position: top center; background-repeat: no-repeat; background-attachment: fixed;">
     <div class="container">
         <div class="form-container">
+            <!-- Back to Login Link -->
+            <div class="back-to-home">
+                <a href="{{ route('login.form') }}" class="back-link">← Back to log in</a>
+            </div>
+
             <!-- Bacoor Logo -->
             <div class="logo-section">
                 <img src="/images/bacoor-logo.png" alt="LUNGSOD NG BACOOR, LALAWIGAN NG CAVITE" class="bacoor-logo" />
@@ -215,11 +220,10 @@
                     <p>I consent to the processing, profiling, and disclosure of my Personal Data as defined under the Data Privacy Act of 2012, including customer, account, and transaction information held by the City Government of Bacoor. I understand that this information may be shared with requesting parties, used in legal proceedings, audits, investigations, or other official inquiries. This consent applies regardless of any non-disclosure agreements and may extend to jurisdictions with less stringent data privacy laws.</p>
                 </div>
 
-                <!-- Buttons -->
+                                <!-- Submit Button -->
                 <div class="button-group">
-                    <button type="button" class="btn btn-secondary" onclick="window.history.back()">BACK</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
+                </div>
 
                 <div class="footer">
                     Copyright © 2025 All Rights Reserved

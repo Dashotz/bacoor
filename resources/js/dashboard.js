@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Secure user data fetching
         fetchUserData();
         
+        // Fetch full user data for table
+        fetchFullUserData();
+        
         // Start the session timer only if user is authenticated
         if (window.jwtAuth && window.jwtAuth.isAuthenticated()) {
             updateSessionTimer();
@@ -229,4 +232,134 @@ async function fetchUserData() {
         }
         window.location.href = '/';
     }
+}
+
+// Fetch full user data for the table display
+async function fetchFullUserData() {
+    try {
+        // Check if JWT auth is available
+        if (!window.jwtAuth || !window.jwtAuth.isAuthenticated()) {
+            window.location.href = '/';
+            return;
+        }
+
+        const authHeader = window.jwtAuth.getAuthHeader();
+        if (!authHeader.Authorization) {
+            window.location.href = '/';
+            return;
+        }
+
+        const response = await fetch('/api/user-data', {
+            method: 'GET',
+            headers: {
+                ...authHeader,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                // Token expired or invalid
+                window.jwtAuth.clearAuth();
+                window.location.href = '/';
+                return;
+            }
+            throw new Error('Failed to fetch user data');
+        }
+
+        const data = await response.json();
+        
+        if (data.success && data.user) {
+            displayUserDataTable(data.user);
+        } else {
+            throw new Error('Invalid response format');
+        }
+    } catch (error) {
+        console.error('Error fetching full user data:', error);
+        // Show error message in table
+        const tbody = document.getElementById('userDataBody');
+        if (tbody) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="2" style="text-align: center; padding: 20px; color: #dc2626;">
+                        Error loading user data. Please refresh the page.
+                    </td>
+                </tr>
+            `;
+        }
+    }
+}
+
+// Display user data in the table
+function displayUserDataTable(user) {
+    const tbody = document.getElementById('userDataBody');
+    if (!tbody) return;
+
+    // Calculate full name from components
+    const fullName = calculateFullName(user.first_name, user.middle_name, user.surname, user.suffix);
+    
+    // Format the data for display
+    const userData = [
+        { label: 'Full Name', value: fullName },
+        { label: 'First Name', value: user.first_name || 'N/A' },
+        { label: 'Middle Name', value: user.middle_name || 'N/A' },
+        { label: 'Last Name', value: user.surname || 'N/A' },
+        { label: 'Suffix', value: user.suffix || 'N/A' },
+        { label: 'Birth Date', value: user.birth_date ? new Date(user.birth_date).toLocaleDateString() : 'N/A' },
+        { label: 'Gender', value: user.gender ? user.gender.charAt(0).toUpperCase() + user.gender.slice(1) : 'N/A' },
+        { label: 'Account Type', value: user.account_type ? user.account_type.charAt(0).toUpperCase() + user.account_type.slice(1) : 'N/A' },
+        { label: 'Contact Number', value: user.contact_number || 'N/A' },
+        { label: 'Email', value: user.email || 'N/A' },
+        { label: 'Government ID Type', value: user.government_id_type ? formatGovernmentIdType(user.government_id_type) : 'N/A' },
+        { label: 'Government ID Number', value: user.government_id_number || 'N/A' },
+        { label: 'Government ID Document', value: user.government_id_file_path ? createImageElement(user.government_id_file_path) : 'No document uploaded' },
+        { label: 'Registration Date', value: user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A' }
+    ];
+
+    // Clear loading message and populate table
+    tbody.innerHTML = '';
+    
+    userData.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="field-label">${item.label}</td>
+            <td class="field-value">${item.value}</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// Format government ID type for display
+function formatGovernmentIdType(type) {
+    const typeMap = {
+        'driver_license': "Driver's License",
+        'passport': 'Passport',
+        'sss_id': 'SSS ID',
+        'philhealth_id': 'PhilHealth ID',
+        'postal_id': 'Postal ID',
+        'voter_id': "Voter's ID",
+        'national_id': 'National ID'
+    };
+    return typeMap[type] || type;
+}
+
+// Create image element for government ID document
+function createImageElement(filePath) {
+    if (!filePath) return '<span class="no-image">No document uploaded</span>';
+    
+    const imageUrl = `/storage/${filePath}`;
+    return `<img src="${imageUrl}" alt="Government ID Document" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"><span class="no-image" style="display:none;">Document not found</span>`;
+}
+
+// Calculate full name from components
+function calculateFullName(firstName, middleName, surname, suffix) {
+    const nameParts = [];
+    
+    if (firstName) nameParts.push(firstName);
+    if (middleName) nameParts.push(middleName);
+    if (surname) nameParts.push(surname);
+    if (suffix) nameParts.push(suffix);
+    
+    return nameParts.length > 0 ? nameParts.join(' ') : 'N/A';
 }

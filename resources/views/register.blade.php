@@ -79,6 +79,12 @@
                         @error('surname')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
 
+                    <div class="form-field">
+                        <label for="suffix">Suffix (as applicable)</label>
+                        <input type="text" id="suffix" name="suffix" value="{{ old('suffix') }}" placeholder="Jr., Sr., III, etc." />
+                        @error('suffix')<div class="error-message">{{ $message }}</div>@enderror
+                    </div>
+
                     <!-- Date of Birth -->
                     <div class="form-field">
                         <label>What's your date of birth?</label>
@@ -199,7 +205,7 @@
                         @error('government_id_number')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
 
-                    <div class="form-field">
+                    <div class="form-field government-upload">
                         <label><span class="required">*</span> Upload ID</label>
                         <div class="file-upload">
                             <input type="file" id="government_id_file" name="government_id_file" accept=".jpg,.jpeg,.png,.pdf" required />

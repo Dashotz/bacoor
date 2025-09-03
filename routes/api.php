@@ -44,4 +44,7 @@ Route::middleware('auth:api')->group(function () {
           ->header('Pragma', 'no-cache')
           ->header('Expires', '0');
     });
+    
+    // Full user data route for dashboard table
+    Route::get('/user-data', [AuthController::class, 'getUserData']);
 });

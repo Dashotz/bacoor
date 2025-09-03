@@ -220,6 +220,29 @@ class AuthController extends Controller
     }
 
     /**
+     * Get user data for dashboard display.
+     */
+    public function getUserData()
+    {
+        try {
+            $user = auth()->user();
+            if (!$user) {
+                return response()->json(['message' => 'Unauthorized'], 401);
+            }
+
+            return response()->json([
+                'success' => true,
+                'user' => $user
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch user data'
+            ], 500);
+        }
+    }
+
+    /**
      * Log the user out (Invalidate the token).
      */
     public function logout()

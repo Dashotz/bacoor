@@ -62,6 +62,28 @@
                 </div>
             </section>
 
+            <!-- User Data Table Section -->
+            <section class="user-data-section">
+                <h2>Your Registration Information</h2>
+                <div class="table-container">
+                    <table class="user-data-table" id="userDataTable">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userDataBody">
+                            <tr>
+                                <td colspan="2" style="text-align: center; padding: 20px;">
+                                    <div class="loading-spinner">Loading user data...</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
             <section class="cards">
                 <article class="card">
                     <h3>Citizen Services</h3>

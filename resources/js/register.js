@@ -108,10 +108,10 @@ fileInput.addEventListener('change', function() {
     if (this.files.length > 0) {
         let fileName = this.files[0].name;
         // Truncate long file names to prevent layout issues
-        if (fileName.length > 25) {
-            fileName = fileName.substring(0, 22) + '...';
+        if (fileName.length > 20) {
+            fileName = fileName.substring(0, 17) + '...';
         }
-        fileLabel.innerHTML = `<span>Selected: ${fileName}</span>`;
+        fileLabel.innerHTML = `<span class="selected-text">Selected:</span> <span class="file-name">${fileName}</span>`;
         fileLabel.style.borderColor = '#10b981';
         fileLabel.style.background = '#d1fae5';
         fileLabel.style.color = '#065f46';

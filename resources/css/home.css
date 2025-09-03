@@ -356,9 +356,15 @@
 }
 
 /* New Login Page Styles */
+body {
+    overflow: hidden !important;
+}
+
 .login-container {
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
     background: #fff;
 }
 

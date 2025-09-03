@@ -4,38 +4,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Log In - City Government of Bacoor</title>
-    @vite(['resources/css/app.css', 'resources/css/home.css', 'resources/js/app.js', 'resources/js/home.js', 'resources/js/jwt-auth.js'])
-    
-    <script>
-        // Auto-dismiss notification after 6 seconds
-        document.addEventListener('DOMContentLoaded', function() {
-            const notification = document.getElementById('success-notification');
-            if (notification) {
-                setTimeout(function() {
-                    closeNotification();
-                }, 6000);
-            }
-        });
-
-        function closeNotification() {
-            const notification = document.getElementById('success-notification');
-            if (notification) {
-                notification.style.animation = 'slideOutRight 0.3s ease-in forwards';
-                setTimeout(function() {
-                    notification.remove();
-                }, 300);
-            }
-        }
-    </script>
+        @vite(['resources/css/app.css', 'resources/css/home.css', 'resources/js/app.js', 'resources/js/home.js', 'resources/js/jwt-auth.js', 'resources/js/login.js'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#0a3b7a" />
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <style>
-        body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f2f6fb;color:#0a2540}
-    </style>
 </head>
 <body>
     <!-- Notification Container -->
@@ -52,6 +27,14 @@
     </div>
 
     <div class="login-container">
+        <!-- Back to Home Link -->
+        <div class="back-to-home">
+            <a href="/" class="back-link">
+                <span class="back-arrow">←</span>
+                <span class="back-text">Back to home</span>
+            </a>
+        </div>
+
         <!-- Left Panel - Dark Blue -->
         <div class="login-left-panel">
             <div class="placeholder-content">
@@ -134,48 +117,7 @@
         </div>
     </div>
 
-    <script>
-        // Password toggle functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, setting up password toggle');
-            const passwordToggles = document.querySelectorAll('.password-toggle');
-            console.log('Found password toggles:', passwordToggles.length);
-            
-            passwordToggles.forEach((toggle, index) => {
-                console.log('Setting up toggle', index);
-                toggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    console.log('Password toggle clicked');
-                    
-                    const targetId = this.getAttribute('data-target');
-                    console.log('Target ID:', targetId);
-                    
-                    const passwordInput = document.getElementById(targetId);
-                    console.log('Password input found:', !!passwordInput);
-                    
-                    const eyeIcon = this.querySelector('.eye-icon');
-                    const eyeSlashIcon = this.querySelector('.eye-slash-icon');
-                    console.log('Icons found - eye:', !!eyeIcon, 'eye-slash:', !!eyeSlashIcon);
-                    
-                    if (passwordInput && eyeIcon && eyeSlashIcon) {
-                        if (passwordInput.type === 'password') {
-                            passwordInput.type = 'text';
-                            eyeIcon.style.display = 'none';
-                            eyeSlashIcon.style.display = 'block';
-                            console.log('Password shown');
-                        } else {
-                            passwordInput.type = 'password';
-                            eyeIcon.style.display = 'block';
-                            eyeSlashIcon.style.display = 'none';
-                            console.log('Password hidden');
-                        }
-                    } else {
-                        console.error('Missing elements for password toggle');
-                    }
-                });
-            });
-        });
-    </script>
+
 </body>
 </html>
 

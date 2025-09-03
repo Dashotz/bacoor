@@ -2,6 +2,12 @@
 :root{
     --bacoor-blue-900:#0a3b7a;--bacoor-blue-700:#1353ad;--bacoor-blue-600:#1a66cf;--border:#e4ecf4;--muted:#5b6b7a;--surface:#fff;--shadow:0 10px 30px rgba(10,59,122,.1)
 }
+
+body {
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: #f5f8fc;
+}
 .bacoor-dashboard{min-height:100vh;display:flex;flex-direction:column}
 .dash-header{display:flex;align-items:center;justify-content:space-between;gap:16px;background:linear-gradient(90deg,var(--bacoor-blue-900),var(--bacoor-blue-700));color:#fff;padding:12px 16px}
 .dash-brand{display:flex;align-items:center;gap:10px}
@@ -28,8 +34,133 @@
 
 .dash-footer{max-width:1100px;margin:8px auto 24px auto;color:var(--muted);font-size:13px;padding:0 16px}
 
+/* Mobile Responsive Design */
 @media (max-width: 900px){
     .cards{grid-template-columns:1fr}
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow: auto !important;
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* Internet Explorer 10+ */
+    }
+    
+    body::-webkit-scrollbar {
+        display: none; /* WebKit browsers */
+    }
+    
+    /* Hide scrollbars for all elements in mobile */
+    * {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* Internet Explorer 10+ */
+    }
+    
+    *::-webkit-scrollbar {
+        display: none; /* WebKit browsers */
+    }
+    
+    /* Header adjustments */
+    .dash-header {
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+        align-items: flex-start;
+    }
+    
+    .dash-brand {
+        order: 1;
+    }
+    
+    .dash-nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .nav-link {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+    
+    .dash-user {
+        order: 2;
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+    
+    #user-welcome {
+        font-size: 14px;
+    }
+    
+    .logout {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+    
+    /* Main content adjustments */
+    .dash-main {
+        padding: 0 12px;
+        margin: 16px auto;
+    }
+    
+    .welcome h1 {
+        font-size: 24px;
+        line-height: 1.2;
+    }
+    
+    .welcome p {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+    
+    .session-info {
+        margin-top: 12px;
+    }
+    
+    .session-info small {
+        font-size: 11px;
+    }
+    
+    /* Cards adjustments */
+    .cards {
+        gap: 12px;
+    }
+    
+    .card {
+        padding: 16px;
+    }
+    
+    .card h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+    
+    .card p {
+        font-size: 14px;
+        line-height: 1.4;
+        margin-bottom: 16px;
+    }
+    
+    .btn {
+        padding: 10px 16px;
+        font-size: 14px;
+        width: 100%;
+        text-align: center;
+        display: block;
+    }
+    
+    /* Footer adjustments */
+    .dash-footer {
+        padding: 0 12px;
+        margin: 16px auto 20px auto;
+        text-align: center;
+        font-size: 12px;
+    }
 }
 
 /* User Data Table Styles */
@@ -122,15 +253,66 @@
         margin: 24px 0;
     }
     
+    .user-data-section h2 {
+        font-size: 20px;
+        margin-bottom: 16px;
+    }
+    
     .user-data-table th,
     .user-data-table td {
-        padding: 12px;
-        font-size: 14px;
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+    
+    .field-label {
+        min-width: 120px;
+        font-size: 12px;
+    }
+    
+    .field-value {
+        font-size: 13px;
+        word-break: break-word;
     }
     
     .field-value img {
-        max-width: 150px;
-        max-height: 100px;
+        max-width: 120px;
+        max-height: 80px;
+    }
+    
+    .table-container {
+        border-radius: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-data-section {
+        padding: 12px;
+        margin: 16px 0;
+    }
+    
+    .user-data-section h2 {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+    
+    .user-data-table th,
+    .user-data-table td {
+        padding: 8px 6px;
+        font-size: 12px;
+    }
+    
+    .field-label {
+        min-width: 100px;
+        font-size: 11px;
+    }
+    
+    .field-value {
+        font-size: 12px;
+    }
+    
+    .field-value img {
+        max-width: 100px;
+        max-height: 60px;
     }
 }
 

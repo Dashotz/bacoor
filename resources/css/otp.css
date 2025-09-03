@@ -6,6 +6,38 @@ body {
     color: #0a2540;
 }
 
+.back-to-login {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.back-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #0a3b7a;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: #1a66cf;
+    text-decoration: none;
+}
+
+.back-arrow {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.back-text {
+    font-size: 14px;
+}
+
 .otp-container {
     min-height: 100vh;
     display: flex;
@@ -105,4 +137,115 @@ body {
     border: 1px solid #badbcc;
     padding: 10px;
     border-radius: 4px;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+    body {
+        overflow: auto !important;
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* Internet Explorer 10+ */
+    }
+    
+    body::-webkit-scrollbar {
+        display: none; /* WebKit browsers */
+    }
+    
+    /* Hide scrollbars for all elements in mobile */
+    * {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* Internet Explorer 10+ */
+    }
+    
+    *::-webkit-scrollbar {
+        display: none; /* WebKit browsers */
+    }
+    
+    .otp-container {
+        padding: 15px;
+        min-height: 100vh;
+    }
+    
+    .otp-card {
+        padding: 24px 20px;
+        max-width: 100%;
+        margin: 0;
+    }
+    
+    .otp-title {
+        font-size: 20px;
+        margin-bottom: 6px;
+    }
+    
+    .otp-subtitle {
+        font-size: 14px;
+    }
+    
+    .otp-input {
+        font-size: 20px;
+        letter-spacing: 6px;
+        padding: 14px;
+    }
+    
+    .otp-button {
+        padding: 12px;
+        font-size: 15px;
+    }
+    
+    .otp-resend {
+        margin-top: 12px;
+    }
+    
+    .otp-resend a {
+        font-size: 14px;
+    }
+    
+    /* Mobile back to login link */
+    .back-to-login {
+        top: 15px;
+        left: 15px;
+    }
+    
+    .back-link {
+        color: #0a3b7a !important;
+        font-size: 13px;
+    }
+    
+    .back-arrow {
+        font-size: 20px;
+    }
+    
+    .back-text {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .otp-container {
+        padding: 10px;
+    }
+    
+    .otp-card {
+        padding: 20px 15px;
+    }
+    
+    .otp-title {
+        font-size: 18px;
+    }
+    
+    .otp-subtitle {
+        font-size: 13px;
+    }
+    
+    .otp-input {
+        font-size: 18px;
+        letter-spacing: 4px;
+        padding: 12px;
+    }
+    
+    .otp-button {
+        padding: 10px;
+        font-size: 14px;
+    }
 }

@@ -6,6 +6,13 @@ window.dashboardApp = {
     refreshUserData: fetchUserData
 };
 
+// Global function for extending session
+function extendSession() {
+    if (window.dashboardApp && window.dashboardApp.extendSession) {
+        window.dashboardApp.extendSession();
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = String(new Date().getFullYear());

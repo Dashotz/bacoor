@@ -9,19 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <meta name="theme-color" content="#0a3b7a" />
-    <style>
-        body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f5f8fc}
-    </style>
+
 
     <!-- User data will be fetched securely via API -->
-    <script>
-        // Global function for extending session
-        function extendSession() {
-            if (window.dashboardApp && window.dashboardApp.extendSession) {
-                window.dashboardApp.extendSession();
-            }
-        }
-    </script>
 </head>
 <body>
     <div class="bacoor-dashboard">

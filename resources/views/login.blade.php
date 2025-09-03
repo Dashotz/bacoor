@@ -43,6 +43,12 @@
                 <div class="login-form-container">
                     <h2 class="signin-title">Sign in</h2>
                     
+                    @if (session('status'))
+                    <div class="success-message" style="background: #d1fae5; color: #065f46; padding: 12px 16px; border-radius: 8px; border: 1px solid #a7f3d0; margin-bottom: 20px; text-align: center;">
+                        {{ session('status') }}
+                    </div>
+                    @endif
+                    
                     <form id="login">
                         
                         @if ($errors->has('email'))

@@ -14,6 +14,8 @@ export default defineConfig({
                 'resources/js/dashboard.js',
                 'resources/css/otp.css',
                 'resources/js/jwt-auth.js',
+                'resources/css/register.css',
+                'resources/js/register.js',
             ],
             refresh: true,
         }),

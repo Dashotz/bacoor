@@ -90,3 +90,5 @@ Route::get('/dashboard', function () {
 })->middleware(['jwt.web', 'otp.verified'])->name('dashboard');
 
 
+
+

@@ -184,10 +184,8 @@ function isValidEmail(email) {
 // Confirmation Modal
 const form = document.getElementById('registerForm');
 const confirmationModal = document.getElementById('confirmationModal');
-const successModal = document.getElementById('successModal');
 const confirmBtn = document.getElementById('confirmSubmit');
 const cancelBtn = document.getElementById('cancelSubmit');
-const goToLoginBtn = document.getElementById('goToLogin');
 
 form.addEventListener('submit', function(e) {
     e.preventDefault(); // Prevent default form submission
@@ -197,29 +195,20 @@ form.addEventListener('submit', function(e) {
 confirmBtn.addEventListener('click', function() {
     confirmationModal.style.display = 'none'; // Hide confirmation modal
     
-    // Simulate form submission and show success modal
-    // In a real application, you would submit the form and handle the response
-    setTimeout(function() {
-        successModal.style.display = 'block'; // Show success modal
-    }, 500); // Small delay to simulate processing
+    // Submit the form to the backend
+    form.submit();
 });
 
 cancelBtn.addEventListener('click', function() {
     confirmationModal.style.display = 'none'; // Hide confirmation modal
 });
 
-goToLoginBtn.addEventListener('click', function() {
-    // Redirect to login page
-    window.location.href = document.querySelector('meta[name="login-route"]').getAttribute('content');
-});
+
 
 // Close modals when clicking outside
 window.addEventListener('click', function(e) {
     if (e.target === confirmationModal) {
         confirmationModal.style.display = 'none';
-    }
-    if (e.target === successModal) {
-        successModal.style.display = 'none';
     }
     if (e.target === otpSuccessModal) {
         otpSuccessModal.style.display = 'none';

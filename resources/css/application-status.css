@@ -1,0 +1,505 @@
+/* Application Status Page Styles - Following Login Page Format */
+
+/* Status Card Styles */
+.status-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.status-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-under-review {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-approved {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-rejected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-pending {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.status-details {
+    margin-bottom: 20px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #666;
+    font-size: 13px;
+}
+
+.detail-value {
+    color: #333;
+    font-size: 13px;
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
+}
+
+.status-remarks,
+.next-steps {
+    margin-bottom: 15px;
+}
+
+.status-remarks h4,
+.next-steps h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.status-remarks p {
+    color: #666;
+    line-height: 1.5;
+    font-size: 13px;
+    margin: 0;
+}
+
+.next-steps ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.next-steps li {
+    padding: 5px 0;
+    color: #666;
+    font-size: 13px;
+    position: relative;
+    padding-left: 15px;
+}
+
+.next-steps li::before {
+    content: '•';
+    color: #1976d2;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.action-buttons .continue-btn {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.continue-btn.secondary {
+    background: #f5f5f5;
+    color: #666;
+    border: 1px solid #e0e0e0;
+}
+
+.continue-btn.secondary:hover {
+    background: #e0e0e0;
+}
+
+/* Terms and Privacy Links */
+.terms-link,
+.privacy-link {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.terms-link:hover,
+.privacy-link:hover {
+    text-decoration: underline;
+}
+
+/* Error Messages */
+.error-message {
+    color: #d32f2f;
+    font-size: 13px;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Notification Styles */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+}
+
+.notification {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: 10px;
+    overflow: hidden;
+    animation: slideIn 0.3s ease;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 12px;
+}
+
+.notification-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.success-notification .notification-icon {
+    background: #4caf50;
+    color: white;
+}
+
+.notification-message {
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #666;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+
+/* Tablet and smaller screens */
+@media (max-width: 1024px) {
+    .status-card {
+        padding: 20px;
+    }
+    
+    .status-header h3 {
+        font-size: 16px;
+    }
+    
+    .detail-label,
+    .detail-value {
+        font-size: 12px;
+    }
+}
+
+/* Mobile landscape and smaller */
+@media (max-width: 768px) {
+    .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .action-buttons .continue-btn {
+        width: 100%;
+        padding: 15px;
+        font-size: 14px;
+    }
+    
+    .status-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .status-header h3 {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+    
+    .status-badge {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+    
+    .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        padding: 8px 0;
+    }
+    
+    .detail-value {
+        text-align: left;
+        max-width: 100%;
+        font-size: 12px;
+    }
+    
+    .detail-label {
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .status-remarks h4,
+    .next-steps h4 {
+        font-size: 13px;
+    }
+    
+    .status-remarks p,
+    .next-steps li {
+        font-size: 12px;
+    }
+}
+
+/* Mobile portrait */
+@media (max-width: 480px) {
+    .status-card {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .status-header h3 {
+        font-size: 14px;
+        line-height: 1.3;
+    }
+    
+    .status-badge {
+        font-size: 9px;
+        padding: 3px 6px;
+    }
+    
+    .detail-row {
+        padding: 6px 0;
+    }
+    
+    .detail-label {
+        font-size: 11px;
+    }
+    
+    .detail-value {
+        font-size: 11px;
+        line-height: 1.4;
+    }
+    
+    .status-remarks,
+    .next-steps {
+        margin-bottom: 12px;
+    }
+    
+    .status-remarks h4,
+    .next-steps h4 {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+    
+    .status-remarks p {
+        font-size: 11px;
+        line-height: 1.4;
+    }
+    
+    .next-steps li {
+        font-size: 11px;
+        padding: 3px 0;
+        padding-left: 12px;
+    }
+    
+    .action-buttons {
+        gap: 8px;
+    }
+    
+    .action-buttons .continue-btn {
+        padding: 12px;
+        font-size: 13px;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+    .status-card {
+        padding: 12px;
+    }
+    
+    .status-header h3 {
+        font-size: 13px;
+    }
+    
+    .status-badge {
+        font-size: 8px;
+        padding: 2px 5px;
+    }
+    
+    .detail-label,
+    .detail-value {
+        font-size: 10px;
+    }
+    
+    .status-remarks h4,
+    .next-steps h4 {
+        font-size: 11px;
+    }
+    
+    .status-remarks p,
+    .next-steps li {
+        font-size: 10px;
+    }
+    
+    .action-buttons .continue-btn {
+        padding: 10px;
+        font-size: 12px;
+    }
+}
+
+/* Notification responsive */
+@media (max-width: 768px) {
+    .notification-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+    }
+    
+    .notification {
+        margin-bottom: 8px;
+    }
+    
+    .notification-content {
+        padding: 12px 15px;
+    }
+    
+    .notification-message {
+        font-size: 13px;
+    }
+}
+
+/* Form field responsive adjustments */
+@media (max-width: 768px) {
+    .form-field {
+        margin-bottom: 20px;
+    }
+    
+    .form-field label {
+        font-size: 13px;
+        margin-bottom: 6px;
+    }
+    
+    .form-field input[type="text"] {
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    .form-actions {
+        margin-bottom: 20px;
+    }
+    
+    .form-actions .remember {
+        font-size: 13px;
+    }
+    
+    .continue-btn {
+        padding: 15px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-field {
+        margin-bottom: 18px;
+    }
+    
+    .form-field label {
+        font-size: 12px;
+    }
+    
+    .form-field input[type="text"] {
+        padding: 10px;
+        font-size: 13px;
+    }
+    
+    .form-actions .remember {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+    
+    .continue-btn {
+        padding: 12px;
+        font-size: 13px;
+    }
+    
+    .additional-links {
+        margin-top: 15px;
+    }
+    
+    .additional-links p {
+        font-size: 12px;
+    }
+    
+    .additional-links a {
+        font-size: 12px;
+    }
+}

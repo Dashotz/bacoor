@@ -372,4 +372,299 @@ body {
     background: var(--bacoor-blue-600);
 }
 
+/* Assessor Services Section Styles */
+.assessor-services-section {
+    margin: 32px 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 32px 24px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.section-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 10px 0;
+    line-height: 1.2;
+}
+
+.section-header .highlight {
+    color: #1976d2;
+}
+
+.section-subtitle {
+    font-size: 18px;
+    color: #64748b;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Services Grid */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Service Card */
+.service-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.service-card:not(.highlighted):hover {
+    border-color: #e2e8f0;
+}
+
+.service-card.highlighted {
+    border-color: transparent;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.service-card.highlighted:hover {
+    border-color: #fbbf24;
+    box-shadow: 0 8px 30px rgba(251, 191, 36, 0.3);
+}
+
+/* Service Icon */
+.service-icon {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    height: 70px;
+}
+
+.service-icon svg {
+    color: #1976d2;
+    transition: color 0.3s ease;
+}
+
+.service-card:hover .service-icon svg {
+    color: #0d47a1;
+}
+
+/* Tax Badge for first service */
+.tax-badge {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1976d2;
+    color: white;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 2px 5px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
+
+/* Service Title */
+.service-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0 0 20px 0;
+    line-height: 1.4;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Start Button */
+.start-btn {
+    background: white;
+    color: #1a202c;
+    border: 2px solid #e2e8f0;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 120px;
+    margin: 0 auto;
+}
+
+.start-btn:hover {
+    background: #1976d2;
+    color: white;
+    border-color: #1976d2;
+    transform: translateY(-1px);
+}
+
+.service-card.highlighted .start-btn {
+    border-color: #e2e8f0;
+    color: #1a202c;
+}
+
+.service-card.highlighted .start-btn:hover {
+    background: #1976d2;
+    color: white;
+    border-color: #1976d2;
+}
+
+/* Animation for card entrance */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.service-card {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.service-card:nth-child(1) { animation-delay: 0.1s; }
+.service-card:nth-child(2) { animation-delay: 0.2s; }
+.service-card:nth-child(3) { animation-delay: 0.3s; }
+.service-card:nth-child(4) { animation-delay: 0.4s; }
+.service-card:nth-child(5) { animation-delay: 0.5s; }
+.service-card:nth-child(6) { animation-delay: 0.6s; }
+.service-card:nth-child(7) { animation-delay: 0.7s; }
+
+/* Loading state */
+.service-card.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.service-card.loading .start-btn {
+    background: #f1f5f9;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+/* Focus states for accessibility */
+.start-btn:focus {
+    outline: 2px solid #1976d2;
+    outline-offset: 2px;
+}
+
+.service-card:focus-within {
+    border-color: #1976d2;
+    box-shadow: 0 4px 20px rgba(25, 118, 210, 0.2);
+}
+
+/* Responsive Design for Assessor Services */
+@media (max-width: 768px) {
+    .assessor-services-section {
+        padding: 20px 16px;
+        margin: 24px 0;
+    }
+    
+    .section-header h2 {
+        font-size: 22px;
+    }
+    
+    .section-subtitle {
+        font-size: 16px;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .service-card {
+        padding: 20px 16px;
+        min-height: 220px;
+    }
+    
+    .service-title {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+    
+    .start-btn {
+        padding: 8px 16px;
+        font-size: 12px;
+        max-width: 100px;
+    }
+    
+    .service-icon {
+        height: 60px;
+        margin-bottom: 16px;
+    }
+    
+    .service-icon svg {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .assessor-services-section {
+        padding: 16px 12px;
+        margin: 20px 0;
+    }
+    
+    .section-header h2 {
+        font-size: 20px;
+    }
+    
+    .section-subtitle {
+        font-size: 14px;
+    }
+    
+    .service-card {
+        padding: 16px 12px;
+        min-height: 200px;
+    }
+    
+    .service-title {
+        font-size: 13px;
+        margin-bottom: 14px;
+    }
+    
+    .start-btn {
+        padding: 6px 12px;
+        font-size: 11px;
+        max-width: 90px;
+    }
+    
+    .service-icon {
+        height: 50px;
+        margin-bottom: 12px;
+    }
+    
+    .service-icon svg {
+        width: 36px;
+        height: 36px;
+    }
+}
+
 

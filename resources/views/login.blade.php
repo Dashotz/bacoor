@@ -110,7 +110,7 @@
                     <!-- Additional Links -->
                     <div class="additional-links">
                         <p class="signup-link">New User? <a href="/register" class="link-bold">SIGN UP HERE</a></p>
-                        <a href="#" class="status-link">Check My Application Status</a>
+                        <a href="/application-status" class="status-link">Check My Application Status</a>
                     </div>
                 </div>
             </div>

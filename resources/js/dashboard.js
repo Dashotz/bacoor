@@ -196,6 +196,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Session timer is now started by the setTimeout above after authentication check
+    
+    // Initialize assessor services functionality
+    initializeAssessorServices();
 });
 
 // Secure user data fetching function using JWT
@@ -370,3 +373,179 @@ function calculateFullName(firstName, middleName, surname, suffix) {
     
     return nameParts.length > 0 ? nameParts.join(' ') : 'N/A';
 }
+
+// Initialize Assessor Services functionality
+function initializeAssessorServices() {
+    const serviceCards = document.querySelectorAll('.service-card');
+    
+    serviceCards.forEach((card, index) => {
+        const startBtn = card.querySelector('.start-btn');
+        
+        if (startBtn) {
+            startBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                handleServiceSelection(card, index);
+            });
+            
+            // Add hover effects
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        }
+    });
+}
+
+function handleServiceSelection(card, serviceIndex) {
+    const serviceTitle = card.querySelector('.service-title').textContent;
+    const startBtn = card.querySelector('.start-btn');
+    
+    // Add loading state
+    card.classList.add('loading');
+    startBtn.textContent = 'Processing...';
+    startBtn.disabled = true;
+    
+    // Simulate processing time
+    setTimeout(() => {
+        // Remove loading state
+        card.classList.remove('loading');
+        startBtn.textContent = 'Start Today';
+        startBtn.disabled = false;
+        
+        // Show success message
+        showServiceMessage(serviceTitle);
+        
+        // Here you would typically redirect to the specific service form
+        // For now, we'll just show a message
+        console.log(`Selected service: ${serviceTitle}`);
+        
+    }, 1500);
+}
+
+function showServiceMessage(serviceTitle) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'service-notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <div class="notification-icon">✓</div>
+            <div class="notification-message">
+                <strong>Service Selected:</strong><br>
+                ${serviceTitle}
+            </div>
+            <button class="notification-close" onclick="closeServiceNotification()">&times;</button>
+        </div>
+    `;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Show notification
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+        hideServiceNotification(notification);
+    }, 5000);
+}
+
+function hideServiceNotification(notification) {
+    if (notification) {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }
+}
+
+function closeServiceNotification() {
+    const notification = document.querySelector('.service-notification');
+    hideServiceNotification(notification);
+}
+
+// Add CSS for service notifications
+const serviceStyle = document.createElement('style');
+serviceStyle.textContent = `
+    .service-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        z-index: 10000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        max-width: 350px;
+        border-left: 4px solid #10b981;
+    }
+    
+    .service-notification.show {
+        transform: translateX(0);
+    }
+    
+    .service-notification .notification-content {
+        display: flex;
+        align-items: flex-start;
+        padding: 16px 20px;
+        gap: 12px;
+    }
+    
+    .service-notification .notification-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #10b981;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+    
+    .service-notification .notification-message {
+        flex: 1;
+        font-size: 14px;
+        color: #374151;
+        line-height: 1.4;
+    }
+    
+    .service-notification .notification-close {
+        background: none;
+        border: none;
+        font-size: 18px;
+        color: #9ca3af;
+        cursor: pointer;
+        padding: 0;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    
+    .service-notification .notification-close:hover {
+        color: #6b7280;
+    }
+    
+    /* Responsive notifications */
+    @media (max-width: 768px) {
+        .service-notification {
+            top: 10px;
+            right: 10px;
+            left: 10px;
+            max-width: none;
+        }
+    }
+`;
+document.head.appendChild(serviceStyle);

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ApplicationStatusController;
 
 Route::get('/', function () {
     return view('landing');
@@ -88,6 +89,11 @@ Route::get('/test-forgot-password', function() {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['jwt.web', 'otp.verified'])->name('dashboard');
+
+// Application Status routes
+Route::get('/application-status', [ApplicationStatusController::class, 'show'])->name('application-status.show');
+Route::post('/application-status/verify', [ApplicationStatusController::class, 'verify'])->name('application-status.verify');
+
 
 
 

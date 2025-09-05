@@ -187,7 +187,7 @@
                             </svg>
                         </div>
                         <h3 class="service-title">Certificates</h3>
-                        <button class="start-btn">Start Today</button>
+                        <button class="start-btn">Start Toda</button>
                     </div>
                 </div>
             </section>

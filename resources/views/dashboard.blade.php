@@ -207,7 +207,7 @@
         </main>
 
         <footer class="dash-footer">
-            <p>© <span id="year"></span> City Government of Bacoor</p>
+            <p>© <span id="year"></span> City Government of</p>
         </footer>
     </div>
 </body>

@@ -58,7 +58,7 @@
                 </div>
                 @endif
 
-                <form id="forgot-password-form" class="forgot-password>
+                <form id="forgot-password-form" class="forgot-password-form">
                     <div class="form-field">
                         <label for="email">Email Address</label>
                         <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="you@example.com" required />

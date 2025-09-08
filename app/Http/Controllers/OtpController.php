@@ -177,11 +177,11 @@ class OtpController extends Controller
 
         $request->validate([
             'email' => 'required|email',
-            'first_name' => 'required|string|max:255',
+            'first_name' => 'nullable|string|max:255',
         ]);
 
         $email = $request->email;
-        $firstName = $request->first_name;
+        $firstName = $request->first_name ?? 'User';
 
         // Check if email already exists
         if (User::where('email', $email)->exists()) {

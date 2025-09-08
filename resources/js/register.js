@@ -52,10 +52,13 @@ passwordConfirmation.addEventListener('input', function() {
     const password = passwordInput.value;
     const confirmation = this.value;
     
+    // Remove existing validation classes
+    this.classList.remove('valid', 'invalid');
+    
     if (confirmation && password === confirmation) {
-        this.style.borderColor = '#10b981';
-    } else {
-        this.style.borderColor = '#dc2626';
+        this.classList.add('valid');
+    } else if (confirmation) {
+        this.classList.add('invalid');
     }
 });
 
@@ -133,10 +136,9 @@ const closeOtpModal = document.getElementById('closeOtpModal');
 
 sendOtpBtn.addEventListener('click', function() {
     const email = emailInput.value;
-    const firstName = firstNameInput.value;
     
-    if (!email || !firstName) {
-        alert('Please enter your email and first name first.');
+    if (!email) {
+        alert('Please enter your email address first.');
         return;
     }
     
@@ -155,8 +157,7 @@ sendOtpBtn.addEventListener('click', function() {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
         body: JSON.stringify({
-            email: email,
-            first_name: firstName
+            email: email
         })
     })
     .then(response => response.json())

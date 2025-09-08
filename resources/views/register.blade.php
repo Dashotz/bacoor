@@ -85,21 +85,43 @@
                             @error('email')<div class="error-message">{{ $message }}</div>@enderror
                         </div>
 
-                        <div class="form-field">
+                        <div class="form-field otp-field">
                             <label for="otp"><span class="required">*</span>Enter Verification Code</label>
-                            <input type="text" id="otp" name="otp" placeholder="Enter verification code" required />
+                            <div class="otp-input-group">
+                                <input type="text" id="otp" name="otp" placeholder="Enter verification code" required />
+                                <button type="button" class="otp-button" id="send-otp-btn">Send OTP</button>
+                            </div>
                             @error('otp')<div class="error-message">{{ $message }}</div>@enderror
-                        </div>
-
-                        <div class="form-field otp-button-field">
-                            <label>&nbsp;</label>
-                            <button type="button" class="otp-button" id="send-otp-btn">Send OTP</button>
                         </div>
 
                         <div class="form-field">
                             <label for="password"><span class="required">*</span>Enter Password</label>
                             <input type="password" id="password" name="password" placeholder="Create password" required />
                             @error('password')<div class="error-message">{{ $message }}</div>@enderror
+                            
+                            <!-- Password Requirements -->
+                            <div class="password-requirements">
+                                <div class="requirement" data-requirement="length">
+                                    <span class="requirement-icon"></span>
+                                    <span class="requirement-text">8+ chars</span>
+                                </div>
+                                <div class="requirement" data-requirement="uppercase">
+                                    <span class="requirement-icon"></span>
+                                    <span class="requirement-text">A-Z</span>
+                                </div>
+                                <div class="requirement" data-requirement="lowercase">
+                                    <span class="requirement-icon"></span>
+                                    <span class="requirement-text">a-z</span>
+                                </div>
+                                <div class="requirement" data-requirement="number">
+                                    <span class="requirement-icon"></span>
+                                    <span class="requirement-text">0-9</span>
+                                </div>
+                                <div class="requirement" data-requirement="special">
+                                    <span class="requirement-icon"></span>
+                                    <span class="requirement-text">!@#$</span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-field">

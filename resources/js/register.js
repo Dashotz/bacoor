@@ -127,6 +127,7 @@ if (applicationPhotoInput && applicationPhotoLabel) {
 const sendOtpBtn = document.getElementById('send-otp-btn');
 const emailInput = document.getElementById('email');
 const firstNameInput = document.getElementById('first_name');
+const otpInput = document.getElementById('otp');
 const otpSuccessModal = document.getElementById('otpSuccessModal');
 const closeOtpModal = document.getElementById('closeOtpModal');
 
@@ -180,6 +181,7 @@ sendOtpBtn.addEventListener('click', function() {
 closeOtpModal.addEventListener('click', function() {
     otpSuccessModal.style.display = 'none';
 });
+
 
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
-<body>
+<body class="swirl-background" style="background: url('{{ asset('images/background-swirl.png') }}') left top / 50% 100% no-repeat; background-attachment: fixed;"></body>
     <div class="container">
         <div class="form-container">
             <!-- Header with Logo and Progress Bar -->
@@ -79,32 +79,33 @@
                     
                     <div class="account-details-row">
                         <div class="form-field">
-                            <label for="email"><span class="required">*</span>Email</label>
+                            <label for="email"><span class="required">*</span>Email Address</label>
                             <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="example@gmail.com" required />
                             @error('email')<div class="error-message">{{ $message }}</div>@enderror
                         </div>
 
                         <div class="form-field">
-                            <label for="otp"><span class="required">*</span>Verification</label>
+                            <label for="otp"><span class="required">*</span>Enter Verification Code</label>
                             <input type="text" id="otp" name="otp" placeholder="Enter verification code" required />
                             @error('otp')<div class="error-message">{{ $message }}</div>@enderror
                         </div>
 
+                        <div class="form-field otp-button-field">
+                            <label>&nbsp;</label>
+                            <button type="button" class="otp-button" id="send-otp-btn">Send OTP</button>
+                        </div>
+
                         <div class="form-field">
-                            <label for="password"><span class="required">*</span>Pass</label>
+                            <label for="password"><span class="required">*</span>Enter Password</label>
                             <input type="password" id="password" name="password" placeholder="Create password" required />
                             @error('password')<div class="error-message">{{ $message }}</div>@enderror
                         </div>
 
                         <div class="form-field">
-                            <label for="password_confirmation"><span class="required">*</span>Con Pass</label>
+                            <label for="password_confirmation"><span class="required">*</span>Confirm Password</label>
                             <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm password" required />
                             @error('password_confirmation')<div class="error-message">{{ $message }}</div>@enderror
                         </div>
-                    </div>
-
-                    <div class="otp-button-container">
-                        <button type="button" class="otp-button" id="send-otp-btn">Send OTP</button>
                     </div>
                 </div>
 

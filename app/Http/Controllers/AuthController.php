@@ -38,9 +38,6 @@ class AuthController extends Controller
             'account_type' => 'required|in:individual,business',
             'contact_number' => 'required|string|max:20',
             'application_photo' => 'required|file|mimes:jpg,jpeg,png|max:2048',
-            'government_id_type' => 'required|string|max:255',
-            'government_id_number' => 'required|string|max:255',
-            'government_id_file' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -88,25 +85,21 @@ class AuthController extends Controller
      */
     public function webRegister(Request $request)
     {
-        // Combine date fields into birth_date
-        $birthDate = null;
-        if ($request->birth_year && $request->birth_month && $request->birth_day) {
-            $birthDate = $request->birth_year . '-' . $request->birth_month . '-' . $request->birth_day;
-        }
-
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
             'surname' => 'required|string|max:255',
-            'birth_year' => 'required|integer|min:1900|max:' . date('Y'),
-            'birth_month' => 'required|integer|min:1|max:12',
-            'birth_day' => 'required|integer|min:1|max:31',
+            'suffix' => 'nullable|string|max:255',
+            'birth_date' => 'required|date|before:today',
             'gender' => 'required|in:male,female',
+            'civil_status' => 'required|in:single,married,widowed,divorced',
+            'birthplace' => 'required|string|max:255',
+            'citizenship' => 'required|in:Filipino,Dual Citizen,Foreigner',
             'account_type' => 'required|in:individual,business',
             'contact_number' => 'required|string|max:20',
-            'government_id_type' => 'required|string|max:255',
-            'government_id_number' => 'required|string|max:255',
+            'application_photo' => 'required|file|mimes:jpg,jpeg,png|max:2048',
             'email' => 'required|string|email|max:255|unique:users',
+            'otp' => 'required|string|size:6',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
@@ -146,16 +139,27 @@ class AuthController extends Controller
                 ->withInput();
         }
 
+        // Handle application photo upload
+        $applicationPhotoPath = null;
+        if ($request->hasFile('application_photo')) {
+            $file = $request->file('application_photo');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $applicationPhotoPath = $file->storeAs('application_photos', $fileName, 'public');
+        }
+
         $user = User::create([
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,
             'surname' => $request->surname,
-            'birth_date' => $birthDate,
+            'suffix' => $request->suffix,
+            'birth_date' => $request->birth_date,
             'gender' => $request->gender,
+            'civil_status' => $request->civil_status,
+            'birthplace' => $request->birthplace,
+            'citizenship' => $request->citizenship,
             'account_type' => $request->account_type,
             'contact_number' => $request->contact_number,
-            'government_id_type' => $request->government_id_type,
-            'government_id_number' => $request->government_id_number,
+            'application_photo_path' => $applicationPhotoPath,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);

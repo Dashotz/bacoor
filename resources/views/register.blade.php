@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <body>
     <!-- Header with Sign In Button -->
     <div class="page-header">
@@ -39,6 +40,19 @@
                         <div class="step-title">View Sent Email</div>
                     </div>
                 </div>
+=======
+<body style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{ asset('images/back-register.png') }}'); background-size: 100% 40%; background-position: top center; background-repeat: no-repeat; background-attachment: fixed;">
+    <div class="container">
+        <div class="form-container">
+            <!-- Back to Login Link -->
+            <div class="back-to-home">
+                <a href="{{ route('login.form') }}" class="back-link">← Back to log in</a>
+            </div>
+
+            <!-- Bacoor Logo -->
+            <div class="logo-section">
+                <img src="/images/bacoor-logo.png" alt="LUNGSOD NG BACOOR, LALAWIGAN NG CAVITE" class="bacoor-logo" />
+>>>>>>> parent of f8fc06a (register)
 =======
 <body style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{ asset('images/back-register.png') }}'); background-size: 100% 40%; background-position: top center; background-repeat: no-repeat; background-attachment: fixed;">
     <div class="container">
@@ -88,16 +102,22 @@
                 </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <!-- Form Fields in 2-column layout -->
+=======
+>>>>>>> parent of f8fc06a (register)
 =======
 >>>>>>> parent of f8fc06a (register)
                 <div class="form-grid">
                     <!-- First Name -->
                     <div class="form-field">
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <label for="first_name"><span class="required">*</span>First Name</label>
                         <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}" placeholder="Enter first name" required />
 =======
+=======
+>>>>>>> parent of f8fc06a (register)
                         <label for="first_name"><span class="required">*</span> First Name</label>
                         <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}" placeholder="Juan" required />
 >>>>>>> parent of f8fc06a (register)
@@ -108,8 +128,11 @@
                     <div class="form-field">
                         <label for="middle_name">Middle name (as applicable)</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <input type="text" id="middle_name" name="middle_name" value="{{ old('middle_name') }}" placeholder="Enter middle name" />
 =======
+=======
+>>>>>>> parent of f8fc06a (register)
                         <input type="text" id="middle_name" name="middle_name" value="{{ old('middle_name') }}" placeholder="Santos" />
 >>>>>>> parent of f8fc06a (register)
                         @error('middle_name')<div class="error-message">{{ $message }}</div>@enderror
@@ -118,9 +141,12 @@
                     <!-- Last Name -->
                     <div class="form-field">
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <label for="surname"><span class="required">*</span>Last Name</label>
                         <input type="text" id="surname" name="surname" value="{{ old('surname') }}" placeholder="Enter last name" required />
 =======
+=======
+>>>>>>> parent of f8fc06a (register)
                         <label for="surname"><span class="required">*</span> Last Name</label>
                         <input type="text" id="surname" name="surname" value="{{ old('surname') }}" placeholder="Dela Cruz" required />
 >>>>>>> parent of f8fc06a (register)
@@ -129,6 +155,7 @@
 
                     <!-- Date of Birth -->
                     <div class="form-field">
+<<<<<<< HEAD
 <<<<<<< HEAD
                         <label>What's your date of birth?</label>
                         <div class="date-inputs">
@@ -162,10 +189,19 @@
                         </div>
                         @error('birth_date')<div class="error-message">{{ $message }}</div>@enderror
 =======
+=======
+>>>>>>> parent of f8fc06a (register)
                         <label for="suffix">Suffix (as applicable)</label>
                         <input type="text" id="suffix" name="suffix" value="{{ old('suffix') }}" placeholder="Jr., Sr., III, etc." />
                         @error('suffix')<div class="error-message">{{ $message }}</div>@enderror
 >>>>>>> parent of f8fc06a (register)
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="form-field">
+                        <label>What's your date of birth?</label>
+                        <input type="date" id="birth_date" name="birth_date" value="{{ old('birth_date') }}" required />
+                        @error('birth_date')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
 
                     <!-- Date of Birth -->
@@ -207,6 +243,7 @@
                         @error('account_type')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
                     <!-- Contact Number -->
                     <div class="form-field">
@@ -271,6 +308,29 @@
                             </div>
                             <button type="button" class="otp-button" id="send-otp-btn">Send OTP</button>
                         </div>
+=======
+                    <!-- Contact Details -->
+                    <div class="form-field">
+                        <label for="contact_number"><span class="required">*</span> Contact Number</label>
+                        <input type="tel" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" placeholder="0912 345 6789" pattern="[0-9\s]*" inputmode="numeric" maxlength="13" required />
+                        @error('contact_number')<div class="error-message">{{ $message }}</div>@enderror
+                    </div>
+
+                    <div class="form-field">
+                        <label for="email"><span class="required">*</span> Email</label>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="you@example.com" required />
+                        @error('email')<div class="error-message">{{ $message }}</div>@enderror
+                    </div>
+
+                    <div class="form-field">
+                        <label for="otp"><span class="required">*</span> Verification Code</label>
+                        <div class="otp-section">
+                            <div class="otp-input">
+                                <input type="text" id="otp" name="otp" placeholder="Enter verification code" required />
+                            </div>
+                            <button type="button" class="otp-button" id="send-otp-btn">Send OTP</button>
+                        </div>
+>>>>>>> parent of f8fc06a (register)
                         @error('otp')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
 
@@ -340,6 +400,9 @@
                             </label>
                         </div>
                         @error('government_id_file')<div class="error-message">{{ $message }}</div>@enderror
+<<<<<<< HEAD
+>>>>>>> parent of f8fc06a (register)
+=======
 >>>>>>> parent of f8fc06a (register)
                     </div>
                 </div>
@@ -357,10 +420,14 @@
                 <!-- Submit Button -->
                 <div class="button-group">
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <button type="button" class="btn btn-secondary" id="backBtn">
                         BACK
                     </button>
                     <button type="submit" class="btn btn-primary">Next</button>
+=======
+                    <button type="submit" class="btn btn-primary">Submit</button>
+>>>>>>> parent of f8fc06a (register)
 =======
                     <button type="submit" class="btn btn-primary">Submit</button>
 >>>>>>> parent of f8fc06a (register)

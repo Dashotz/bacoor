@@ -18,6 +18,8 @@ export default defineConfig({
                 'resources/css/register.css',
                 'resources/js/register.js',
                 'resources/js/login.js',
+                'resources/css/landing.css',
+                'resources/js/landing.js',
             ],
             refresh: true,
         }),

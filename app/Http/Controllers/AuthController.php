@@ -32,11 +32,12 @@ class AuthController extends Controller
             'suffix' => 'nullable|string|max:255',
             'birth_date' => 'required|date|before:today',
             'gender' => 'required|in:male,female',
+            'civil_status' => 'required|in:single,married,widowed,divorced',
+            'birthplace' => 'required|string|max:255',
+            'citizenship' => 'required|in:Filipino,Dual Citizen,Foreigner',
             'account_type' => 'required|in:individual,business',
             'contact_number' => 'required|string|max:20',
-            'government_id_type' => 'required|string|max:255',
-            'government_id_number' => 'required|string|max:255',
-            'government_id_file' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'application_photo' => 'required|file|mimes:jpg,jpeg,png|max:2048',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -45,12 +46,12 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        // Handle government ID file upload
-        $governmentIdFilePath = null;
-        if ($request->hasFile('government_id_file')) {
-            $file = $request->file('government_id_file');
+        // Handle application photo upload
+        $applicationPhotoPath = null;
+        if ($request->hasFile('application_photo')) {
+            $file = $request->file('application_photo');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $governmentIdFilePath = $file->storeAs('government_ids', $fileName, 'public');
+            $applicationPhotoPath = $file->storeAs('application_photos', $fileName, 'public');
         }
 
         $user = User::create([
@@ -60,11 +61,12 @@ class AuthController extends Controller
             'suffix' => $request->suffix,
             'birth_date' => $request->birth_date,
             'gender' => $request->gender,
+            'civil_status' => $request->civil_status,
+            'birthplace' => $request->birthplace,
+            'citizenship' => $request->citizenship,
             'account_type' => $request->account_type,
             'contact_number' => $request->contact_number,
-            'government_id_type' => $request->government_id_type,
-            'government_id_number' => $request->government_id_number,
-            'government_id_file_path' => $governmentIdFilePath,
+            'application_photo_path' => $applicationPhotoPath,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -90,11 +92,12 @@ class AuthController extends Controller
             'suffix' => 'nullable|string|max:255',
             'birth_date' => 'required|date|before:today',
             'gender' => 'required|in:male,female',
+            'civil_status' => 'required|in:single,married,widowed,divorced',
+            'birthplace' => 'required|string|max:255',
+            'citizenship' => 'required|in:Filipino,Dual Citizen,Foreigner',
             'account_type' => 'required|in:individual,business',
             'contact_number' => 'required|string|max:20',
-            'government_id_type' => 'required|string|max:255',
-            'government_id_number' => 'required|string|max:255',
-            'government_id_file' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'application_photo' => 'required|file|mimes:jpg,jpeg,png|max:2048',
             'email' => 'required|string|email|max:255|unique:users',
             'otp' => 'required|string|size:6',
             'password' => 'required|string|min:8|confirmed',
@@ -136,12 +139,12 @@ class AuthController extends Controller
                 ->withInput();
         }
 
-        // Handle government ID file upload
-        $governmentIdFilePath = null;
-        if ($request->hasFile('government_id_file')) {
-            $file = $request->file('government_id_file');
+        // Handle application photo upload
+        $applicationPhotoPath = null;
+        if ($request->hasFile('application_photo')) {
+            $file = $request->file('application_photo');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $governmentIdFilePath = $file->storeAs('government_ids', $fileName, 'public');
+            $applicationPhotoPath = $file->storeAs('application_photos', $fileName, 'public');
         }
 
         $user = User::create([
@@ -151,11 +154,12 @@ class AuthController extends Controller
             'suffix' => $request->suffix,
             'birth_date' => $request->birth_date,
             'gender' => $request->gender,
+            'civil_status' => $request->civil_status,
+            'birthplace' => $request->birthplace,
+            'citizenship' => $request->citizenship,
             'account_type' => $request->account_type,
             'contact_number' => $request->contact_number,
-            'government_id_type' => $request->government_id_type,
-            'government_id_number' => $request->government_id_number,
-            'government_id_file_path' => $governmentIdFilePath,
+            'application_photo_path' => $applicationPhotoPath,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);

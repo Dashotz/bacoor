@@ -103,10 +103,6 @@ contactNumberInput.addEventListener('keypress', function(e) {
     }
 });
 
-// File upload display for application photo
-const applicationPhotoInput = document.getElementById('application_photo');
-const applicationPhotoLabel = document.querySelector('.file-upload-label-large');
-    applicationPhotoInput.addEventListener('change', function() {
 // File upload display
 const fileInput = document.getElementById('government_id_file');
 const fileLabel = document.querySelector('.file-upload-label');

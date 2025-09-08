@@ -9,6 +9,7 @@ body {
     font-family: 'Inter', sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
+<<<<<<< HEAD
     padding: 20px;
     position: relative;
 }
@@ -41,7 +42,10 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding-top: 60px;
+=======
+    color: #333;
     margin: 0;
+    padding: 0;
 }
 
 .container {

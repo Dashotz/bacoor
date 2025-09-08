@@ -1,42 +1,41 @@
-@extends('layouts.app')
-
-@section('title', 'Register - ' . config('app-config.app.name'))
-
-@push('styles')
-    @vite(['resources/css/register.css'])
-@endpush
-
-@push('meta')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register - BACOOR CITY EGOV™</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="login-route" content="{{ route('login.form') }}">
-@endpush
+    @vite(['resources/css/app.css', 'resources/css/register.css', 'resources/js/app.js', 'resources/js/jwt-auth.js', 'resources/js/register.js'])
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header with Sign In Button -->
+    <div class="page-header">
+        <button class="sign-in-btn" onclick="window.location.href='{{ route('login.form') }}'">SIGN IN</button>
+    </div>
 
-@section('body-attributes', 'style="position: relative;"')
-
-@section('content')
-<div class="swirl-left" style="position: fixed; top: 0; left: 0; width: 20%; height: 100%; background: url('{{ asset('images/background-swirl1.png') }}') left top / 75% 100% no-repeat; background-attachment: fixed; z-index: -1;"></div>
-<div class="swirl-right" style="position: fixed; top: 0; right: 0; width: 20%; height: 100%; background: url('{{ asset('images/background-swirl2.png') }}') right top / 75% 100% no-repeat; background-attachment: fixed; z-index: -1;"></div>
     <div class="container">
         <div class="form-container">
             <!-- Header with Logo and Progress Bar -->
             <div class="header">
                 <div class="logo-section">
                     <img src="/images/bacoor-logo.png" alt="BACOOR CITY" class="bacoor-logo" />
-                    <span class="app-title">BACOOR CITY EGOV™</span>
-            </div>
+                </div>
 
                 <!-- Progress Bar -->
                 <div class="progress-bar">
                     <div class="progress-step active">
-                        <div class="step-number">01</div>
-                        <div class="step-title">Applicant info</div>
+                        <div class="step-number">1</div>
+                        <div class="step-title">My Account</div>
                     </div>
+                    <div class="progress-line"></div>
                     <div class="progress-step">
-                        <div class="step-number">02</div>
-                        <div class="step-title">Required Document</div>
-                    </div>
-                    <div class="progress-step">
-                        <div class="step-number">03</div>
-                        <div class="step-title">Payment info</div>
+                        <div class="step-number">3</div>
+                        <div class="step-title">View Sent Email</div>
                     </div>
                 </div>
             </div>
@@ -74,98 +73,62 @@
                     <strong>*All fields required unless noted.</strong>
                 </div>
 
-                <!-- Account Details Section -->
-                <div class="form-section">
-                    <div class="section-header">Account Details</div>
-                    
-                    <div class="account-details-row">
-                        <div class="form-field">
-                            <label for="email"><span class="required">*</span>Email Address</label>
-                            <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="example@gmail.com" required />
-                            @error('email')<div class="error-message">{{ $message }}</div>@enderror
-                        </div>
-
-                        <div class="form-field otp-field">
-                            <label for="otp"><span class="required">*</span>Enter Verification Code</label>
-                            <div class="otp-input-group">
-                                <input type="text" id="otp" name="otp" placeholder="Enter verification code" required />
-                                <button type="button" class="otp-button" id="send-otp-btn">Send OTP</button>
-                            </div>
-                            @error('otp')<div class="error-message">{{ $message }}</div>@enderror
-                        </div>
-
-                        <div class="form-field">
-                            <label for="password"><span class="required">*</span>Enter Password</label>
-                            <input type="password" id="password" name="password" placeholder="Create password" required />
-                            @error('password')<div class="error-message">{{ $message }}</div>@enderror
-                            
-                            <!-- Password Requirements -->
-                            <div class="password-requirements">
-                                <div class="requirement" data-requirement="length">
-                                    <span class="requirement-icon"></span>
-                                    <span class="requirement-text">8+ chars</span>
-                                </div>
-                                <div class="requirement" data-requirement="uppercase">
-                                    <span class="requirement-icon"></span>
-                                    <span class="requirement-text">A-Z</span>
-                                </div>
-                                <div class="requirement" data-requirement="lowercase">
-                                    <span class="requirement-icon"></span>
-                                    <span class="requirement-text">a-z</span>
-                                </div>
-                                <div class="requirement" data-requirement="number">
-                                    <span class="requirement-icon"></span>
-                                    <span class="requirement-text">0-9</span>
-                                </div>
-                                <div class="requirement" data-requirement="special">
-                                    <span class="requirement-icon"></span>
-                                    <span class="requirement-text">!@#$</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-field">
-                            <label for="password_confirmation"><span class="required">*</span>Confirm Password</label>
-                            <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm password" required />
-                            @error('password_confirmation')<div class="error-message">{{ $message }}</div>@enderror
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Application Info Section -->
-                <div class="form-section">
-                    <div class="section-header">Application Info</div>
-
+                <!-- Form Fields in 2-column layout -->
                 <div class="form-grid">
-                    <!-- Name Fields -->
+                    <!-- First Name -->
                     <div class="form-field">
-                            <label for="first_name"><span class="required">*</span>First Name</label>
-                        <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}" placeholder="Juan" required />
+                        <label for="first_name"><span class="required">*</span>First Name</label>
+                        <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}" placeholder="Enter first name" required />
                         @error('first_name')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
                     
+                    <!-- Middle Name -->
                     <div class="form-field">
-                            <label for="middle_name">Middle Name</label>
-                        <input type="text" id="middle_name" name="middle_name" value="{{ old('middle_name') }}" placeholder="Santos" />
+                        <label for="middle_name">Middle name (as applicable)</label>
+                        <input type="text" id="middle_name" name="middle_name" value="{{ old('middle_name') }}" placeholder="Enter middle name" />
                         @error('middle_name')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
                     
+                    <!-- Last Name -->
                     <div class="form-field">
-                            <label for="surname"><span class="required">*</span>Last Name</label>
-                        <input type="text" id="surname" name="surname" value="{{ old('surname') }}" placeholder="Dela Cruz" required />
+                        <label for="surname"><span class="required">*</span>Last Name</label>
+                        <input type="text" id="surname" name="surname" value="{{ old('surname') }}" placeholder="Enter last name" required />
                         @error('surname')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
 
+                    <!-- Date of Birth -->
                     <div class="form-field">
-                            <label for="suffix">Suffix</label>
-                            <select id="suffix" name="suffix">
-                                <option value="">Select</option>
-                                <option value="Jr." {{ old('suffix') == 'Jr.' ? 'selected' : '' }}>Jr.</option>
-                                <option value="Sr." {{ old('suffix') == 'Sr.' ? 'selected' : '' }}>Sr.</option>
-                                <option value="II" {{ old('suffix') == 'II' ? 'selected' : '' }}>II</option>
-                                <option value="III" {{ old('suffix') == 'III' ? 'selected' : '' }}>III</option>
+                        <label>What's your date of birth?</label>
+                        <div class="date-inputs">
+                            <select id="birth_month" name="birth_month" required>
+                                <option value="">Month</option>
+                                <option value="01" {{ old('birth_month') == '01' ? 'selected' : '' }}>January</option>
+                                <option value="02" {{ old('birth_month') == '02' ? 'selected' : '' }}>February</option>
+                                <option value="03" {{ old('birth_month') == '03' ? 'selected' : '' }}>March</option>
+                                <option value="04" {{ old('birth_month') == '04' ? 'selected' : '' }}>April</option>
+                                <option value="05" {{ old('birth_month') == '05' ? 'selected' : '' }}>May</option>
+                                <option value="06" {{ old('birth_month') == '06' ? 'selected' : '' }}>June</option>
+                                <option value="07" {{ old('birth_month') == '07' ? 'selected' : '' }}>July</option>
+                                <option value="08" {{ old('birth_month') == '08' ? 'selected' : '' }}>August</option>
+                                <option value="09" {{ old('birth_month') == '09' ? 'selected' : '' }}>September</option>
+                                <option value="10" {{ old('birth_month') == '10' ? 'selected' : '' }}>October</option>
+                                <option value="11" {{ old('birth_month') == '11' ? 'selected' : '' }}>November</option>
+                                <option value="12" {{ old('birth_month') == '12' ? 'selected' : '' }}>December</option>
                             </select>
-                        @error('suffix')<div class="error-message">{{ $message }}</div>@enderror
+                            <select id="birth_day" name="birth_day" required>
+                                <option value="">Date</option>
+                                @for($i = 1; $i <= 31; $i++)
+                                    <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}" {{ old('birth_day') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>{{ $i }}</option>
+                                @endfor
+                            </select>
+                            <select id="birth_year" name="birth_year" required>
+                                <option value="">Year</option>
+                                @for($i = date('Y') - 18; $i >= 1900; $i--)
+                                    <option value="{{ $i }}" {{ old('birth_year') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                        @error('birth_date')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
 
                     <!-- Gender -->
@@ -184,51 +147,6 @@
                         @error('gender')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
 
-                        <!-- Civil Status -->
-                        <div class="form-field">
-                            <label for="civil_status"><span class="required">*</span>Civil Status</label>
-                            <select id="civil_status" name="civil_status" required>
-                                <option value="">Select</option>
-                                <option value="single" {{ old('civil_status') == 'single' ? 'selected' : '' }}>Single</option>
-                                <option value="married" {{ old('civil_status') == 'married' ? 'selected' : '' }}>Married</option>
-                                <option value="widowed" {{ old('civil_status') == 'widowed' ? 'selected' : '' }}>Widowed</option>
-                                <option value="divorced" {{ old('civil_status') == 'divorced' ? 'selected' : '' }}>Divorced</option>
-                            </select>
-                            @error('civil_status')<div class="error-message">{{ $message }}</div>@enderror
-                        </div>
-
-                        <!-- Date of Birth -->
-                        <div class="form-field">
-                            <label for="birth_date"><span class="required">*</span>Birth date</label>
-                            <input type="date" id="birth_date" name="birth_date" value="{{ old('birth_date') }}" required />
-                            @error('birth_date')<div class="error-message">{{ $message }}</div>@enderror
-                        </div>
-
-                        <div class="form-field">
-                            <label for="birthplace"><span class="required">*</span>Birthplace</label>
-                            <input type="text" id="birthplace" name="birthplace" value="{{ old('birthplace') }}" placeholder="City, Province" required />
-                            @error('birthplace')<div class="error-message">{{ $message }}</div>@enderror
-                        </div>
-
-                        <!-- Citizenship -->
-                        <div class="form-field">
-                            <label for="citizenship"><span class="required">*</span>Citizenship</label>
-                            <select id="citizenship" name="citizenship" required>
-                                <option value="">Select</option>
-                                <option value="Filipino" {{ old('citizenship') == 'Filipino' ? 'selected' : '' }}>Filipino</option>
-                                <option value="Dual Citizen" {{ old('citizenship') == 'Dual Citizen' ? 'selected' : '' }}>Dual Citizen</option>
-                                <option value="Foreigner" {{ old('citizenship') == 'Foreigner' ? 'selected' : '' }}>Foreigner</option>
-                            </select>
-                            @error('citizenship')<div class="error-message">{{ $message }}</div>@enderror
-                        </div>
-
-                        <!-- Contact Number -->
-                        <div class="form-field">
-                            <label for="contact_number"><span class="required">*</span>Contact Number</label>
-                            <input type="tel" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" placeholder="0912 345 6789" pattern="[0-9\s]*" inputmode="numeric" maxlength="13" required />
-                            @error('contact_number')<div class="error-message">{{ $message }}</div>@enderror
-                        </div>
-
                     <!-- Account Ownership -->
                     <div class="form-field">
                         <label>Account Ownership:</label>
@@ -245,18 +163,47 @@
                         @error('account_type')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
 
-                        <!-- Application Photo -->
-                        <div class="form-field photo-upload">
-                            <label><span class="required">*</span>Application Photo</label>
-                            <div class="file-upload-large">
-                                <input type="file" id="application_photo" name="application_photo" accept=".jpg,.jpeg,.png" required />
-                                <label for="application_photo" class="file-upload-label-large">
-                                    <div class="upload-icon">↑</div>
-                                    <div class="upload-text">Click here to upload or drop media here</div>
-                                </label>
-                            </div>
-                            @error('application_photo')<div class="error-message">{{ $message }}</div>@enderror
+                    <!-- Contact Number -->
+                    <div class="form-field">
+                        <label for="contact_number"><span class="required">*</span>Contact Number</label>
+                        <input type="tel" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" placeholder="Enter contact number" required />
+                        @error('contact_number')<div class="error-message">{{ $message }}</div>@enderror
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-field">
+                        <label for="password"><span class="required">*</span>Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter password" required />
+                        @error('password')<div class="error-message">{{ $message }}</div>@enderror
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-field">
+                        <label for="password_confirmation"><span class="required">*</span>Confirm Password</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm password" required />
+                        @error('password_confirmation')<div class="error-message">{{ $message }}</div>@enderror
+                    </div>
+
+                    <!-- Government ID -->
+                    <div class="form-field">
+                        <label><span class="required">*</span>Government ID</label>
+                        <div class="government-id-fields">
+                            <select id="government_id_type" name="government_id_type" required>
+                                <option value="">ID Type</option>
+                                <option value="Driver's License" {{ old('government_id_type') == "Driver's License" ? 'selected' : '' }}>Driver's License</option>
+                                <option value="Passport" {{ old('government_id_type') == 'Passport' ? 'selected' : '' }}>Passport</option>
+                                <option value="SSS ID" {{ old('government_id_type') == 'SSS ID' ? 'selected' : '' }}>SSS ID</option>
+                                <option value="PhilHealth ID" {{ old('government_id_type') == 'PhilHealth ID' ? 'selected' : '' }}>PhilHealth ID</option>
+                                <option value="TIN ID" {{ old('government_id_type') == 'TIN ID' ? 'selected' : '' }}>TIN ID</option>
+                                <option value="Postal ID" {{ old('government_id_type') == 'Postal ID' ? 'selected' : '' }}>Postal ID</option>
+                                <option value="Voter's ID" {{ old('government_id_type') == "Voter's ID" ? 'selected' : '' }}>Voter's ID</option>
+                                <option value="National ID" {{ old('government_id_type') == 'National ID' ? 'selected' : '' }}>National ID</option>
+                                <option value="Other" {{ old('government_id_type') == 'Other' ? 'selected' : '' }}>Other</option>
+                            </select>
+                            <input type="text" id="government_id_number" name="government_id_number" value="{{ old('government_id_number') }}" placeholder="ID number" required />
                         </div>
+                        @error('government_id_type')<div class="error-message">{{ $message }}</div>@enderror
+                        @error('government_id_number')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
                 </div>
 
@@ -273,7 +220,7 @@
                 <!-- Navigation Buttons -->
                 <div class="button-group">
                     <button type="button" class="btn btn-secondary" id="backBtn">
-                        <span class="back-arrow">←</span> Back
+                        BACK
                     </button>
                     <button type="submit" class="btn btn-primary">Next</button>
                 </div>
@@ -307,20 +254,5 @@
             </div>
         </div>
     </div>
-
-    <!-- OTP Success Modal -->
-    <div id="otpSuccessModal" class="modal">
-        <div class="modal-content">
-            <div class="success-icon">✓</div>
-            <h3>OTP Sent Successfully!</h3>
-            <p>OTP sent successfully to your email!</p>
-            <div class="modal-buttons">
-                <button type="button" class="btn btn-primary" id="closeOtpModal">OK</button>
-            </div>
-        </div>
-    </div>
-@endsection
-
-@push('scripts')
-    @vite(['resources/js/jwt-auth.js', 'resources/js/register.js'])
-@endpush
+</body>
+</html>

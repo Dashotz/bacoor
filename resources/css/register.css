@@ -21,24 +21,6 @@ body {
     align-items: center;
 }
 
-/* Swirl Background Effect */
-.swirl-background {
-    background: url('/images/background-swirl.png') left top / 50% 100% no-repeat;
-    background-attachment: fixed;
-}
-
-.swirl-background::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 50%;
-    height: 100%;
-    background: url('/images/background-swirl.png') right top / 50% 100% no-repeat;
-    background-attachment: fixed;
-    transform: scaleX(-1);
-    z-index: -1;
-}
 
 
 .container {
@@ -605,6 +587,48 @@ input[type="radio"] {
     
     .container {
         padding: 10px;
+    }
+    
+    /* Simplify progress bar on mobile */
+    .progress-bar {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    
+    .progress-bar::before {
+        display: none;
+    }
+    
+    .progress-step {
+        background: transparent;
+        padding: 0;
+        width: auto;
+        text-align: center;
+    }
+    
+    .step-number {
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+    
+    .step-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    .step-description {
+        display: none;
+    }
+    
+    /* Hide inactive steps on mobile - only show current step */
+    .progress-step:nth-child(2),
+    .progress-step:nth-child(3) {
+        display: none;
     }
     
     .form-container {

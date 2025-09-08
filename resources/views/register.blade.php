@@ -13,7 +13,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
-<body class="swirl-background" style="background: url('{{ asset('images/background-swirl.png') }}') left top / 50% 100% no-repeat; background-attachment: fixed;"></body>
+<body style="position: relative;">
+    <div class="swirl-left" style="position: fixed; top: 0; left: 0; width: 20%; height: 100%; background: url('{{ asset('images/background-swirl1.png') }}') left top / 75% 100% no-repeat; background-attachment: fixed; z-index: -1;"></div>
+    <div class="swirl-right" style="position: fixed; top: 0; right: 0; width: 20%; height: 100%; background: url('{{ asset('images/background-swirl2.png') }}') right top / 75% 100% no-repeat; background-attachment: fixed; z-index: -1;"></div>
     <div class="container">
         <div class="form-container">
             <!-- Header with Logo and Progress Bar -->

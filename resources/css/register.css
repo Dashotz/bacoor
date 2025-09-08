@@ -217,6 +217,48 @@ body::before {
     border-left: 4px solid #6b7280;
 }
 
+/* Account Details Row Layout */
+.account-details-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.account-details-row .form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.account-details-row label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #374151;
+}
+
+.account-details-row input {
+    padding: 12px 14px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: white;
+    font-family: 'Inter', sans-serif;
+}
+
+.account-details-row input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.otp-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
 .form-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -551,6 +593,11 @@ input[type="radio"] {
         gap: 16px;
     }
     
+    .account-details-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    
     .progress-bar {
         flex-direction: column;
         gap: 20px;
@@ -630,6 +677,11 @@ input[type="radio"] {
     
     .form-grid {
         gap: 12px;
+    }
+    
+    .account-details-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
     }
     
     .app-title {

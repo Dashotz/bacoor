@@ -77,33 +77,34 @@
                 <div class="form-section">
                     <div class="section-header">Account Details</div>
                     
-                    <div class="form-field">
-                        <label for="email"><span class="required">*</span>Email Address</label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="example@gmail.com" required />
-                        @error('email')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
-
-                    <div class="form-field">
-                        <label for="password"><span class="required">*</span>Password</label>
-                        <input type="password" id="password" name="password" placeholder="Create a strong password" required />
-                        @error('password')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
-
-                    <div class="form-field">
-                        <label for="password_confirmation"><span class="required">*</span>Confirm Password</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Re-enter password" required />
-                        @error('password_confirmation')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
-
-                    <div class="form-field">
-                        <label for="otp"><span class="required">*</span>Verification Code</label>
-                        <div class="otp-section">
-                            <div class="otp-input">
-                                <input type="text" id="otp" name="otp" placeholder="Enter verification code" required />
-                            </div>
-                            <button type="button" class="otp-button" id="send-otp-btn">Send OTP</button>
+                    <div class="account-details-row">
+                        <div class="form-field">
+                            <label for="email"><span class="required">*</span>Email</label>
+                            <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="example@gmail.com" required />
+                            @error('email')<div class="error-message">{{ $message }}</div>@enderror
                         </div>
-                        @error('otp')<div class="error-message">{{ $message }}</div>@enderror
+
+                        <div class="form-field">
+                            <label for="otp"><span class="required">*</span>Verification</label>
+                            <input type="text" id="otp" name="otp" placeholder="Enter verification code" required />
+                            @error('otp')<div class="error-message">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="form-field">
+                            <label for="password"><span class="required">*</span>Pass</label>
+                            <input type="password" id="password" name="password" placeholder="Create password" required />
+                            @error('password')<div class="error-message">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="form-field">
+                            <label for="password_confirmation"><span class="required">*</span>Con Pass</label>
+                            <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm password" required />
+                            @error('password_confirmation')<div class="error-message">{{ $message }}</div>@enderror
+                        </div>
+                    </div>
+
+                    <div class="otp-button-container">
+                        <button type="button" class="otp-button" id="send-otp-btn">Send OTP</button>
                     </div>
                 </div>
 

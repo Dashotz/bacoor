@@ -106,25 +106,24 @@ contactNumberInput.addEventListener('keypress', function(e) {
 // File upload display for application photo
 const applicationPhotoInput = document.getElementById('application_photo');
 const applicationPhotoLabel = document.querySelector('.file-upload-label-large');
-
-if (applicationPhotoInput && applicationPhotoLabel) {
     applicationPhotoInput.addEventListener('change', function() {
-        if (this.files.length > 0) {
-            let fileName = this.files[0].name;
-            // Truncate long file names to prevent layout issues
-            if (fileName.length > 25) {
-                fileName = fileName.substring(0, 22) + '...';
-            }
-            applicationPhotoLabel.innerHTML = `
-                <div class="upload-icon">✓</div>
-                <div class="upload-text">Selected: ${fileName}</div>
-            `;
-            applicationPhotoLabel.style.borderColor = '#10b981';
-            applicationPhotoLabel.style.background = '#d1fae5';
-            applicationPhotoLabel.style.color = '#065f46';
+// File upload display
+const fileInput = document.getElementById('government_id_file');
+const fileLabel = document.querySelector('.file-upload-label');
+
+fileInput.addEventListener('change', function() {
+    if (this.files.length > 0) {
+        let fileName = this.files[0].name;
+        // Truncate long file names to prevent layout issues
+        if (fileName.length > 20) {
+            fileName = fileName.substring(0, 17) + '...';
         }
-    });
-}
+        fileLabel.innerHTML = `<span class="selected-text">Selected:</span> <span class="file-name">${fileName}</span>`;
+        fileLabel.style.borderColor = '#10b981';
+        fileLabel.style.background = '#d1fae5';
+        fileLabel.style.color = '#065f46';
+    }
+});
 
 // OTP functionality
 const sendOtpBtn = document.getElementById('send-otp-btn');
@@ -212,16 +211,6 @@ cancelBtn.addEventListener('click', function() {
 });
 
 
-
-// Back button functionality
-const backBtn = document.getElementById('backBtn');
-if (backBtn) {
-    backBtn.addEventListener('click', function() {
-        // Get the login route from meta tag
-        const loginRoute = document.querySelector('meta[name="login-route"]').getAttribute('content');
-        window.location.href = loginRoute;
-    });
-}
 
 // Close modals when clicking outside
 window.addEventListener('click', function(e) {

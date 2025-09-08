@@ -420,7 +420,6 @@ function handleServiceSelection(card, serviceIndex) {
         
         // Here you would typically redirect to the specific service form
         // For now, we'll just show a message
-        console.log(`Selected service: ${serviceTitle}`);
         
     }, 1500);
 }

@@ -1,30 +1,16 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Log In - City Government of Bacoor</title>
-        @vite(['resources/css/app.css', 'resources/css/home.css', 'resources/js/app.js', 'resources/js/home.js', 'resources/js/jwt-auth.js', 'resources/js/login.js'])
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#0a3b7a" />
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-</head>
-<body>
-    <!-- Notification Container -->
-    <div id="notification-container" class="notification-container">
-        @if (session('status'))
-        <div class="notification success-notification" id="success-notification">
-            <div class="notification-content">
-                <div class="notification-icon">✓</div>
-                <div class="notification-message">{{ session('status') }}</div>
-                <button class="notification-close" onclick="closeNotification()">&times;</button>
-            </div>
-        </div>
-        @endif
-    </div>
+@extends('layouts.app')
+
+@section('title', 'Log In - City Government of Bacoor')
+
+@push('styles')
+    @vite(['resources/css/home.css'])
+@endpush
+
+@push('scripts')
+    <script src="{{ config('assets.external.recaptcha.script_url') }}" async defer></script>
+@endpush
+
+@section('content')
 
     <div class="login-container">
         <!-- Back to Home Link -->
@@ -116,9 +102,8 @@
             </div>
         </div>
     </div>
+@endsection
 
-
-</body>
-</html>
-
-
+@push('scripts')
+    @vite(['resources/js/home.js', 'resources/js/jwt-auth.js', 'resources/js/login.js'])
+@endpush

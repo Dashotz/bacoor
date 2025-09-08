@@ -1,21 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Register - BACOOR CITY EGOV™</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="login-route" content="{{ route('login.form') }}">
-    @vite(['resources/css/app.css', 'resources/css/register.css', 'resources/js/app.js', 'resources/js/jwt-auth.js', 'resources/js/register.js'])
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+@extends('layouts.app')
 
-</head>
-<body style="position: relative;">
-    <div class="swirl-left" style="position: fixed; top: 0; left: 0; width: 20%; height: 100%; background: url('{{ asset('images/background-swirl1.png') }}') left top / 75% 100% no-repeat; background-attachment: fixed; z-index: -1;"></div>
-    <div class="swirl-right" style="position: fixed; top: 0; right: 0; width: 20%; height: 100%; background: url('{{ asset('images/background-swirl2.png') }}') right top / 75% 100% no-repeat; background-attachment: fixed; z-index: -1;"></div>
+@section('title', 'Register - ' . config('app-config.app.name'))
+
+@push('styles')
+    @vite(['resources/css/register.css'])
+@endpush
+
+@push('meta')
+    <meta name="login-route" content="{{ route('login.form') }}">
+@endpush
+
+@section('body-attributes', 'style="position: relative;"')
+
+@section('content')
+<div class="swirl-left" style="position: fixed; top: 0; left: 0; width: 20%; height: 100%; background: url('{{ asset('images/background-swirl1.png') }}') left top / 75% 100% no-repeat; background-attachment: fixed; z-index: -1;"></div>
+<div class="swirl-right" style="position: fixed; top: 0; right: 0; width: 20%; height: 100%; background: url('{{ asset('images/background-swirl2.png') }}') right top / 75% 100% no-repeat; background-attachment: fixed; z-index: -1;"></div>
     <div class="container">
         <div class="form-container">
             <!-- Header with Logo and Progress Bar -->
@@ -298,5 +297,8 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+@endsection
+
+@push('scripts')
+    @vite(['resources/js/jwt-auth.js', 'resources/js/register.js'])
+@endpush

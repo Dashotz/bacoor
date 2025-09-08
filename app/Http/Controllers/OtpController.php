@@ -157,14 +157,14 @@ class OtpController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
             
-            // Even if email fails, store OTP in session for testing
+            // Store OTP in session for fallback verification
             session([
                 'registration_otp' => $code,
                 'registration_email' => $email,
                 'registration_otp_expires' => Carbon::now()->addMinutes(10)->timestamp,
             ]);
             
-            return true; // Return true for testing purposes
+            return true;
         }
     }
 

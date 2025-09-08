@@ -48,40 +48,28 @@ function closeNotification() {
 
 // Password toggle functionality
 function setupPasswordToggle() {
-    console.log('DOM loaded, setting up password toggle');
     const passwordToggles = document.querySelectorAll('.password-toggle');
-    console.log('Found password toggles:', passwordToggles.length);
     
-    passwordToggles.forEach((toggle, index) => {
-        console.log('Setting up toggle', index);
+    passwordToggles.forEach((toggle) => {
         toggle.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log('Password toggle clicked');
             
             const targetId = this.getAttribute('data-target');
-            console.log('Target ID:', targetId);
-            
             const passwordInput = document.getElementById(targetId);
-            console.log('Password input found:', !!passwordInput);
             
             const eyeIcon = this.querySelector('.eye-icon');
             const eyeSlashIcon = this.querySelector('.eye-slash-icon');
-            console.log('Icons found - eye:', !!eyeIcon, 'eye-slash:', !!eyeSlashIcon);
             
             if (passwordInput && eyeIcon && eyeSlashIcon) {
                 if (passwordInput.type === 'password') {
                     passwordInput.type = 'text';
                     eyeIcon.style.display = 'none';
                     eyeSlashIcon.style.display = 'block';
-                    console.log('Password shown');
                 } else {
                     passwordInput.type = 'password';
                     eyeIcon.style.display = 'block';
                     eyeSlashIcon.style.display = 'none';
-                    console.log('Password hidden');
                 }
-            } else {
-                console.error('Missing elements for password toggle');
             }
         });
     });

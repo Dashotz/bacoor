@@ -1,19 +1,16 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bacoor Dashboard</title>
-    @vite(['resources/css/app.css', 'resources/css/dashboard.css', 'resources/js/app.js', 'resources/js/dashboard.js', 'resources/js/jwt-auth.js'])
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <meta name="theme-color" content="#0a3b7a" />
+@extends('layouts.app')
 
+@section('title', 'Bacoor Dashboard')
 
+@push('styles')
+    @vite(['resources/css/dashboard.css'])
+@endpush
+
+@push('meta')
     <!-- User data will be fetched securely via API -->
-</head>
-<body>
+@endpush
+
+@section('content')
     <div class="bacoor-dashboard">
         <header class="dash-header">
             <div class="dash-brand">
@@ -210,6 +207,8 @@
             <p>© <span id="year"></span> City Government of Bacoor</p>
         </footer>
     </div>
-</body>
-</html>
+@endsection
 
+@push('scripts')
+    @vite(['resources/js/dashboard.js', 'resources/js/jwt-auth.js'])
+@endpush

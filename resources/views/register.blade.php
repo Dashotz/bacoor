@@ -36,7 +36,6 @@
                     <div class="progress-step">
                         <div class="step-number">03</div>
                         <div class="step-title">Payment info</div>
-                        <div class="step-description">Lorem Ipsum is simply</div>
                     </div>
                 </div>
             </div>
@@ -79,8 +78,8 @@
                     <div class="section-header">Account Details</div>
                     
                     <div class="form-field">
-                        <label for="email"><span class="required">*</span>Verified Email Address</label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="hsoscano@gmail.com" required />
+                        <label for="email"><span class="required">*</span>Email Address</label>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="example@gmail.com" required />
                         @error('email')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
 

@@ -57,6 +57,9 @@ body {
     padding: 20px;
     box-sizing: border-box;
     margin-left: 10%;
+<<<<<<< HEAD
+>>>>>>> parent of f8fc06a (register)
+=======
 >>>>>>> parent of f8fc06a (register)
 }
 
@@ -64,17 +67,24 @@ body {
     background: white;
     border-radius: 16px;
 <<<<<<< HEAD
+<<<<<<< HEAD
     padding: 40px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 =======
+=======
+>>>>>>> parent of f8fc06a (register)
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 900px;
     padding: 50px;
+<<<<<<< HEAD
+>>>>>>> parent of f8fc06a (register)
+=======
 >>>>>>> parent of f8fc06a (register)
     position: relative;
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 /* Header */
 .header {
@@ -157,11 +167,24 @@ body {
 }
 
 .bacoor-logo {
+=======
+.logo-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0 40px 0;
+}
+
+.bacoor-logo {
+>>>>>>> parent of f8fc06a (register)
     max-width: 120px;
     height: auto;
     object-fit: contain;
 }
 
+<<<<<<< HEAD
+>>>>>>> parent of f8fc06a (register)
+=======
 >>>>>>> parent of f8fc06a (register)
 .section-title {
     display: flex;
@@ -173,6 +196,9 @@ body {
     margin-bottom: 20px;
     font-size: 18px;
     font-weight: 600;
+<<<<<<< HEAD
+>>>>>>> parent of f8fc06a (register)
+=======
 >>>>>>> parent of f8fc06a (register)
 }
 
@@ -181,7 +207,11 @@ body {
     height: 32px;
     border-radius: 50%;
 <<<<<<< HEAD
+<<<<<<< HEAD
     background: #1f2937;
+=======
+    background: #000;
+>>>>>>> parent of f8fc06a (register)
 =======
     background: #000;
 >>>>>>> parent of f8fc06a (register)
@@ -234,6 +264,9 @@ body {
     font-weight: 600;
     margin-bottom: 20px;
     color: #374151;
+<<<<<<< HEAD
+>>>>>>> parent of f8fc06a (register)
+=======
 >>>>>>> parent of f8fc06a (register)
 }
 
@@ -241,10 +274,13 @@ body {
 .form-grid {
     display: grid;
 <<<<<<< HEAD
+<<<<<<< HEAD
     grid-template-columns: 1fr 1fr;
     gap: 24px;
     margin-bottom: 40px;
 =======
+=======
+>>>>>>> parent of f8fc06a (register)
     grid-template-columns: 1fr 1fr 1fr;
     gap: 12px;
     margin-bottom: 30px;

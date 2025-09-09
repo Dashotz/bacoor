@@ -189,7 +189,7 @@
                     <!-- Verification Code Input -->
                     <div class="form-field">
                         <label for="verification_code"><span class="required">*</span>Verification Code</label>
-                        <input type="text" id="verification_code" name="verification_code" placeholder="Enter verification code" maxlength="6" />
+                        <input type="text" id="verification_code" name="verification_code" placeholder="Enter verification code" maxlength="6" required />
                         @error('verification_code')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
 
@@ -240,7 +240,7 @@
                 </div>
 
                 <!-- Government ID Section -->
-                <div class="form-field">
+                <div class="form-field government-id-section">
                     <label><span class="required">*</span>Government ID</label>
                     <div class="government-id-fields">
                         <select id="government_id_type" name="government_id_type" required>
@@ -259,7 +259,6 @@
                         <div class="file-upload-container">
                             <input type="file" id="government_id_file" name="government_id_file" accept="image/*,.pdf" />
                             <label for="government_id_file" class="file-upload-label">
-                                <span class="upload-icon">📁</span>
                                 <span class="upload-text">Upload ID</span>
                             </label>
                         </div>

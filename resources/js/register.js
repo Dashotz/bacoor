@@ -57,12 +57,14 @@ passwordConfirmation.addEventListener('input', function() {
 function checkPasswordMatch() {
     const password = passwordInput.value;
     const confirmation = passwordConfirmation.value;
-    const passwordMatch = document.getElementById('passwordMatch');
+    
+    // Remove existing validation classes
+    passwordConfirmation.classList.remove('password-match-valid', 'password-match-invalid');
     
     if (confirmation && password === confirmation) {
-        passwordMatch.classList.add('valid');
-    } else {
-        passwordMatch.classList.remove('valid');
+        passwordConfirmation.classList.add('password-match-valid');
+    } else if (confirmation) {
+        passwordConfirmation.classList.add('password-match-invalid');
     }
 }
 
@@ -128,8 +130,7 @@ fileInput.addEventListener('change', function() {
 // OTP functionality
 const sendOtpBtn = document.getElementById('sendOtpBtn');
 const emailInput = document.getElementById('email');
-const otpField = document.getElementById('otpField');
-const otpInput = document.getElementById('otp');
+const verificationCodeInput = document.getElementById('verification_code');
 const otpTimer = document.getElementById('otpTimer');
 const otpSuccessModal = document.getElementById('otpSuccessModal');
 const closeOtpModal = document.getElementById('closeOtpModal');
@@ -163,21 +164,20 @@ sendOtpBtn.addEventListener('click', function() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            otpField.style.display = 'block';
             otpSuccessModal.style.display = 'block';
             this.textContent = 'Resend OTP';
             startOtpTimer();
         } else {
             alert(data.message || 'Failed to send OTP. Please try again.');
             this.disabled = false;
-            this.textContent = 'Verify Email';
+            this.textContent = 'Send OTP';
         }
     })
     .catch(error => {
         console.error('Error:', error);
         alert('An error occurred. Please try again.');
         this.disabled = false;
-        this.textContent = 'Verify Email';
+        this.textContent = 'Send OTP';
     });
 });
 
@@ -194,7 +194,7 @@ function startOtpTimer() {
             clearInterval(otpTimerInterval);
             otpTimer.textContent = 'OTP expired. Please request a new one.';
             sendOtpBtn.disabled = false;
-            sendOtpBtn.textContent = 'Verify Email';
+            sendOtpBtn.textContent = 'Send OTP';
         }
         timeLeft--;
     }, 1000);

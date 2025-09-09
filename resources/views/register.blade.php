@@ -80,7 +80,7 @@
                     
                     <!-- Middle Name -->
                     <div class="form-field">
-                        <label for="middle_name">Middle name (as applicable)</label>
+                        <label for="middle_name">Middle name</label>
                         <input type="text" id="middle_name" name="middle_name" value="{{ old('middle_name') }}" placeholder="Enter middle name" />
                         @error('middle_name')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
@@ -135,68 +135,92 @@
                     @error('birth_date')<div class="error-message">{{ $message }}</div>@enderror
                 </div>
 
-                <!-- Gender Section -->
-                <div class="form-field">
-                    <label>What's your gender?</label>
-                    <div class="radio-group">
-                        <div class="radio-item">
-                            <input type="radio" id="gender_female" name="gender" value="female" {{ old('gender') == 'female' ? 'checked' : '' }} required />
-                            <label for="gender_female">Female</label>
+                <!-- Gender and Account Ownership Section -->
+                <div class="form-row">
+                    <!-- Gender Section -->
+                    <div class="form-field">
+                        <label>What's your gender?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="gender_female" name="gender" value="female" {{ old('gender') == 'female' ? 'checked' : '' }} required />
+                                <label for="gender_female">Female</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="gender_male" name="gender" value="male" {{ old('gender') == 'male' ? 'checked' : '' }} required />
+                                <label for="gender_male">Male</label>
+                            </div>
                         </div>
-                        <div class="radio-item">
-                            <input type="radio" id="gender_male" name="gender" value="male" {{ old('gender') == 'male' ? 'checked' : '' }} required />
-                            <label for="gender_male">Male</label>
-                        </div>
+                        @error('gender')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
-                    @error('gender')<div class="error-message">{{ $message }}</div>@enderror
-                </div>
 
-                <!-- Account Ownership Section -->
-                <div class="form-field">
-                    <label>Account Ownership:</label>
-                    <div class="radio-group">
-                        <div class="radio-item">
-                            <input type="radio" id="account_individual" name="account_type" value="individual" {{ old('account_type', 'individual') == 'individual' ? 'checked' : '' }} required />
-                            <label for="account_individual">Individual</label>
+                    <!-- Account Ownership Section -->
+                    <div class="form-field">
+                        <label>Account Ownership:</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="account_individual" name="account_type" value="individual" {{ old('account_type', 'individual') == 'individual' ? 'checked' : '' }} required />
+                                <label for="account_individual">Individual</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="account_business" name="account_type" value="business" {{ old('account_type') == 'business' ? 'checked' : '' }} required />
+                                <label for="account_business">Business</label>
+                            </div>
                         </div>
-                        <div class="radio-item">
-                            <input type="radio" id="account_business" name="account_type" value="business" {{ old('account_type') == 'business' ? 'checked' : '' }} required />
-                            <label for="account_business">Business</label>
-                        </div>
+                        @error('account_type')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
-                    @error('account_type')<div class="error-message">{{ $message }}</div>@enderror
                 </div>
 
-                <!-- Contact Information -->
-                <div class="form-field">
-                    <label for="contact_number"><span class="required">*</span>Contact Number</label>
-                    <input type="tel" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" placeholder="Enter contact number" required />
-                    @error('contact_number')<div class="error-message">{{ $message }}</div>@enderror
-                </div>
+                <!-- Contact, Email and OTP Verification Row -->
+                <div class="form-row-four">
+                    <!-- Contact Information -->
+                    <div class="form-field">
+                        <label for="contact_number"><span class="required">*</span>Contact Number</label>
+                        <input type="tel" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" placeholder="Enter contact number" required />
+                        @error('contact_number')<div class="error-message">{{ $message }}</div>@enderror
+                    </div>
 
-                <!-- Email and OTP Verification -->
-                <div class="form-field">
-                    <label for="email"><span class="required">*</span>Email Address</label>
-                    <div class="email-verification">
+                    <!-- Email Address -->
+                    <div class="form-field">
+                        <label for="email"><span class="required">*</span>Email Address</label>
                         <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Enter email address" required />
-                        <button type="button" id="sendOtpBtn" class="btn btn-outline">Verify Email</button>
+                        @error('email')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
-                    @error('email')<div class="error-message">{{ $message }}</div>@enderror
+
+                    <!-- Verification Code Input -->
+                    <div class="form-field">
+                        <label for="verification_code"><span class="required">*</span>Verification Code</label>
+                        <input type="text" id="verification_code" name="verification_code" placeholder="Enter verification code" maxlength="6" />
+                        @error('verification_code')<div class="error-message">{{ $message }}</div>@enderror
+                    </div>
+
+                    <!-- Send OTP Button -->
+                    <div class="form-field">
+                        <label>&nbsp;</label>
+                        <button type="button" id="sendOtpBtn" class="btn btn-outline full-width-btn">Send OTP</button>
+                        <div class="otp-timer" id="otpTimer"></div>
+                    </div>
                 </div>
 
-                <!-- OTP Input -->
-                <div class="form-field" id="otpField" style="display: none;">
-                    <label for="otp"><span class="required">*</span>Enter OTP</label>
-                    <input type="text" id="otp" name="otp" placeholder="Enter 6-digit OTP" maxlength="6" />
-                    <div class="otp-timer" id="otpTimer"></div>
-                    @error('otp')<div class="error-message">{{ $message }}</div>@enderror
+                <!-- Password and Confirm Password Row -->
+                <div class="form-row">
+                    <!-- Password Section -->
+                    <div class="form-field">
+                        <label for="password"><span class="required">*</span>Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter password" required />
+                        @error('password')<div class="error-message">{{ $message }}</div>@enderror
+                    </div>
+
+                    <!-- Confirm Password Section -->
+                    <div class="form-field">
+                        <label for="password_confirmation"><span class="required">*</span>Confirm Password</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm password" required />
+                        @error('password_confirmation')<div class="error-message">{{ $message }}</div>@enderror
+                    </div>
                 </div>
 
-                <!-- Password Section -->
-                <div class="form-field">
-                    <label for="password"><span class="required">*</span>Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter password" required />
-                    <div class="password-requirements" id="passwordRequirements">
+                <!-- Password Requirements -->
+                <div class="password-requirements" id="passwordRequirements">
+                    <div class="requirements-grid">
                         <div class="requirement" id="req-length">
                             <span class="check">○</span> At least 8 characters
                         </div>
@@ -213,17 +237,6 @@
                             <span class="check">○</span> One special character
                         </div>
                     </div>
-                    @error('password')<div class="error-message">{{ $message }}</div>@enderror
-                </div>
-
-                <!-- Confirm Password Section -->
-                <div class="form-field">
-                    <label for="password_confirmation"><span class="required">*</span>Confirm Password</label>
-                    <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm password" required />
-                    <div class="password-match" id="passwordMatch">
-                        <span class="check">○</span> Passwords match
-                    </div>
-                    @error('password_confirmation')<div class="error-message">{{ $message }}</div>@enderror
                 </div>
 
                 <!-- Government ID Section -->
@@ -243,9 +256,17 @@
                             <option value="Other" {{ old('government_id_type') == 'Other' ? 'selected' : '' }}>Other</option>
                         </select>
                         <input type="text" id="government_id_number" name="government_id_number" value="{{ old('government_id_number') }}" placeholder="ID number" required />
+                        <div class="file-upload-container">
+                            <input type="file" id="government_id_file" name="government_id_file" accept="image/*,.pdf" />
+                            <label for="government_id_file" class="file-upload-label">
+                                <span class="upload-icon">📁</span>
+                                <span class="upload-text">Upload ID</span>
+                            </label>
+                        </div>
                     </div>
                     @error('government_id_type')<div class="error-message">{{ $message }}</div>@enderror
                     @error('government_id_number')<div class="error-message">{{ $message }}</div>@enderror
+                    @error('government_id_file')<div class="error-message">{{ $message }}</div>@enderror
                 </div>
 
                 <!-- Section 2: Terms and Regulation -->

@@ -2,7 +2,22 @@
 class JWTAuth {
     constructor() {
         this.token = localStorage.getItem('jwt_token');
-        this.user = JSON.parse(localStorage.getItem('jwt_user') || 'null');
+        const userData = localStorage.getItem('jwt_user');
+        
+        // Clear invalid data
+        if (userData === 'undefined' || userData === 'null') {
+            localStorage.removeItem('jwt_user');
+            this.user = null;
+        } else {
+            try {
+                this.user = userData ? JSON.parse(userData) : null;
+            } catch (e) {
+                console.error('Error parsing user data:', e);
+                localStorage.removeItem('jwt_user');
+                this.user = null;
+            }
+        }
+        
         this.setupEventListeners();
     }
 
@@ -34,18 +49,21 @@ class JWTAuth {
 
     // Handle login form submission
     async handleLogin(formData) {
+        console.log('handleLogin called with:', formData);
         try {
             // Get reCAPTCHA response
             const recaptchaResponse = grecaptcha.getResponse();
+            console.log('reCAPTCHA response:', recaptchaResponse);
             if (!recaptchaResponse) {
-                this.showErrorMessage('Please complete the reCAPTCHA verification');
+                console.log('No reCAPTCHA response, shaking');
+                this.shakeRecaptcha();
                 return;
             }
 
             // Add reCAPTCHA response to form data
             formData['g-recaptcha-response'] = recaptchaResponse;
 
-            const response = await fetch('/api/login', {
+            const response = await fetch('/api/v1/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -81,7 +99,7 @@ class JWTAuth {
     // Handle registration form submission
     async handleRegister(formData) {
         try {
-            const response = await fetch('/api/register', {
+            const response = await fetch('/api/v1/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,7 +134,7 @@ class JWTAuth {
     // Handle logout
     async handleLogout() {
         try {
-            await fetch('/api/logout', {
+            await fetch('/api/v1/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -141,7 +159,7 @@ class JWTAuth {
     // Refresh JWT token
     async refreshToken() {
         try {
-            const response = await fetch('/api/refresh', {
+            const response = await fetch('/api/v1/refresh', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -171,7 +189,7 @@ class JWTAuth {
     // Get current user profile
     async getUserProfile() {
         try {
-            const response = await fetch('/api/user/profile', {
+            const response = await fetch('/api/v1/user/profile', {
                 headers: {
                     'Accept': 'application/json',
                     ...this.getAuthHeader()
@@ -205,6 +223,20 @@ class JWTAuth {
     showErrorMessage(message) {
         // You can customize this to show a nice notification
         alert(message);
+    }
+
+    // Shake reCAPTCHA container when not completed
+    shakeRecaptcha() {
+        const recaptchaContainer = document.querySelector('.recaptcha-container');
+        if (recaptchaContainer) {
+            // Add shake animation class
+            recaptchaContainer.classList.add('shake');
+            
+            // Remove shake class after animation completes
+            setTimeout(() => {
+                recaptchaContainer.classList.remove('shake');
+            }, 500);
+        }
     }
 
     // Show validation errors
@@ -252,12 +284,15 @@ class JWTAuth {
         // Login form
         const loginForm = document.getElementById('login');
         if (loginForm) {
+            console.log('Login form found, adding event listener');
             loginForm.addEventListener('submit', (e) => {
+                console.log('Login form submitted');
                 e.preventDefault();
                 const formData = {
                     email: document.getElementById('login_email').value,
                     password: document.getElementById('login_password').value
                 };
+                console.log('Form data:', formData);
                 
                 // Save credentials if remember me is checked
                 const rememberMeCheckbox = document.getElementById('remember_me');
@@ -307,6 +342,12 @@ class JWTAuth {
 
 // Initialize JWT authentication when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Clear any invalid localStorage data
+    if (localStorage.getItem('jwt_user') === 'undefined' || localStorage.getItem('jwt_user') === 'null') {
+        localStorage.removeItem('jwt_user');
+        localStorage.removeItem('jwt_token');
+    }
+    
     window.jwtAuth = new JWTAuth();
 });
 

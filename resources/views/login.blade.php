@@ -90,7 +90,7 @@
                             <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
                         </div>
 
-                        <button type="submit" class="continue-btn">CONTINUE</button>
+                        <button type="submit" class="continue-btn">Log In</button>
                     </form>
 
                     <!-- Additional Links -->

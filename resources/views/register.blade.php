@@ -13,12 +13,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header with Sign In Button -->
-    <div class="page-header">
-        <button class="sign-in-btn" onclick="window.location.href='{{ route('login.form') }}'">SIGN IN</button>
-    </div>
-
     <div class="container">
+        <!-- Back to Home Link -->
+        <div class="back-to-home">
+            <a href="/" class="back-link">
+                <span class="back-arrow">←</span>
+                <span class="back-text">Back to home</span>
+            </a>
+        </div>
+        
         <div class="form-container">
             <!-- Header with Logo and Progress Bar -->
             <div class="header">
@@ -222,19 +225,19 @@
                 <div class="password-requirements" id="passwordRequirements">
                     <div class="requirements-grid">
                         <div class="requirement" id="req-length">
-                            <span class="check">○</span> At least 8 characters
+                            <span class="check"></span> At least 8 characters
                         </div>
                         <div class="requirement" id="req-uppercase">
-                            <span class="check">○</span> One uppercase letter
+                            <span class="check"></span> One uppercase letter
                         </div>
                         <div class="requirement" id="req-lowercase">
-                            <span class="check">○</span> One lowercase letter
+                            <span class="check"></span> One lowercase letter
                         </div>
                         <div class="requirement" id="req-number">
-                            <span class="check">○</span> One number
+                            <span class="check"></span> One number
                         </div>
                         <div class="requirement" id="req-special">
-                            <span class="check">○</span> One special character
+                            <span class="check"></span> One special character
                         </div>
                     </div>
                 </div>

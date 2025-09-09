@@ -90,17 +90,18 @@ class AuthController extends Controller
             'middle_name' => 'nullable|string|max:255',
             'surname' => 'required|string|max:255',
             'suffix' => 'nullable|string|max:255',
-            'birth_date' => 'required|date|before:today',
+            'birth_month' => 'required|string|max:2',
+            'birth_day' => 'required|string|max:2',
+            'birth_year' => 'required|string|max:4',
             'gender' => 'required|in:male,female',
-            'civil_status' => 'required|in:single,married,widowed,divorced',
-            'birthplace' => 'required|string|max:255',
-            'citizenship' => 'required|in:Filipino,Dual Citizen,Foreigner',
             'account_type' => 'required|in:individual,business',
             'contact_number' => 'required|string|max:20',
-            'application_photo' => 'required|file|mimes:jpg,jpeg,png|max:2048',
             'email' => 'required|string|email|max:255|unique:users',
-            'otp' => 'required|string|size:6',
+            'verification_code' => 'required|string|size:6',
             'password' => 'required|string|min:8|confirmed',
+            'government_id_type' => 'required|string|max:255',
+            'government_id_number' => 'required|string|max:255',
+            'government_id_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -110,57 +111,60 @@ class AuthController extends Controller
         }
 
         // Verify OTP
-        $otpCode = $request->otp;
+        $verificationCode = $request->verification_code;
         $email = $request->email;
         
         if (!session()->has('registration_otp') || 
             !session()->has('registration_email') || 
             !session()->has('registration_otp_expires')) {
             return redirect()->back()
-                ->withErrors(['otp' => 'Please request an OTP first.'])
+                ->withErrors(['verification_code' => 'Please request an OTP first.'])
                 ->withInput();
         }
 
         if (session('registration_email') !== $email) {
             return redirect()->back()
-                ->withErrors(['otp' => 'OTP was sent to a different email address.'])
+                ->withErrors(['verification_code' => 'OTP was sent to a different email address.'])
                 ->withInput();
         }
 
-        if (session('registration_otp') !== $otpCode) {
+        if (session('registration_otp') !== $verificationCode) {
             return redirect()->back()
-                ->withErrors(['otp' => 'Invalid OTP code.'])
+                ->withErrors(['verification_code' => 'Invalid verification code.'])
                 ->withInput();
         }
 
         if (session('registration_otp_expires') < time()) {
             return redirect()->back()
-                ->withErrors(['otp' => 'OTP has expired. Please request a new one.'])
+                ->withErrors(['verification_code' => 'Verification code has expired. Please request a new one.'])
                 ->withInput();
         }
 
-        // Handle application photo upload
-        $applicationPhotoPath = null;
-        if ($request->hasFile('application_photo')) {
-            $file = $request->file('application_photo');
+        // Handle government ID file upload
+        $governmentIdFilePath = null;
+        if ($request->hasFile('government_id_file')) {
+            $file = $request->file('government_id_file');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $applicationPhotoPath = $file->storeAs('application_photos', $fileName, 'public');
+            $governmentIdFilePath = $file->storeAs('government_ids', $fileName, 'public');
         }
+
+        // Create birth date from separate fields
+        $birthDate = $request->birth_year . '-' . $request->birth_month . '-' . $request->birth_day;
 
         $user = User::create([
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,
             'surname' => $request->surname,
             'suffix' => $request->suffix,
-            'birth_date' => $request->birth_date,
+            'birth_date' => $birthDate,
             'gender' => $request->gender,
-            'civil_status' => $request->civil_status,
-            'birthplace' => $request->birthplace,
-            'citizenship' => $request->citizenship,
             'account_type' => $request->account_type,
             'contact_number' => $request->contact_number,
-            'application_photo_path' => $applicationPhotoPath,
+            'government_id_type' => $request->government_id_type,
+            'government_id_number' => $request->government_id_number,
+            'government_id_file_path' => $governmentIdFilePath,
             'email' => $request->email,
+            'is_verified' => true, // Mark as verified since OTP was validated
             'password' => Hash::make($request->password),
         ]);
 

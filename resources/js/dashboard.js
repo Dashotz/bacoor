@@ -259,7 +259,7 @@ async function fetchFullUserData() {
             return;
         }
 
-        const response = await fetch('/api/user-data', {
+        const response = await fetch('/api/v1/user/data', {
             method: 'GET',
             headers: {
                 ...authHeader,

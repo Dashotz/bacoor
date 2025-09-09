@@ -446,8 +446,14 @@ body {
     font-weight: bold;
 }
 
+.check::before {
+    content: "○";
+    color: #d1d5db;
+}
+
 .requirement.valid .check::before {
     content: "✓";
+    color: #059669;
 }
 
 /* Password Match - Remove this since we're not using it anymore */

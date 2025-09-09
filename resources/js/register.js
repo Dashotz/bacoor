@@ -158,7 +158,8 @@ sendOtpBtn.addEventListener('click', function() {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
         body: JSON.stringify({
-            email: email
+            email: email,
+            first_name: document.getElementById('first_name').value || 'User'
         })
     })
     .then(response => response.json())

@@ -30,8 +30,14 @@ class User extends Authenticatable implements JWTSubject
         'citizenship',
         'account_type',
         'contact_number',
+        'government_id_type',
+        'government_id_number',
+        'government_id_file_path',
         'application_photo_path',
         'email',
+        'verification_code',
+        'verification_code_expires_at',
+        'is_verified',
         'password',
     ];
 
@@ -56,6 +62,8 @@ class User extends Authenticatable implements JWTSubject
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'birth_date' => 'date',
+            'verification_code_expires_at' => 'datetime',
+            'is_verified' => 'boolean',
         ];
     }
 

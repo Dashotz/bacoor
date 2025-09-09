@@ -11,6 +11,65 @@ body {
     min-height: 100vh;
     padding: 20px;
     position: relative;
+    overflow-x: hidden;
+}
+
+/* Page Background */
+.page-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    min-height: 100%;
+    z-index: -1;
+    display: flex;
+}
+
+.background-left {
+    width: 50%;
+    height: 100vh;
+    min-height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.background-left::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.background-right {
+    width: 50%;
+    height: 100vh;
+    min-height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.background-right::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.background-image {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    object-fit: cover;
+    object-position: center;
 }
 
 /* Page Header */
@@ -47,8 +106,9 @@ body {
     background: white;
     border-radius: 12px;
     padding: 50px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 /* Header */
@@ -124,17 +184,7 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Progress lines */
-.progress-bar::before {
-    content: '';
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    height: 1px;
-    background: #e5e7eb;
-    z-index: -1;
-}
+/* Progress lines - removed to avoid doubled lines */
 
 /* Section Title */
 .section-title {
@@ -260,6 +310,12 @@ body {
     transition: border-color 0.3s ease;
     width: 100%;
     box-sizing: border-box;
+}
+
+/* Contact number formatting */
+#contact_number {
+    font-family: 'Arial', monospace;
+    letter-spacing: 0.5px;
 }
 
 .form-field input:focus,
@@ -408,7 +464,7 @@ body {
     margin-top: 4px;
 }
 
-/* Password Requirements */
+/* Password Requirements - Desktop */
 .password-requirements {
     margin-top: -20px;
     font-size: 11px;
@@ -418,6 +474,12 @@ body {
     border: 1px solid #e5e7eb;
     max-width: 48.5%;
 }
+
+/* Hide mobile password requirements on desktop */
+.mobile-only {
+    display: none;
+}
+
 
 .requirements-grid {
     display: grid;
@@ -759,12 +821,97 @@ body {
 }
 
 @media (max-width: 480px) {
+    /* Show/hide password requirements based on screen size */
+    .mobile-only {
+        display: block;
+    }
+    
+    .desktop-only {
+        display: none;
+    }
+    
     body {
         padding: 10px;
     }
     
+    .container {
+        padding-top: 20px;
+    }
+    
     .form-container {
         padding: 20px;
+    }
+    
+    /* Reduce spacing between labels and inputs in mobile */
+    .form-field {
+        margin-bottom: 12px;
+    }
+    
+    .form-field label {
+        margin-bottom: 4px;
+    }
+    
+    .form-field input,
+    .form-field select {
+        margin-top: 4px;
+    }
+    
+    
+    /* Mobile password requirements - compact 2 column layout */
+    .password-requirements-mobile {
+        margin-top: 8px;
+        padding: 6px 8px;
+        background: #f8f9fa;
+        border-radius: 6px;
+        border: 1px solid #e9ecef;
+        font-size: 10px;
+        line-height: 1.2;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .mobile-requirements-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3px 6px;
+    }
+    
+    .mobile-requirement {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 0;
+    }
+    
+    .mobile-check {
+        font-size: 10px;
+        min-width: 10px;
+        color: #6b7280;
+        transition: color 0.3s ease;
+    }
+    
+    .mobile-requirement.valid {
+        color: #059669 !important;
+        background-color: #f0fdf4;
+        border-radius: 4px;
+        padding: 2px 4px;
+    }
+    
+    .mobile-requirement.valid .mobile-check {
+        color: #059669;
+    }
+    
+    .mobile-requirement.valid .mobile-check::before {
+        content: "✓";
+        font-weight: bold;
+    }
+    
+    .mobile-requirement:not(.valid) .mobile-check::before {
+        content: "○";
+    }
+    
+    .mobile-requirement:not(.valid) {
+        color: #6b7280;
     }
     
     .section-title {
@@ -786,5 +933,84 @@ body {
     .government-id-fields {
         grid-template-columns: 1fr;
         gap: 12px;
+    }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 360px) {
+    .container {
+        padding-top: 10px;
+    }
+    
+    .form-container {
+        padding: 15px;
+    }
+    
+    .header {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+    }
+    
+    /* Further reduce spacing for very small screens */
+    .form-field {
+        margin-bottom: 10px;
+    }
+    
+    .form-field label {
+        margin-bottom: 3px;
+    }
+    
+    .form-field input,
+    .form-field select {
+        margin-top: 3px;
+    }
+    
+    /* Extra small mobile password requirements - even more compact */
+    .password-requirements-mobile {
+        margin-top: 6px;
+        padding: 4px 6px;
+        background: #f8f9fa;
+        border-radius: 4px;
+        border: 1px solid #e9ecef;
+        font-size: 9px;
+        line-height: 1.1;
+    }
+    
+    .mobile-requirements-grid {
+        gap: 2px 4px;
+    }
+    
+    .mobile-requirement {
+        gap: 3px;
+    }
+    
+    .mobile-check {
+        font-size: 9px;
+        min-width: 9px;
+        transition: color 0.3s ease;
+    }
+    
+    .mobile-requirement.valid {
+        color: #059669 !important;
+        background-color: #f0fdf4;
+        border-radius: 3px;
+        padding: 1px 3px;
+    }
+    
+    .mobile-requirement.valid .mobile-check {
+        color: #059669;
+    }
+    
+    .mobile-requirement.valid .mobile-check::before {
+        content: "✓";
+        font-weight: bold;
+    }
+    
+    .mobile-requirement:not(.valid) .mobile-check::before {
+        content: "○";
+    }
+    
+    .mobile-requirement:not(.valid) {
+        color: #6b7280;
     }
 }

@@ -13,6 +13,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Background Images -->
+    <div class="page-background">
+        <div class="background-left">
+            <img src="/images/background-swirl1.png" alt="Background Swirl 1" class="background-image">
+        </div>
+        <div class="background-right">
+            <img src="/images/background-swirl2.png" alt="Background Swirl 2" class="background-image">
+        </div>
+    </div>
+    
     <div class="container">
         <div class="form-container">
             <!-- Back to Home Link -->
@@ -177,7 +187,7 @@
                     <!-- Contact Information -->
                     <div class="form-field">
                         <label for="contact_number"><span class="required">*</span>Contact Number</label>
-                        <input type="tel" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" placeholder="Enter contact number" required />
+                        <input type="tel" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" placeholder="0912 345 6789" maxlength="13" pattern="[0-9]{4} [0-9]{3} [0-9]{4}" title="Please enter contact number in format: 0912 345 6789" required />
                         @error('contact_number')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
 
@@ -220,8 +230,8 @@
                     </div>
                 </div>
 
-                <!-- Password Requirements -->
-                <div class="password-requirements" id="passwordRequirements">
+                <!-- Password Requirements - Desktop -->
+                <div class="password-requirements desktop-only" id="passwordRequirements">
                     <div class="requirements-grid">
                         <div class="requirement" id="req-length">
                             <span class="check"></span> At least 8 characters
@@ -237,6 +247,27 @@
                         </div>
                         <div class="requirement" id="req-special">
                             <span class="check"></span> One special character
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Password Requirements - Mobile -->
+                <div class="password-requirements-mobile mobile-only" id="passwordRequirementsMobile">
+                    <div class="mobile-requirements-grid">
+                        <div class="mobile-requirement" id="mobile-req-length">
+                            <span class="mobile-check"></span> 8+ chars
+                        </div>
+                        <div class="mobile-requirement" id="mobile-req-uppercase">
+                            <span class="mobile-check"></span> A-Z
+                        </div>
+                        <div class="mobile-requirement" id="mobile-req-lowercase">
+                            <span class="mobile-check"></span> a-z
+                        </div>
+                        <div class="mobile-requirement" id="mobile-req-number">
+                            <span class="mobile-check"></span> 0-9
+                        </div>
+                        <div class="mobile-requirement" id="mobile-req-special">
+                            <span class="mobile-check"></span> !@#
                         </div>
                     </div>
                 </div>

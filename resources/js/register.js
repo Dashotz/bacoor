@@ -1,3 +1,50 @@
+// Contact number validation - only allow numbers and format as 0912 345 6789
+const contactNumberInput = document.getElementById('contact_number');
+if (contactNumberInput) {
+    contactNumberInput.addEventListener('input', function() {
+        // Remove any non-numeric characters
+        let value = this.value.replace(/[^0-9]/g, '');
+        
+        // Limit to 11 digits (0912 345 6789 = 11 digits)
+        if (value.length > 11) {
+            value = value.slice(0, 11);
+        }
+        
+        // Format with spaces: 0912 345 6789
+        if (value.length > 0) {
+            if (value.length <= 4) {
+                this.value = value;
+            } else if (value.length <= 7) {
+                this.value = value.substring(0, 4) + ' ' + value.substring(4);
+            } else {
+                this.value = value.substring(0, 4) + ' ' + value.substring(4, 7) + ' ' + value.substring(7);
+            }
+        } else {
+            this.value = '';
+        }
+    });
+    
+    // Prevent pasting non-numeric content
+    contactNumberInput.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const paste = (e.clipboardData || window.clipboardData).getData('text');
+        const numericOnly = paste.replace(/[^0-9]/g, '').slice(0, 11);
+        
+        // Format the pasted content
+        if (numericOnly.length > 0) {
+            if (numericOnly.length <= 4) {
+                this.value = numericOnly;
+            } else if (numericOnly.length <= 7) {
+                this.value = numericOnly.substring(0, 4) + ' ' + numericOnly.substring(4);
+            } else {
+                this.value = numericOnly.substring(0, 4) + ' ' + numericOnly.substring(4, 7) + ' ' + numericOnly.substring(7);
+            }
+        } else {
+            this.value = '';
+        }
+    });
+}
+
 // Password validation
 const passwordInput = document.getElementById('password');
 const passwordConfirmation = document.getElementById('password_confirmation');
@@ -5,44 +52,64 @@ const passwordConfirmation = document.getElementById('password_confirmation');
 passwordInput.addEventListener('input', function() {
     const password = this.value;
     
-    // Check length
+    // Desktop password requirements
     const lengthReq = document.getElementById('req-length');
+    const upperReq = document.getElementById('req-uppercase');
+    const lowerReq = document.getElementById('req-lowercase');
+    const numberReq = document.getElementById('req-number');
+    const specialReq = document.getElementById('req-special');
+    
+    // Mobile password requirements
+    const mobileLengthReq = document.getElementById('mobile-req-length');
+    const mobileUpperReq = document.getElementById('mobile-req-uppercase');
+    const mobileLowerReq = document.getElementById('mobile-req-lowercase');
+    const mobileNumberReq = document.getElementById('mobile-req-number');
+    const mobileSpecialReq = document.getElementById('mobile-req-special');
+    
+    
+    // Check length
     if (password.length >= 8) {
-        lengthReq.classList.add('valid');
+        if (lengthReq) lengthReq.classList.add('valid');
+        if (mobileLengthReq) mobileLengthReq.classList.add('valid');
     } else {
-        lengthReq.classList.remove('valid');
+        if (lengthReq) lengthReq.classList.remove('valid');
+        if (mobileLengthReq) mobileLengthReq.classList.remove('valid');
     }
     
     // Check uppercase
-    const upperReq = document.getElementById('req-uppercase');
     if (/[A-Z]/.test(password)) {
-        upperReq.classList.add('valid');
+        if (upperReq) upperReq.classList.add('valid');
+        if (mobileUpperReq) mobileUpperReq.classList.add('valid');
     } else {
-        upperReq.classList.remove('valid');
+        if (upperReq) upperReq.classList.remove('valid');
+        if (mobileUpperReq) mobileUpperReq.classList.remove('valid');
     }
     
     // Check lowercase
-    const lowerReq = document.getElementById('req-lowercase');
     if (/[a-z]/.test(password)) {
-        lowerReq.classList.add('valid');
+        if (lowerReq) lowerReq.classList.add('valid');
+        if (mobileLowerReq) mobileLowerReq.classList.add('valid');
     } else {
-        lowerReq.classList.remove('valid');
+        if (lowerReq) lowerReq.classList.remove('valid');
+        if (mobileLowerReq) mobileLowerReq.classList.remove('valid');
     }
     
     // Check number
-    const numberReq = document.getElementById('req-number');
     if (/\d/.test(password)) {
-        numberReq.classList.add('valid');
+        if (numberReq) numberReq.classList.add('valid');
+        if (mobileNumberReq) mobileNumberReq.classList.add('valid');
     } else {
-        numberReq.classList.remove('valid');
+        if (numberReq) numberReq.classList.remove('valid');
+        if (mobileNumberReq) mobileNumberReq.classList.remove('valid');
     }
     
     // Check special character
-    const specialReq = document.getElementById('req-special');
     if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-        specialReq.classList.add('valid');
+        if (specialReq) specialReq.classList.add('valid');
+        if (mobileSpecialReq) mobileSpecialReq.classList.add('valid');
     } else {
-        specialReq.classList.remove('valid');
+        if (specialReq) specialReq.classList.remove('valid');
+        if (mobileSpecialReq) mobileSpecialReq.classList.remove('valid');
     }
     
     // Check password match
@@ -68,46 +135,6 @@ function checkPasswordMatch() {
     }
 }
 
-// Contact number input - only allow 12 digits
-const contactNumberInput = document.getElementById('contact_number');
-contactNumberInput.addEventListener('input', function() {
-    // Remove any non-numeric characters
-    let value = this.value.replace(/[^0-9]/g, '');
-    
-    // Limit to 12 digits
-    if (value.length > 12) {
-        value = value.substring(0, 12);
-    }
-    
-    // Format with spaces: 0912 345 6789
-    if (value.length > 0) {
-        if (value.length <= 4) {
-            this.value = value;
-        } else if (value.length <= 7) {
-            this.value = value.substring(0, 4) + ' ' + value.substring(4);
-        } else {
-            this.value = value.substring(0, 4) + ' ' + value.substring(4, 7) + ' ' + value.substring(7);
-        }
-    } else {
-        this.value = '';
-    }
-});
-
-contactNumberInput.addEventListener('keypress', function(e) {
-    // Allow: backspace, delete, tab, escape, enter, space
-    if ([8, 9, 27, 13, 32].indexOf(e.keyCode) !== -1 ||
-        // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
-        (e.keyCode === 65 && e.ctrlKey === true) ||
-        (e.keyCode === 67 && e.ctrlKey === true) ||
-        (e.keyCode === 86 && e.ctrlKey === true) ||
-        (e.keyCode === 88 && e.ctrlKey === true)) {
-        return;
-    }
-    // Only allow numbers
-    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-        e.preventDefault();
-    }
-});
 
 // File upload display
 const fileInput = document.getElementById('government_id_file');

@@ -1,12 +1,12 @@
 // Password validation
 const passwordInput = document.getElementById('password');
-const requirements = document.querySelectorAll('.requirement');
+const passwordConfirmation = document.getElementById('password_confirmation');
 
 passwordInput.addEventListener('input', function() {
     const password = this.value;
     
     // Check length
-    const lengthReq = document.querySelector('[data-requirement="length"]');
+    const lengthReq = document.getElementById('req-length');
     if (password.length >= 8) {
         lengthReq.classList.add('valid');
     } else {
@@ -14,7 +14,7 @@ passwordInput.addEventListener('input', function() {
     }
     
     // Check uppercase
-    const upperReq = document.querySelector('[data-requirement="uppercase"]');
+    const upperReq = document.getElementById('req-uppercase');
     if (/[A-Z]/.test(password)) {
         upperReq.classList.add('valid');
     } else {
@@ -22,7 +22,7 @@ passwordInput.addEventListener('input', function() {
     }
     
     // Check lowercase
-    const lowerReq = document.querySelector('[data-requirement="lowercase"]');
+    const lowerReq = document.getElementById('req-lowercase');
     if (/[a-z]/.test(password)) {
         lowerReq.classList.add('valid');
     } else {
@@ -30,7 +30,7 @@ passwordInput.addEventListener('input', function() {
     }
     
     // Check number
-    const numberReq = document.querySelector('[data-requirement="number"]');
+    const numberReq = document.getElementById('req-number');
     if (/\d/.test(password)) {
         numberReq.classList.add('valid');
     } else {
@@ -38,29 +38,33 @@ passwordInput.addEventListener('input', function() {
     }
     
     // Check special character
-    const specialReq = document.querySelector('[data-requirement="special"]');
+    const specialReq = document.getElementById('req-special');
     if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
         specialReq.classList.add('valid');
     } else {
         specialReq.classList.remove('valid');
     }
+    
+    // Check password match
+    checkPasswordMatch();
 });
 
 // Password confirmation
-const passwordConfirmation = document.getElementById('password_confirmation');
 passwordConfirmation.addEventListener('input', function() {
+    checkPasswordMatch();
+});
+
+function checkPasswordMatch() {
     const password = passwordInput.value;
-    const confirmation = this.value;
-    
-    // Remove existing validation classes
-    this.classList.remove('valid', 'invalid');
+    const confirmation = passwordConfirmation.value;
+    const passwordMatch = document.getElementById('passwordMatch');
     
     if (confirmation && password === confirmation) {
-        this.classList.add('valid');
-    } else if (confirmation) {
-        this.classList.add('invalid');
+        passwordMatch.classList.add('valid');
+    } else {
+        passwordMatch.classList.remove('valid');
     }
-});
+}
 
 // Contact number input - only allow 12 digits
 const contactNumberInput = document.getElementById('contact_number');
@@ -122,10 +126,11 @@ fileInput.addEventListener('change', function() {
 });
 
 // OTP functionality
-const sendOtpBtn = document.getElementById('send-otp-btn');
+const sendOtpBtn = document.getElementById('sendOtpBtn');
 const emailInput = document.getElementById('email');
-const firstNameInput = document.getElementById('first_name');
+const otpField = document.getElementById('otpField');
 const otpInput = document.getElementById('otp');
+const otpTimer = document.getElementById('otpTimer');
 const otpSuccessModal = document.getElementById('otpSuccessModal');
 const closeOtpModal = document.getElementById('closeOtpModal');
 
@@ -158,21 +163,42 @@ sendOtpBtn.addEventListener('click', function() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            otpSuccessModal.style.display = 'block'; // Show custom modal
+            otpField.style.display = 'block';
+            otpSuccessModal.style.display = 'block';
             this.textContent = 'Resend OTP';
+            startOtpTimer();
         } else {
             alert(data.message || 'Failed to send OTP. Please try again.');
             this.disabled = false;
-            this.textContent = 'Send OTP';
+            this.textContent = 'Verify Email';
         }
     })
     .catch(error => {
         console.error('Error:', error);
         alert('An error occurred. Please try again.');
         this.disabled = false;
-        this.textContent = 'Send OTP';
+        this.textContent = 'Verify Email';
     });
 });
+
+// OTP Timer
+let otpTimerInterval;
+function startOtpTimer() {
+    let timeLeft = 300; // 5 minutes
+    otpTimerInterval = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        otpTimer.textContent = `OTP expires in ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (timeLeft <= 0) {
+            clearInterval(otpTimerInterval);
+            otpTimer.textContent = 'OTP expired. Please request a new one.';
+            sendOtpBtn.disabled = false;
+            sendOtpBtn.textContent = 'Verify Email';
+        }
+        timeLeft--;
+    }, 1000);
+}
 
 closeOtpModal.addEventListener('click', function() {
     otpSuccessModal.style.display = 'none';

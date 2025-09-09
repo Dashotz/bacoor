@@ -22,25 +22,16 @@
         <div class="form-container">
             <!-- Header with Logo and Progress Bar -->
             <div class="header">
-                <div class="logo-section">
-                    <img src="/images/bacoor-logo.png" alt="BACOOR CITY" class="bacoor-logo" />
-                    <span class="app-title">BACOOR CITY EGOV™</span>
-                </div>
-
                 <!-- Progress Bar -->
                 <div class="progress-bar">
-                    <div class="progress-step active">
-                        <div class="step-number">01</div>
-                        <div class="step-title">Applicant info</div>
+                    <div class="progress-step">
+                    </div>
+                    <div class="progress-step center">
+                        <div class="logo-container">
+                            <img src="/images/bacoor-logo.png" alt="LUNGSOD NG BACOOR" class="bacoor-logo" />
+                        </div>
                     </div>
                     <div class="progress-step">
-                        <div class="step-number">02</div>
-                        <div class="step-title">Required Document</div>
-                    </div>
-                    <div class="progress-step">
-                        <div class="step-number">03</div>
-                        <div class="step-title">Payment info</div>
-                        <div class="step-description">Lorem Ipsum is simply</div>
                     </div>
                 </div>
             </div>
@@ -71,15 +62,15 @@
                 </div>
 
                 <div class="intro-text">
-                    You are responsible for the accuracy of the information you provide. Your email address will be used for verification and important communications. All information will be kept confidential and secure. Multiple or fraudulent accounts are strictly prohibited.
+                    By registering, the user confirms the accuracy of the information provided, agrees to verify their account via the email confirmation link, and is responsible for maintaining the confidentiality of their credentials. Multiple or fraudulent accounts are strictly prohibited.
                 </div>
 
                 <div class="required-note">
                     <strong>*All fields required unless noted.</strong>
                 </div>
 
-                <!-- Form Fields in 2-column layout -->
-                <div class="form-grid">
+                <!-- Form Fields in 4-column layout for names -->
+                <div class="form-grid-names">
                     <!-- First Name -->
                     <div class="form-field">
                         <label for="first_name"><span class="required">*</span>First Name</label>
@@ -100,116 +91,161 @@
                         <input type="text" id="surname" name="surname" value="{{ old('surname') }}" placeholder="Enter last name" required />
                         @error('surname')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
-
-                    <!-- Date of Birth -->
+                    
+                    <!-- Suffix -->
                     <div class="form-field">
-                        <label>What's your date of birth?</label>
-                        <div class="date-inputs">
-                            <select id="birth_month" name="birth_month" required>
-                                <option value="">Month</option>
-                                <option value="01" {{ old('birth_month') == '01' ? 'selected' : '' }}>January</option>
-                                <option value="02" {{ old('birth_month') == '02' ? 'selected' : '' }}>February</option>
-                                <option value="03" {{ old('birth_month') == '03' ? 'selected' : '' }}>March</option>
-                                <option value="04" {{ old('birth_month') == '04' ? 'selected' : '' }}>April</option>
-                                <option value="05" {{ old('birth_month') == '05' ? 'selected' : '' }}>May</option>
-                                <option value="06" {{ old('birth_month') == '06' ? 'selected' : '' }}>June</option>
-                                <option value="07" {{ old('birth_month') == '07' ? 'selected' : '' }}>July</option>
-                                <option value="08" {{ old('birth_month') == '08' ? 'selected' : '' }}>August</option>
-                                <option value="09" {{ old('birth_month') == '09' ? 'selected' : '' }}>September</option>
-                                <option value="10" {{ old('birth_month') == '10' ? 'selected' : '' }}>October</option>
-                                <option value="11" {{ old('birth_month') == '11' ? 'selected' : '' }}>November</option>
-                                <option value="12" {{ old('birth_month') == '12' ? 'selected' : '' }}>December</option>
-                            </select>
-                            <select id="birth_day" name="birth_day" required>
-                                <option value="">Date</option>
-                                @for($i = 1; $i <= 31; $i++)
-                                    <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}" {{ old('birth_day') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>{{ $i }}</option>
-                                @endfor
-                            </select>
-                            <select id="birth_year" name="birth_year" required>
-                                <option value="">Year</option>
-                                @for($i = date('Y') - 18; $i >= 1900; $i--)
-                                    <option value="{{ $i }}" {{ old('birth_year') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                @endfor
-                            </select>
+                        <label for="suffix">Suffix</label>
+                        <input type="text" id="suffix" name="suffix" value="{{ old('suffix') }}" placeholder="Jr., Sr., III, etc." />
+                        @error('suffix')<div class="error-message">{{ $message }}</div>@enderror
+                    </div>
+                </div>
+
+                <!-- Date of Birth Section -->
+                <div class="form-field date-section">
+                    <label>What's your date of birth?</label>
+                    <div class="date-inputs">
+                        <select id="birth_month" name="birth_month" required>
+                            <option value="">Month</option>
+                            <option value="01" {{ old('birth_month') == '01' ? 'selected' : '' }}>January</option>
+                            <option value="02" {{ old('birth_month') == '02' ? 'selected' : '' }}>February</option>
+                            <option value="03" {{ old('birth_month') == '03' ? 'selected' : '' }}>March</option>
+                            <option value="04" {{ old('birth_month') == '04' ? 'selected' : '' }}>April</option>
+                            <option value="05" {{ old('birth_month') == '05' ? 'selected' : '' }}>May</option>
+                            <option value="06" {{ old('birth_month') == '06' ? 'selected' : '' }}>June</option>
+                            <option value="07" {{ old('birth_month') == '07' ? 'selected' : '' }}>July</option>
+                            <option value="08" {{ old('birth_month') == '08' ? 'selected' : '' }}>August</option>
+                            <option value="09" {{ old('birth_month') == '09' ? 'selected' : '' }}>September</option>
+                            <option value="10" {{ old('birth_month') == '10' ? 'selected' : '' }}>October</option>
+                            <option value="11" {{ old('birth_month') == '11' ? 'selected' : '' }}>November</option>
+                            <option value="12" {{ old('birth_month') == '12' ? 'selected' : '' }}>December</option>
+                        </select>
+                        <select id="birth_day" name="birth_day" required>
+                            <option value="">Date</option>
+                            @for($i = 1; $i <= 31; $i++)
+                                <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}" {{ old('birth_day') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>{{ $i }}</option>
+                            @endfor
+                        </select>
+                        <select id="birth_year" name="birth_year" required>
+                            <option value="">Year</option>
+                            @for($i = date('Y') - 18; $i >= 1900; $i--)
+                                <option value="{{ $i }}" {{ old('birth_year') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                    @error('birth_date')<div class="error-message">{{ $message }}</div>@enderror
+                </div>
+
+                <!-- Gender Section -->
+                <div class="form-field">
+                    <label>What's your gender?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="gender_female" name="gender" value="female" {{ old('gender') == 'female' ? 'checked' : '' }} required />
+                            <label for="gender_female">Female</label>
                         </div>
-                        @error('birth_date')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
-
-                    <!-- Gender -->
-                    <div class="form-field">
-                        <label>What's your gender?</label>
-                        <div class="radio-group">
-                            <div class="radio-item">
-                                <input type="radio" id="gender_female" name="gender" value="female" {{ old('gender') == 'female' ? 'checked' : '' }} required />
-                                <label for="gender_female">Female</label>
-                            </div>
-                            <div class="radio-item">
-                                <input type="radio" id="gender_male" name="gender" value="male" {{ old('gender') == 'male' ? 'checked' : '' }} required />
-                                <label for="gender_male">Male</label>
-                            </div>
+                        <div class="radio-item">
+                            <input type="radio" id="gender_male" name="gender" value="male" {{ old('gender') == 'male' ? 'checked' : '' }} required />
+                            <label for="gender_male">Male</label>
                         </div>
-                        @error('gender')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
+                    @error('gender')<div class="error-message">{{ $message }}</div>@enderror
+                </div>
 
-                    <!-- Account Ownership -->
-                    <div class="form-field">
-                        <label>Account Ownership:</label>
-                        <div class="radio-group">
-                            <div class="radio-item">
-                                <input type="radio" id="account_individual" name="account_type" value="individual" {{ old('account_type', 'individual') == 'individual' ? 'checked' : '' }} required />
-                                <label for="account_individual">Individual</label>
-                            </div>
-                            <div class="radio-item">
-                                <input type="radio" id="account_business" name="account_type" value="business" {{ old('account_type') == 'business' ? 'checked' : '' }} required />
-                                <label for="account_business">Business</label>
-                            </div>
+                <!-- Account Ownership Section -->
+                <div class="form-field">
+                    <label>Account Ownership:</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="account_individual" name="account_type" value="individual" {{ old('account_type', 'individual') == 'individual' ? 'checked' : '' }} required />
+                            <label for="account_individual">Individual</label>
                         </div>
-                        @error('account_type')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
-
-                    <!-- Contact Number -->
-                    <div class="form-field">
-                        <label for="contact_number"><span class="required">*</span>Contact Number</label>
-                        <input type="tel" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" placeholder="Enter contact number" required />
-                        @error('contact_number')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
-
-                    <!-- Password -->
-                    <div class="form-field">
-                        <label for="password"><span class="required">*</span>Password</label>
-                        <input type="password" id="password" name="password" placeholder="Enter password" required />
-                        @error('password')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
-
-                    <!-- Confirm Password -->
-                    <div class="form-field">
-                        <label for="password_confirmation"><span class="required">*</span>Confirm Password</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm password" required />
-                        @error('password_confirmation')<div class="error-message">{{ $message }}</div>@enderror
-                    </div>
-
-                    <!-- Government ID -->
-                    <div class="form-field">
-                        <label><span class="required">*</span>Government ID</label>
-                        <div class="government-id-fields">
-                            <select id="government_id_type" name="government_id_type" required>
-                                <option value="">ID Type</option>
-                                <option value="Driver's License" {{ old('government_id_type') == "Driver's License" ? 'selected' : '' }}>Driver's License</option>
-                                <option value="Passport" {{ old('government_id_type') == 'Passport' ? 'selected' : '' }}>Passport</option>
-                                <option value="SSS ID" {{ old('government_id_type') == 'SSS ID' ? 'selected' : '' }}>SSS ID</option>
-                                <option value="PhilHealth ID" {{ old('government_id_type') == 'PhilHealth ID' ? 'selected' : '' }}>PhilHealth ID</option>
-                                <option value="TIN ID" {{ old('government_id_type') == 'TIN ID' ? 'selected' : '' }}>TIN ID</option>
-                                <option value="Postal ID" {{ old('government_id_type') == 'Postal ID' ? 'selected' : '' }}>Postal ID</option>
-                                <option value="Voter's ID" {{ old('government_id_type') == "Voter's ID" ? 'selected' : '' }}>Voter's ID</option>
-                                <option value="National ID" {{ old('government_id_type') == 'National ID' ? 'selected' : '' }}>National ID</option>
-                                <option value="Other" {{ old('government_id_type') == 'Other' ? 'selected' : '' }}>Other</option>
-                            </select>
-                            <input type="text" id="government_id_number" name="government_id_number" value="{{ old('government_id_number') }}" placeholder="ID number" required />
+                        <div class="radio-item">
+                            <input type="radio" id="account_business" name="account_type" value="business" {{ old('account_type') == 'business' ? 'checked' : '' }} required />
+                            <label for="account_business">Business</label>
                         </div>
-                        @error('government_id_type')<div class="error-message">{{ $message }}</div>@enderror
-                        @error('government_id_number')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
+                    @error('account_type')<div class="error-message">{{ $message }}</div>@enderror
+                </div>
+
+                <!-- Contact Information -->
+                <div class="form-field">
+                    <label for="contact_number"><span class="required">*</span>Contact Number</label>
+                    <input type="tel" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" placeholder="Enter contact number" required />
+                    @error('contact_number')<div class="error-message">{{ $message }}</div>@enderror
+                </div>
+
+                <!-- Email and OTP Verification -->
+                <div class="form-field">
+                    <label for="email"><span class="required">*</span>Email Address</label>
+                    <div class="email-verification">
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Enter email address" required />
+                        <button type="button" id="sendOtpBtn" class="btn btn-outline">Verify Email</button>
+                    </div>
+                    @error('email')<div class="error-message">{{ $message }}</div>@enderror
+                </div>
+
+                <!-- OTP Input -->
+                <div class="form-field" id="otpField" style="display: none;">
+                    <label for="otp"><span class="required">*</span>Enter OTP</label>
+                    <input type="text" id="otp" name="otp" placeholder="Enter 6-digit OTP" maxlength="6" />
+                    <div class="otp-timer" id="otpTimer"></div>
+                    @error('otp')<div class="error-message">{{ $message }}</div>@enderror
+                </div>
+
+                <!-- Password Section -->
+                <div class="form-field">
+                    <label for="password"><span class="required">*</span>Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required />
+                    <div class="password-requirements" id="passwordRequirements">
+                        <div class="requirement" id="req-length">
+                            <span class="check">○</span> At least 8 characters
+                        </div>
+                        <div class="requirement" id="req-uppercase">
+                            <span class="check">○</span> One uppercase letter
+                        </div>
+                        <div class="requirement" id="req-lowercase">
+                            <span class="check">○</span> One lowercase letter
+                        </div>
+                        <div class="requirement" id="req-number">
+                            <span class="check">○</span> One number
+                        </div>
+                        <div class="requirement" id="req-special">
+                            <span class="check">○</span> One special character
+                        </div>
+                    </div>
+                    @error('password')<div class="error-message">{{ $message }}</div>@enderror
+                </div>
+
+                <!-- Confirm Password Section -->
+                <div class="form-field">
+                    <label for="password_confirmation"><span class="required">*</span>Confirm Password</label>
+                    <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm password" required />
+                    <div class="password-match" id="passwordMatch">
+                        <span class="check">○</span> Passwords match
+                    </div>
+                    @error('password_confirmation')<div class="error-message">{{ $message }}</div>@enderror
+                </div>
+
+                <!-- Government ID Section -->
+                <div class="form-field">
+                    <label><span class="required">*</span>Government ID</label>
+                    <div class="government-id-fields">
+                        <select id="government_id_type" name="government_id_type" required>
+                            <option value="">ID Type</option>
+                            <option value="Driver's License" {{ old('government_id_type') == "Driver's License" ? 'selected' : '' }}>Driver's License</option>
+                            <option value="Passport" {{ old('government_id_type') == 'Passport' ? 'selected' : '' }}>Passport</option>
+                            <option value="SSS ID" {{ old('government_id_type') == 'SSS ID' ? 'selected' : '' }}>SSS ID</option>
+                            <option value="PhilHealth ID" {{ old('government_id_type') == 'PhilHealth ID' ? 'selected' : '' }}>PhilHealth ID</option>
+                            <option value="TIN ID" {{ old('government_id_type') == 'TIN ID' ? 'selected' : '' }}>TIN ID</option>
+                            <option value="Postal ID" {{ old('government_id_type') == 'Postal ID' ? 'selected' : '' }}>Postal ID</option>
+                            <option value="Voter's ID" {{ old('government_id_type') == "Voter's ID" ? 'selected' : '' }}>Voter's ID</option>
+                            <option value="National ID" {{ old('government_id_type') == 'National ID' ? 'selected' : '' }}>National ID</option>
+                            <option value="Other" {{ old('government_id_type') == 'Other' ? 'selected' : '' }}>Other</option>
+                        </select>
+                        <input type="text" id="government_id_number" name="government_id_number" value="{{ old('government_id_number') }}" placeholder="ID number" required />
+                    </div>
+                    @error('government_id_type')<div class="error-message">{{ $message }}</div>@enderror
+                    @error('government_id_number')<div class="error-message">{{ $message }}</div>@enderror
                 </div>
 
                 <!-- Section 2: Terms and Regulation -->
@@ -225,7 +261,7 @@
                 <!-- Navigation Buttons -->
                 <div class="button-group">
                     <button type="button" class="btn btn-secondary" id="backBtn">
-                        <span class="back-arrow">←</span> Back
+                        <span class="back-arrow">←</span> BACK
                     </button>
                     <button type="submit" class="btn btn-primary">Next</button>
                 </div>

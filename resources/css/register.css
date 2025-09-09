@@ -509,8 +509,70 @@ body {
     background: #4338ca;
 }
 
+/* Submit Button Container */
+.submit-button-container {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+/* Submit Button */
+.btn-submit {
+    background: #f4b400; /* Yellowish theme color */
+    color: #1a365d; /* Dark blue text for contrast */
+    border: none;
+    padding: 14px 40px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(244, 180, 0, 0.3);
+    min-width: 120px;
+}
+
+.btn-submit:hover {
+    background: #e6a200; /* Darker yellow on hover */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(244, 180, 0, 0.4);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(244, 180, 0, 0.3);
+}
+
+/* Back to Home Link */
+.back-to-home {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    color: #4f46e5;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: #3730a3;
+    text-decoration: none;
+}
+
 .back-arrow {
     margin-right: 8px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.back-text {
+    font-size: 14px;
 }
 
 /* Footer */

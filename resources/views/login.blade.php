@@ -82,7 +82,7 @@
                                 <input type="checkbox" id="remember_me" name="remember" />
                                 <span>Remember me</span>
                             </label>
-                            <a class="forgot-link" href="/forgot-password">Forgot Password?</a>
+                            <a class="forgot-link" href="/password/forgot">Forgot Password?</a>
                         </div>
 
                         <!-- reCAPTCHA -->

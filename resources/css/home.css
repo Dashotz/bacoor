@@ -363,29 +363,35 @@
     z-index: 1000;
 }
 
-.back-link {
+/* Back to Login Container */
+.back-to-login-container {
+    margin: 8px 0 0 0;
+    text-align: left;
+}
+
+.back-to-login-container .back-link {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: white;
+    color: #4f46e5;
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
     transition: color 0.3s ease;
 }
 
-.back-link:hover {
-    color: white;
+.back-to-login-container .back-link:hover {
+    color: #3730a3;
     text-decoration: none;
 }
 
-.back-arrow {
+.back-to-login-container .back-arrow {
     font-size: 16px;
     font-weight: bold;
 }
 
-.back-text {
-    display: none; /* Hide text for minimalist look */
+.back-to-login-container .back-text {
+    display: inline; /* Show text for forgot password page */
 }
 
 /* New Login Page Styles */

@@ -14,15 +14,14 @@
 </head>
 <body>
     <div class="container">
-        <!-- Back to Home Link -->
-        <div class="back-to-home">
-            <a href="/" class="back-link">
-                <span class="back-arrow">←</span>
-                <span class="back-text">Back to home</span>
-            </a>
-        </div>
-        
         <div class="form-container">
+            <!-- Back to Home Link -->
+            <div class="back-to-home">
+                <a href="/" class="back-link">
+                    <span class="back-arrow">←</span>
+                    <span class="back-text">Back to home</span>
+                </a>
+            </div>
             <!-- Header with Logo and Progress Bar -->
             <div class="header">
                 <!-- Progress Bar -->
@@ -281,12 +280,9 @@
                     <p>I consent to the processing, profiling, and disclosure of my Personal Data as defined under the Data Privacy Act of 2012, including customer, account, and transaction information held by the City Government of Bacoor. I understand that this information may be shared with requesting parties, used in legal proceedings, audits, investigations, or other official inquiries. This consent applies regardless of any non-disclosure agreements and may extend to jurisdictions with less stringent data privacy laws.</p>
                 </div>
 
-                <!-- Navigation Buttons -->
-                <div class="button-group">
-                    <button type="button" class="btn btn-secondary" id="backBtn">
-                        <span class="back-arrow">←</span> BACK
-                    </button>
-                    <button type="submit" class="btn btn-primary">Next</button>
+                <!-- Submit Button -->
+                <div class="submit-button-container">
+                    <button type="submit" class="btn btn-submit">Submit</button>
                 </div>
 
                 <div class="footer">

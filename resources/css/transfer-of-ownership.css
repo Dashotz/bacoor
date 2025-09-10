@@ -300,16 +300,8 @@ body {
     text-decoration: underline;
 }
 
-.status-link {
-    color: #0a3b7a;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-}
 
-.status-link:hover {
-    text-decoration: underline;
-}
+
 
 /* Status Card Styles */
 .status-card {

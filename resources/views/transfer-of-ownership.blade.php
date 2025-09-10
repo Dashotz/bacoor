@@ -174,8 +174,7 @@
 
                         <!-- Additional Links -->
                         <div class="additional-links">
-                            <p class="signup-link">Need to login? <a href="/login" class="link-bold">SIGN IN HERE</a></p>
-                            <a href="/register" class="status-link">Create New Account</a>
+                            <p class="signup-link">No application yet? <a href="/login" class="link-bold">APPLY HERE!</a></p>
                         </div>
                     </div>
                 @endif

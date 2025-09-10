@@ -56,7 +56,7 @@
     @yield('content')
 
     <!-- External JavaScript -->
-    @vite(['resources/js/app.js'])
+    @vite(['resources/js/core/app.js'])
     @stack('scripts-bottom')
 </body>
 </html>

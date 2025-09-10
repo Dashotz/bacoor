@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Transfer of Ownership - City Government of Bacoor</title>
-    @vite(['resources/css/transfer-of-ownership.css', 'resources/js/transfer-of-ownership.js', 'resources/js/jwt-auth.js'])
+    @vite(['resources/css/pages/transfer-of-ownership.css', 'resources/js/pages/transfer-of-ownership.js', 'resources/js/core/jwt-auth.js'])
     
     <script>
         // Pass session data to JavaScript

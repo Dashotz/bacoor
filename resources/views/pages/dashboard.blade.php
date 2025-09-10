@@ -3,7 +3,7 @@
 @section('title', 'Bacoor Dashboard')
 
 @push('styles')
-    @vite(['resources/css/dashboard.css'])
+    @vite(['resources/css/pages/dashboard.css'])
 @endpush
 
 @push('meta')
@@ -210,7 +210,7 @@
 @endsection
 
 @push('scripts')
-    @vite(['resources/js/dashboard.js', 'resources/js/jwt-auth.js'])
+    @vite(['resources/js/pages/dashboard.js', 'resources/js/core/jwt-auth.js'])
     
     <script>
         // Pass session data to JavaScript

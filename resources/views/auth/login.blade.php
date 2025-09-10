@@ -3,7 +3,7 @@
 @section('title', 'Log In - City Government of Bacoor')
 
 @push('styles')
-    @vite(['resources/css/home.css'])
+    @vite(['resources/css/auth/home.css'])
 @endpush
 
 @push('scripts')
@@ -97,7 +97,6 @@
                     <!-- Additional Links -->
                     <div class="additional-links">
                         <p class="signup-link">New User? <a href="/register" class="link-bold">SIGN UP HERE</a></p>
-                        <a href="/transfer-of-ownership" class="status-link">Transfer of Ownership</a>
                     </div>
                 </div>
             </div>
@@ -106,5 +105,5 @@
 @endsection
 
 @push('scripts')
-    @vite(['resources/js/home.js', 'resources/js/jwt-auth.js', 'resources/js/login.js'])
+    @vite(['resources/js/auth/home.js', 'resources/js/core/jwt-auth.js', 'resources/js/auth/login.js'])
 @endpush

@@ -19,17 +19,17 @@ use App\Http\Controllers\ApplicationStatusController;
 
 // Public Routes
 Route::get('/', function () {
-    return view('landing');
+    return view('pages.landing');
 })->name('home');
 
 Route::get('/login', function () {
-    return view('login');
+    return view('auth.login');
 })->name('login.form');
 
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'webLogin'])->name('login.submit');
 
 Route::get('/register', function () {
-    return view('register');
+    return view('auth.register');
 })->name('register.form');
 
 // Authentication Routes
@@ -55,7 +55,7 @@ Route::prefix('otp')->group(function () {
 // Protected Routes
 Route::middleware(['jwt.web', 'otp.verified'])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('pages.dashboard');
     })->name('dashboard');
 });
 

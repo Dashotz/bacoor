@@ -19,7 +19,7 @@ class ForgotPasswordController extends Controller
      */
     public function show()
     {
-        return view('forgot-password');
+        return view('auth.forgot-password');
     }
 
     /**
@@ -103,7 +103,7 @@ class ForgotPasswordController extends Controller
             return redirect('/forgot-password')->with('error', 'Reset link has expired or is invalid.');
         }
 
-        return view('reset-password', compact('token', 'email'));
+        return view('auth.reset-password', compact('token', 'email'));
     }
 
     /**

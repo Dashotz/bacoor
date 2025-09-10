@@ -26,29 +26,29 @@ return [
 
     'pages' => [
         'login' => [
-            'styles' => ['resources/css/home.css'],
-            'scripts' => ['resources/js/home.js', 'resources/js/jwt-auth.js', 'resources/js/login.js'],
+            'styles' => ['resources/css/auth/home.css'],
+            'scripts' => ['resources/js/auth/home.js', 'resources/js/core/jwt-auth.js', 'resources/js/auth/login.js'],
             'external_scripts' => ['recaptcha'],
         ],
         
         'register' => [
-            'styles' => ['resources/css/register.css'],
-            'scripts' => ['resources/js/jwt-auth.js', 'resources/js/register.js'],
+            'styles' => ['resources/css/auth/register.css'],
+            'scripts' => ['resources/js/core/jwt-auth.js', 'resources/js/auth/register.js'],
         ],
         
         'dashboard' => [
-            'styles' => ['resources/css/dashboard.css'],
-            'scripts' => ['resources/js/dashboard.js', 'resources/js/jwt-auth.js'],
+            'styles' => ['resources/css/pages/dashboard.css'],
+            'scripts' => ['resources/js/pages/dashboard.js', 'resources/js/core/jwt-auth.js'],
         ],
         
         'landing' => [
-            'styles' => ['resources/css/landing.css'],
-            'scripts' => ['resources/js/landing.js'],
+            'styles' => ['resources/css/pages/landing.css'],
+            'scripts' => ['resources/js/pages/landing.js'],
         ],
         
         'otp' => [
-            'styles' => ['resources/css/otp.css'],
-            'scripts' => ['resources/js/otp.js'],
+            'styles' => ['resources/css/auth/otp.css'],
+            'scripts' => ['resources/js/auth/otp.js'],
         ],
         
     ],

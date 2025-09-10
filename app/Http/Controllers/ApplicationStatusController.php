@@ -12,7 +12,7 @@ class ApplicationStatusController extends Controller
      */
     public function show()
     {
-        return view('transfer-of-ownership');
+        return view('pages.transfer-of-ownership');
     }
 
     /**
@@ -48,7 +48,7 @@ class ApplicationStatusController extends Controller
         $applicationStatus = $this->getApplicationStatus($tctNumber, $taxDeclarationNumber, $ownerNumber);
 
         if ($applicationStatus) {
-            return view('transfer-of-ownership', [
+            return view('pages.transfer-of-ownership', [
                 'status' => $applicationStatus,
                 'search_criteria' => [
                     'tct_number' => $tctNumber,

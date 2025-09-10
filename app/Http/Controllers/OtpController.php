@@ -17,7 +17,7 @@ class OtpController extends Controller
     {
         // Don't require JWT authentication here - the frontend will send it
         // when making OTP verification requests
-        return view('otp');
+        return view('auth.otp');
     }
 
     public function generate(Request $request)

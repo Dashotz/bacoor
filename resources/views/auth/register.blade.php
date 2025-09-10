@@ -7,7 +7,7 @@
     <title>Register - City Government of Bacoor</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="login-route" content="{{ route('login.form') }}">
-    @vite(['resources/css/app.css', 'resources/css/register.css', 'resources/js/app.js', 'resources/js/jwt-auth.js', 'resources/js/register.js'])
+    @vite(['resources/css/app.css', 'resources/css/auth/register.css', 'resources/js/core/app.js', 'resources/js/core/jwt-auth.js', 'resources/js/auth/register.js'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">

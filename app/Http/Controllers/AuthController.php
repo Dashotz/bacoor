@@ -180,12 +180,15 @@ class AuthController extends Controller
      */
     public function webLogin(Request $request)
     {
+        \Log::info('Web login attempt', ['email' => $request->email]);
+        
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|string|min:8',
         ]);
 
         if ($validator->fails()) {
+            \Log::info('Validation failed', $validator->errors()->toArray());
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
@@ -195,11 +198,13 @@ class AuthController extends Controller
 
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
+                \Log::info('Invalid credentials for email: ' . $request->email);
                 return redirect()->back()
                     ->withErrors(['email' => 'Invalid credentials'])
                     ->withInput();
             }
         } catch (JWTException $e) {
+            \Log::error('JWT Exception: ' . $e->getMessage());
             return redirect()->back()
                 ->withErrors(['email' => 'Could not create token'])
                 ->withInput();
@@ -211,6 +216,8 @@ class AuthController extends Controller
             'jwt_token' => $token,
             'jwt_user' => $user->toArray()
         ]);
+
+        \Log::info('Login successful', ['user_id' => $user->id, 'token' => substr($token, 0, 20) . '...']);
 
         return redirect()->route('dashboard')
             ->with('success', 'Login successful!');

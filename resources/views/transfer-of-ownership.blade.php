@@ -37,7 +37,7 @@
     <div class="login-container">
         <!-- Back to Dashboard Link -->
         <div class="back-to-home">
-            <a href="/dashboard" class="back-link">
+            <a href="/dashboard?token={{ request('token') }}" class="back-link">
                 <span class="back-arrow">←</span>
                 <span class="back-text">Back to dashboard</span>
             </a>

@@ -3,7 +3,23 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Check if user is authenticated with JWT
     setTimeout(() => {
+        console.log('Transfer of Ownership page loaded');
+        console.log('Session Data:', window.sessionData);
+        console.log('JWT Auth available:', !!window.jwtAuth);
+        console.log('JWT Auth authenticated:', window.jwtAuth ? window.jwtAuth.isAuthenticated() : 'N/A');
+        
+        // Check if we have a token in the URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const tokenFromUrl = urlParams.get('token');
+        
+        if (tokenFromUrl && window.jwtAuth) {
+            console.log('Token found in URL, storing in session');
+            // Store the token in session for future requests
+            window.jwtAuth.setAuth(tokenFromUrl, window.jwtAuth.user);
+        }
+        
         if (!window.jwtAuth || !window.jwtAuth.isAuthenticated()) {
+            console.log('User not authenticated, redirecting to home');
             window.location.href = '/';
             return;
         }

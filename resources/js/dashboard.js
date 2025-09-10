@@ -423,7 +423,9 @@ function handleServiceSelection(card, serviceIndex) {
         // Check if JWT is available and user is authenticated
         if (window.jwtAuth && window.jwtAuth.isAuthenticated()) {
             console.log('User authenticated, redirecting to transfer of ownership page');
-            window.location.href = '/transfer-of-ownership';
+            // Pass JWT token in URL query parameter
+            const token = window.jwtAuth.token;
+            window.location.href = `/transfer-of-ownership?token=${encodeURIComponent(token)}`;
             return;
         }
         
@@ -432,7 +434,9 @@ function handleServiceSelection(card, serviceIndex) {
         setTimeout(() => {
             if (window.jwtAuth && window.jwtAuth.isAuthenticated()) {
                 console.log('User authenticated after wait, redirecting to transfer of ownership page');
-                window.location.href = '/transfer-of-ownership';
+                // Pass JWT token in URL query parameter
+                const token = window.jwtAuth.token;
+                window.location.href = `/transfer-of-ownership?token=${encodeURIComponent(token)}`;
             } else {
                 console.log('User not authenticated, redirecting to home');
                 window.location.href = '/';

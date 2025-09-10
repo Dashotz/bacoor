@@ -25,6 +25,8 @@ export default defineConfig({
                 'resources/js/pages/landing.js',
                 'resources/css/pages/transfer-of-ownership.css',
                 'resources/js/pages/transfer-of-ownership.js',
+                'resources/css/pages/transfer-apply.css',
+                'resources/js/pages/transfer-apply.js',
             ],
             refresh: true,
         }),

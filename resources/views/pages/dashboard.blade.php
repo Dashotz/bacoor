@@ -78,7 +78,7 @@
                 </div>
                 
                 <div class="services-grid">
-                    <!-- Service 1: Transfer Of Ownership -->
+                    <!-- Service 1: Transfer Of Ownership Application -->
                     <div class="service-card highlighted">
                         <div class="service-icon">
                             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

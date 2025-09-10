@@ -174,7 +174,7 @@
 
                         <!-- Additional Links -->
                         <div class="additional-links">
-                            <p class="signup-link">No application yet? <a href="/login" class="link-bold">APPLY HERE!</a></p>
+                            <p class="signup-link">No application yet? <a href="/transfer-apply/step1?token={{ request('token') }}" class="link-bold">APPLY HERE!</a></p>
                         </div>
                     </div>
                 @endif

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ApplicationStatusController;
+use App\Http\Controllers\TransferApplyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,18 @@ Route::middleware(['jwt.web'])->prefix('transfer-of-ownership')->group(function 
 Route::prefix('application-status')->group(function () {
     Route::get('/', [ApplicationStatusController::class, 'show'])->name('application-status.show');
     Route::post('/verify', [ApplicationStatusController::class, 'verify'])->name('application-status.verify');
+});
+
+// Transfer Apply Routes
+Route::middleware(['jwt.web'])->prefix('transfer-apply')->group(function () {
+    Route::get('/step1', [TransferApplyController::class, 'showStep1'])->name('transfer-apply.step1');
+    Route::post('/step1', [TransferApplyController::class, 'submitStep1'])->name('transfer-apply.step1.submit');
+    Route::get('/step2', [TransferApplyController::class, 'showStep2'])->name('transfer-apply.step2');
+    Route::post('/step2', [TransferApplyController::class, 'submitStep2'])->name('transfer-apply.step2.submit');
+    Route::get('/step3', [TransferApplyController::class, 'showStep3'])->name('transfer-apply.step3');
+    Route::post('/step3', [TransferApplyController::class, 'submitStep3'])->name('transfer-apply.step3.submit');
+    Route::get('/status', [TransferApplyController::class, 'getApplicationStatus'])->name('transfer-apply.status');
+    Route::post('/cancel', [TransferApplyController::class, 'cancelApplication'])->name('transfer-apply.cancel');
 });
 
 

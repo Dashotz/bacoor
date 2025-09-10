@@ -445,6 +445,7 @@ function handleServiceSelection(card, serviceIndex) {
         return;
     }
     
+    
     // Simulate processing time for other services
     setTimeout(() => {
         // Remove loading state

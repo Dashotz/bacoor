@@ -47,7 +47,8 @@
                 <div class="login-form-container">
                     <h2 class="signin-title">Sign in</h2>
                     
-                    <form id="login">
+                    <form id="login" method="POST" action="{{ route('login.submit') }}">
+                        @csrf
                         
                         @if ($errors->has('email'))
                         <div class="form-field" role="alert">
@@ -96,7 +97,7 @@
                     <!-- Additional Links -->
                     <div class="additional-links">
                         <p class="signup-link">New User? <a href="/register" class="link-bold">SIGN UP HERE</a></p>
-                        <a href="/application-status" class="status-link">Check My Application Status</a>
+                        <a href="/transfer-of-ownership" class="status-link">Transfer of Ownership</a>
                     </div>
                 </div>
             </div>

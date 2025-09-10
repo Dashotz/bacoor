@@ -1,24 +1,44 @@
 // JWT Authentication Handler
 class JWTAuth {
     constructor() {
-        this.token = localStorage.getItem('jwt_token');
-        const userData = localStorage.getItem('jwt_user');
-        
-        // Clear invalid data
-        if (userData === 'undefined' || userData === 'null') {
-            localStorage.removeItem('jwt_user');
-            this.user = null;
-        } else {
-            try {
-                this.user = userData ? JSON.parse(userData) : null;
-            } catch (e) {
-                console.error('Error parsing user data:', e);
-                localStorage.removeItem('jwt_user');
-                this.user = null;
-            }
-        }
+        // Try to get JWT data from session first, then localStorage
+        this.token = this.getJWTToken();
+        this.user = this.getJWTUser();
         
         this.setupEventListeners();
+    }
+
+    // Get JWT token from session or localStorage
+    getJWTToken() {
+        // Check if we have session data (from server-side login)
+        if (window.sessionData && window.sessionData.jwt_token) {
+            return window.sessionData.jwt_token;
+        }
+        // Fallback to localStorage
+        return localStorage.getItem('jwt_token');
+    }
+
+    // Get JWT user from session or localStorage
+    getJWTUser() {
+        // Check if we have session data (from server-side login)
+        if (window.sessionData && window.sessionData.jwt_user) {
+            return window.sessionData.jwt_user;
+        }
+        
+        // Fallback to localStorage
+        const userData = localStorage.getItem('jwt_user');
+        if (userData === 'undefined' || userData === 'null') {
+            localStorage.removeItem('jwt_user');
+            return null;
+        }
+        
+        try {
+            return userData ? JSON.parse(userData) : null;
+        } catch (e) {
+            console.error('Error parsing user data:', e);
+            localStorage.removeItem('jwt_user');
+            return null;
+        }
     }
 
     // Store JWT token and user data

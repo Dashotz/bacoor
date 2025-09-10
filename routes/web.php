@@ -26,6 +26,8 @@ Route::get('/login', function () {
     return view('login');
 })->name('login.form');
 
+Route::post('/login', [App\Http\Controllers\AuthController::class, 'webLogin'])->name('login.submit');
+
 Route::get('/register', function () {
     return view('register');
 })->name('register.form');
@@ -57,7 +59,13 @@ Route::middleware(['jwt.web', 'otp.verified'])->group(function () {
     })->name('dashboard');
 });
 
-// Application Status Routes
+// Transfer of Ownership Routes
+Route::middleware(['jwt.web'])->prefix('transfer-of-ownership')->group(function () {
+    Route::get('/', [ApplicationStatusController::class, 'show'])->name('transfer-of-ownership.show');
+    Route::post('/submit', [ApplicationStatusController::class, 'submitTransfer'])->name('transfer-of-ownership.submit');
+});
+
+// Application Status Routes (for backward compatibility)
 Route::prefix('application-status')->group(function () {
     Route::get('/', [ApplicationStatusController::class, 'show'])->name('application-status.show');
     Route::post('/verify', [ApplicationStatusController::class, 'verify'])->name('application-status.verify');

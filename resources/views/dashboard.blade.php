@@ -211,4 +211,12 @@
 
 @push('scripts')
     @vite(['resources/js/dashboard.js', 'resources/js/jwt-auth.js'])
+    
+    <script>
+        // Pass session data to JavaScript
+        window.sessionData = {
+            jwt_token: '{{ session('jwt_token') }}',
+            jwt_user: @json(session('jwt_user'))
+        };
+    </script>
 @endpush

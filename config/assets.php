@@ -51,9 +51,5 @@ return [
             'scripts' => ['resources/js/otp.js'],
         ],
         
-        'application-status' => [
-            'styles' => ['resources/css/application-status.css'],
-            'scripts' => ['resources/js/application-status.js'],
-        ],
     ],
 ];

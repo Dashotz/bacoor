@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Transfer of Ownership - BACOOR CITY EGOV™</title>
-    <link rel="stylesheet" href="{{ asset('css/transfer-of-ownership.css') }}">
+    <title>Transfer of Ownership - City Government of Bacoor</title>
+    @vite(['resources/css/transfer-of-ownership.css', 'resources/js/transfer-of-ownership.js', 'resources/js/jwt-auth.js'])
+    
+    <script>
+        // Pass session data to JavaScript
+        window.sessionData = {
+            jwt_token: '{{ session('jwt_token') }}',
+            jwt_user: @json(session('jwt_user'))
+        };
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#0a3b7a" />
 </head>
@@ -26,202 +34,153 @@
         @endif
     </div>
 
-    <div class="transfer-container">
-        <!-- Header -->
-        <div class="transfer-header">
-            <div class="header-left">
-                <div class="logo-container">
-                    <img src="/images/bacoor-logo.png" alt="Bacoor City Logo" class="city-logo">
-                    <span class="city-title">BACOOR CITY EGOV™</span>
-                </div>
-            </div>
-            <div class="header-right">
-                <div class="progress-bar">
-                    <div class="progress-step active">
-                        <span class="step-number">01</span>
-                        <span class="step-label">Applicant info</span>
-                    </div>
-                    <div class="progress-step">
-                        <span class="step-number">02</span>
-                        <span class="step-label">Required Document</span>
-                    </div>
-                    <div class="progress-step">
-                        <span class="step-number">03</span>
-                        <span class="step-label">Payment info</span>
-                        <span class="step-description">Lorem Ipsum is simply</span>
-                    </div>
-                </div>
+    <div class="login-container">
+        <!-- Back to Dashboard Link -->
+        <div class="back-to-home">
+            <a href="/dashboard" class="back-link">
+                <span class="back-arrow">←</span>
+                <span class="back-text">Back to dashboard</span>
+            </a>
+        </div>
+
+        <!-- Left Panel - Dark Blue -->
+        <div class="login-left-panel">
+            <div class="placeholder-content">
+                <h2>INSERT IMAGES</h2>
+                <p>(BRB)</p>
             </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="transfer-content">
-            <form id="transfer-form" method="POST" action="{{ route('transfer-of-ownership.submit') }}">
-                @csrf
-                
-                <!-- Basic Info Section -->
-                <div class="form-section">
-                    <div class="section-header">
-                        <div class="section-number">1</div>
-                        <h2 class="section-title">Basic info</h2>
+        <!-- Right Panel - White with Form -->
+        <div class="login-right-panel">
+            <div class="login-content">
+                <!-- Header -->
+                <div class="login-header">
+                    <h3 class="welcome-text">WELCOME TO THE</h3>
+                    <h1 class="city-name">CITY OF <span class="bacoor-highlight">BACOOR</span></h1>
+                    
+                    <!-- Bacoor Logo/Seal -->
+                    <div class="bacoor-seal">
+                        <img src="/images/bacoor-logo.png" alt="Bacoor Seal" class="seal-image" />
                     </div>
-                    <p class="section-description">
-                        By registering, the user confirms the accuracy of the information provided, agrees to verify their account via the email confirmation link, and is responsible for maintaining the confidentiality of their credentials. Multiple or fraudulent accounts are strictly prohibited.
-                    </p>
-                    <p class="required-note">*All fields required unless noted.</p>
+                </div>
 
-                    <!-- Account Details -->
-                    <div class="subsection">
-                        <h3 class="subsection-title">Account Details</h3>
-                        <div class="form-group">
-                            <label for="email" class="form-label required">Verified Email Address</label>
-                            <input type="email" id="email" name="email" class="form-input" value="{{ old('email', 'hsoscano@gmail.com') }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password" class="form-label required">Password</label>
-                            <input type="password" id="password" name="password" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password_confirmation" class="form-label required">Confirm Password</label>
-                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-input" required>
-                        </div>
-                    </div>
-
-                    <!-- Application Info -->
-                    <div class="subsection">
-                        <h3 class="subsection-title">Application Info</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="first_name" class="form-label required">First Name</label>
-                                <input type="text" id="first_name" name="first_name" class="form-input" value="{{ old('first_name') }}" required>
+                @if(isset($status))
+                    <!-- Status Results -->
+                    <div class="login-form-container">
+                        <h2 class="signin-title">Application Status</h2>
+                        
+                        <div class="status-card">
+                            <div class="status-header">
+                                <h3>Application #{{ $status['application_id'] }}</h3>
+                                <span class="status-badge status-{{ strtolower(str_replace(' ', '-', $status['status'])) }}">
+                                    {{ $status['status'] }}
+                                </span>
                             </div>
-                            <div class="form-group">
-                                <label for="middle_name" class="form-label">Middle Name</label>
-                                <input type="text" id="middle_name" name="middle_name" class="form-input" value="{{ old('middle_name') }}">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="last_name" class="form-label required">Last Name</label>
-                                <input type="text" id="last_name" name="last_name" class="form-input" value="{{ old('last_name') }}" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="suffix" class="form-label">Suffix</label>
-                                <select id="suffix" name="suffix" class="form-select">
-                                    <option value="">Select Suffix</option>
-                                    <option value="Jr." {{ old('suffix') == 'Jr.' ? 'selected' : '' }}>Jr.</option>
-                                    <option value="Sr." {{ old('suffix') == 'Sr.' ? 'selected' : '' }}>Sr.</option>
-                                    <option value="II" {{ old('suffix') == 'II' ? 'selected' : '' }}>II</option>
-                                    <option value="III" {{ old('suffix') == 'III' ? 'selected' : '' }}>III</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">What's your gender?</label>
-                            <div class="radio-group">
-                                <label class="radio-label">
-                                    <input type="radio" name="gender" value="female" {{ old('gender') == 'female' ? 'checked' : '' }}>
-                                    <span class="radio-custom"></span>
-                                    Female
-                                </label>
-                                <label class="radio-label">
-                                    <input type="radio" name="gender" value="male" {{ old('gender') == 'male' ? 'checked' : '' }}>
-                                    <span class="radio-custom"></span>
-                                    Male
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="civil_status" class="form-label required">Civil Status</label>
-                            <select id="civil_status" name="civil_status" class="form-select" required>
-                                <option value="">Select Civil Status</option>
-                                <option value="single" {{ old('civil_status') == 'single' ? 'selected' : '' }}>Single</option>
-                                <option value="married" {{ old('civil_status') == 'married' ? 'selected' : '' }}>Married</option>
-                                <option value="widowed" {{ old('civil_status') == 'widowed' ? 'selected' : '' }}>Widowed</option>
-                                <option value="divorced" {{ old('civil_status') == 'divorced' ? 'selected' : '' }}>Divorced</option>
-                            </select>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="birth_date" class="form-label required">Birth date</label>
-                                <input type="date" id="birth_date" name="birth_date" class="form-input" value="{{ old('birth_date') }}" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="birthplace" class="form-label required">Birthplace</label>
-                                <input type="text" id="birthplace" name="birthplace" class="form-input" value="{{ old('birthplace') }}" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="citizenship" class="form-label required">Citizenship</label>
-                            <select id="citizenship" name="citizenship" class="form-select" required>
-                                <option value="">Select Citizenship</option>
-                                <option value="filipino" {{ old('citizenship') == 'filipino' ? 'selected' : '' }}>Filipino</option>
-                                <option value="dual" {{ old('citizenship') == 'dual' ? 'selected' : '' }}>Dual Citizenship</option>
-                                <option value="other" {{ old('citizenship') == 'other' ? 'selected' : '' }}>Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact_number" class="form-label required">Contact Number</label>
-                            <input type="tel" id="contact_number" name="contact_number" class="form-input" value="{{ old('contact_number') }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Account Ownership:</label>
-                            <div class="radio-group">
-                                <label class="radio-label">
-                                    <input type="radio" name="account_ownership" value="individual" {{ old('account_ownership') == 'individual' ? 'checked' : '' }}>
-                                    <span class="radio-custom"></span>
-                                    Individual
-                                </label>
-                                <label class="radio-label">
-                                    <input type="radio" name="account_ownership" value="business" {{ old('account_ownership') == 'business' ? 'checked' : '' }}>
-                                    <span class="radio-custom"></span>
-                                    Business
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="application_photo" class="form-label required">Application Photo</label>
-                            <div class="file-upload-area" id="file-upload-area">
-                                <div class="file-upload-content">
-                                    <div class="upload-icon">↑</div>
-                                    <p class="upload-text">Click here to upload or drop media here</p>
+                            
+                            <div class="status-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">Property Address:</span>
+                                    <span class="detail-value">{{ $status['property_address'] }}</span>
                                 </div>
-                                <input type="file" id="application_photo" name="application_photo" class="file-input" accept="image/*" required>
+                                <div class="detail-row">
+                                    <span class="detail-label">Owner Name:</span>
+                                    <span class="detail-value">{{ $status['owner_name'] }}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">TCT Number:</span>
+                                    <span class="detail-value">{{ $status['tct_number'] }}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Tax Declaration Number:</span>
+                                    <span class="detail-value">{{ $status['tax_declaration_number'] }}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Submitted Date:</span>
+                                    <span class="detail-value">{{ date('F j, Y', strtotime($status['submitted_date'])) }}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Last Updated:</span>
+                                    <span class="detail-value">{{ date('F j, Y', strtotime($status['last_updated'])) }}</span>
+                                </div>
                             </div>
+
+                            <div class="status-remarks">
+                                <h4>Remarks</h4>
+                                <p>{{ $status['remarks'] }}</p>
+                            </div>
+
+                            @if(isset($status['next_steps']) && count($status['next_steps']) > 0)
+                            <div class="next-steps">
+                                <h4>Next Steps</h4>
+                                <ul>
+                                    @foreach($status['next_steps'] as $step)
+                                    <li>{{ $step }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
+                        </div>
+
+                        <div class="action-buttons">
+                            <a href="/application-status" class="continue-btn">Check Another Application</a>
+                            <a href="/" class="continue-btn secondary">Back to Home</a>
                         </div>
                     </div>
-                </div>
+                @else
+                    <!-- Status Form -->
+                    <div class="login-form-container">
+                        <h2 class="signin-title">Check Application Status</h2>
+                        
+                        <form id="status-form" method="POST" action="{{ route('application-status.verify') }}">
+                            @csrf
+                            
+                            @if ($errors->has('general'))
+                            <div class="form-field" role="alert">
+                                <div class="error-message">{{ $errors->first('general') }}</div>
+                            </div>
+                            @endif
 
-                <!-- Terms and Regulation Section -->
-                <div class="form-section">
-                    <div class="section-header">
-                        <div class="section-number">2</div>
-                        <h2 class="section-title">Terms and Regulation</h2>
+                            <div class="form-field">
+                                <label for="tct_number">Transfer Certificate of Title (TCT) Number</label>
+                                <input type="text" id="tct_number" name="tct_number" value="{{ old('tct_number') }}" placeholder="Enter TCT Number" />
+                            </div>
+
+                            <div class="form-field">
+                                <label for="tax_declaration_number">Tax Declaration Number(s) of the Building(s)</label>
+                                <input type="text" id="tax_declaration_number" name="tax_declaration_number" value="{{ old('tax_declaration_number') }}" placeholder="Enter Tax Declaration Number" />
+                            </div>
+
+                            <div class="form-field">
+                                <label for="owner_number">Owner's Number</label>
+                                <input type="text" id="owner_number" name="owner_number" value="{{ old('owner_number') }}" placeholder="Enter Owner's Number" />
+                            </div>
+
+                            <div class="form-actions">
+                                <label class="remember">
+                                    <input type="checkbox" id="terms_accepted" name="terms_accepted" value="1" {{ old('terms_accepted') ? 'checked' : '' }} required />
+                                    <span>I agree to all the <a href="#" class="terms-link">Terms</a> and <a href="#" class="privacy-link">Privacy policy</a></span>
+                                </label>
+                            </div>
+
+                            @if ($errors->has('terms_accepted'))
+                            <div class="form-field" role="alert">
+                                <div class="error-message">{{ $errors->first('terms_accepted') }}</div>
+                            </div>
+                            @endif
+
+                            <button type="submit" class="continue-btn">VERIFY</button>
+                        </form>
+
+                        <!-- Additional Links -->
+                        <div class="additional-links">
+                            <p class="signup-link">Need to login? <a href="/login" class="link-bold">SIGN IN HERE</a></p>
+                            <a href="/register" class="status-link">Create New Account</a>
+                        </div>
                     </div>
-                    <p class="terms-description">
-                        I consent to the processing, profiling, and disclosure of all Personal Data—as defined under the Data Privacy Act of 2012—including customer, account, and transaction information held by the City Government. Such data may be shared with requesting parties or used in legal proceedings, audits, investigations, or other official inquiries. This consent applies regardless of any non-disclosure agreements and may extend to jurisdictions with less stringent data privacy laws.
-                    </p>
-                </div>
-
-                <!-- Navigation Buttons -->
-                <div class="form-navigation">
-                    <button type="button" class="btn btn-back" onclick="goBack()">
-                        <span class="btn-icon">←</span>
-                        Back
-                    </button>
-                    <button type="submit" class="btn btn-next">
-                        Next
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Footer -->
-        <div class="transfer-footer">
-            <p class="copyright">Copyright © 2025 All Rights Reserved</p>
+                @endif
+            </div>
         </div>
     </div>
-
-    <script src="{{ asset('js/transfer-of-ownership.js') }}"></script>
 </body>
 </html>

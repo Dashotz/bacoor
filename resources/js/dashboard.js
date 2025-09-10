@@ -20,7 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if user is authenticated with JWT
     // Wait a bit for JWT auth to initialize
     setTimeout(() => {
+        console.log('Dashboard JWT Check:');
+        console.log('Session Data:', window.sessionData);
+        console.log('JWT Auth available:', !!window.jwtAuth);
+        console.log('JWT Auth authenticated:', window.jwtAuth ? window.jwtAuth.isAuthenticated() : 'N/A');
+        console.log('JWT Token:', window.jwtAuth ? window.jwtAuth.token : 'N/A');
+        console.log('JWT User:', window.jwtAuth ? window.jwtAuth.user : 'N/A');
+        
         if (!window.jwtAuth || !window.jwtAuth.isAuthenticated()) {
+            console.log('User not authenticated in dashboard, redirecting to home');
             window.location.href = '/';
             return;
         }
@@ -408,7 +416,32 @@ function handleServiceSelection(card, serviceIndex) {
     startBtn.textContent = 'Processing...';
     startBtn.disabled = true;
     
-    // Simulate processing time
+    // Check if this is the Transfer of Ownership service
+    if (serviceTitle.includes('Transfer Of Ownership / Updating Of Tax Declaration')) {
+        console.log('Transfer of Ownership service clicked');
+        
+        // Check if JWT is available and user is authenticated
+        if (window.jwtAuth && window.jwtAuth.isAuthenticated()) {
+            console.log('User authenticated, redirecting to transfer of ownership page');
+            window.location.href = '/transfer-of-ownership';
+            return;
+        }
+        
+        // If JWT is not available yet, wait a bit and try again
+        console.log('JWT not ready, waiting...');
+        setTimeout(() => {
+            if (window.jwtAuth && window.jwtAuth.isAuthenticated()) {
+                console.log('User authenticated after wait, redirecting to transfer of ownership page');
+                window.location.href = '/transfer-of-ownership';
+            } else {
+                console.log('User not authenticated, redirecting to home');
+                window.location.href = '/';
+            }
+        }, 1500); // Wait 1.5 seconds for JWT to initialize
+        return;
+    }
+    
+    // Simulate processing time for other services
     setTimeout(() => {
         // Remove loading state
         card.classList.remove('loading');

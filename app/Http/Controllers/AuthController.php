@@ -176,6 +176,47 @@ class AuthController extends Controller
     }
 
     /**
+     * Web login for form submission.
+     */
+    public function webLogin(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $credentials = $request->only('email', 'password');
+
+        try {
+            if (!$token = JWTAuth::attempt($credentials)) {
+                return redirect()->back()
+                    ->withErrors(['email' => 'Invalid credentials'])
+                    ->withInput();
+            }
+        } catch (JWTException $e) {
+            return redirect()->back()
+                ->withErrors(['email' => 'Could not create token'])
+                ->withInput();
+        }
+
+        // Store JWT token and user data in session for web access
+        $user = Auth::user();
+        session([
+            'jwt_token' => $token,
+            'jwt_user' => $user->toArray()
+        ]);
+
+        return redirect()->route('dashboard')
+            ->with('success', 'Login successful!');
+    }
+
+    /**
      * Get a JWT via given credentials.
      */
     public function login(Request $request)

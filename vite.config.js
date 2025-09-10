@@ -20,6 +20,8 @@ export default defineConfig({
                 'resources/js/login.js',
                 'resources/css/landing.css',
                 'resources/js/landing.js',
+                'resources/css/transfer-of-ownership.css',
+                'resources/js/transfer-of-ownership.js',
             ],
             refresh: true,
         }),

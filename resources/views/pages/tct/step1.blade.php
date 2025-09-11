@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TCT Application - City Government of Bacoor</title>
+    @vite(['resources/css/pages/tct.css', 'resources/js/pages/tct.js', 'resources/js/core/jwt-auth.js'])
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#0a3b7a" />
+</head>
+<body data-jwt-token="{{ session('jwt_token') }}" data-jwt-user="{{ json_encode(session('jwt_user')) }}">
+    <div class="tct-container">
+        <!-- Page Background -->
+        <div class="page-background">
+            <div class="background-left"></div>
+            <div class="background-right"></div>
+        </div>
+
+        <!-- Header -->
+        <header class="tct-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="/images/bacoor-logo.png" alt="Bacoor City Seal" class="city-logo" />
+                    <span class="egov-text">BACOOR CITY EGOV™</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tct-card">
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-step active">
+                            <div class="step-number">01</div>
+                            <div class="step-label">Applicant info</div>
+                        </div>
+                        <div class="step-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 18l6-6-6-6"/>
+                            </svg>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-number">02</div>
+                            <div class="step-label">Required Document</div>
+                        </div>
+                        <div class="step-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 18l6-6-6-6"/>
+                            </svg>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-number">03</div>
+                            <div class="step-label">Payment info</div>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="tct-form" method="POST" action="{{ route('tct.step1.submit') }}">
+                    @csrf
+                    
+                    <!-- Step 1: Basic Info -->
+                    <div class="form-section">
+                        <div class="section-header">                        
+                            <h2 class="section-title">Basic info</h2>
+                        </div>
+                        
+                        <p class="section-description">
+                            By registering, the user confirms the accuracy of the information provided, agrees to verify their account via the email confirmation link, and is responsible for maintaining the confidentiality of their credentials. Multiple or fraudulent accounts are strictly prohibited.
+                        </p>
+                        
+                        <p class="required-note">*All fields required unless noted.</p>
+
+                        <!-- Account Details -->
+                        <div class="form-subsection">
+                            <div class="subsection-header">Account Details</div>
+                            
+                            <div class="account-details-row">
+                                <div class="form-field email-field">
+                                    <label for="email" class="field-label">* Verified Email Address</label>
+                                    <input type="email" id="email" name="email" class="form-input" value="{{ old('email', $user->email ?? 'No email found') }}" required readonly />
+                                </div>
+                                
+                                <div class="form-field password-field">
+                                    <label for="password" class="field-label">* Password</label>
+                                    <div class="password-input-wrapper">
+                                        <input type="password" id="password" name="password" class="form-input" required />
+                                        <button type="button" class="password-toggle" data-target="password">
+                                            <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            <svg class="eye-slash-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <span class="error-message" id="password-error" style="display: none;">Password must be at least 8 characters long</span>
+                                </div>
+                                
+                                <div class="form-field password-field">
+                                    <label for="password_confirmation" class="field-label">* Confirm Password</label>
+                                    <div class="password-input-wrapper">
+                                        <input type="password" id="password_confirmation" name="password_confirmation" class="form-input" required />
+                                        <button type="button" class="password-toggle" data-target="password_confirmation">
+                                            <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            <svg class="eye-slash-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <span class="error-message" id="password-confirmation-error" style="display: none;">Password confirmation is required</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Application Info -->
+                        <div class="form-subsection">
+                            <div class="subsection-header">Application Info</div>
+                            
+                            <div class="name-fields-row">
+                                <div class="form-field">
+                                    <label for="first_name" class="field-label">* First Name</label>
+                                    <input type="text" id="first_name" name="first_name" class="form-input" value="{{ old('first_name') }}" required />
+                                </div>
+                                
+                                <div class="form-field">
+                                    <label for="middle_name" class="field-label">Middle Name</label>
+                                    <input type="text" id="middle_name" name="middle_name" class="form-input" value="{{ old('middle_name') }}" />
+                                </div>
+                                
+                                <div class="form-field">
+                                    <label for="last_name" class="field-label">* Last Name</label>
+                                    <input type="text" id="last_name" name="last_name" class="form-input" value="{{ old('last_name') }}" required />
+                                </div>
+                                
+                                <div class="form-field">
+                                    <label for="suffix" class="field-label">Suffix</label>
+                                    <select id="suffix" name="suffix" class="form-select">
+                                        <option value="">Select suffix</option>
+                                        <option value="Jr." {{ old('suffix') == 'Jr.' ? 'selected' : '' }}>Jr.</option>
+                                        <option value="Sr." {{ old('suffix') == 'Sr.' ? 'selected' : '' }}>Sr.</option>
+                                        <option value="II" {{ old('suffix') == 'II' ? 'selected' : '' }}>II</option>
+                                        <option value="III" {{ old('suffix') == 'III' ? 'selected' : '' }}>III</option>
+                                        <option value="IV" {{ old('suffix') == 'IV' ? 'selected' : '' }}>IV</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-field">
+                                <label class="field-label">What's your gender?</label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="gender" value="female" {{ old('gender') == 'female' ? 'checked' : '' }} />
+                                        <span class="radio-label">Female</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="gender" value="male" {{ old('gender') == 'male' ? 'checked' : '' }} />
+                                        <span class="radio-label">Male</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="civil_status" class="field-label">* Civil Status</label>
+                                <select id="civil_status" name="civil_status" class="form-select" required>
+                                    <option value="">Select civil status</option>
+                                    <option value="single" {{ old('civil_status') == 'single' ? 'selected' : '' }}>Single</option>
+                                    <option value="married" {{ old('civil_status') == 'married' ? 'selected' : '' }}>Married</option>
+                                    <option value="widowed" {{ old('civil_status') == 'widowed' ? 'selected' : '' }}>Widowed</option>
+                                    <option value="divorced" {{ old('civil_status') == 'divorced' ? 'selected' : '' }}>Divorced</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label class="field-label">What's your date of birth?</label>
+                                <div class="birth-fields-row">
+                                    <div class="form-field">
+                                        <label for="birth_date" class="field-label">* Birth date</label>
+                                        <div class="date-input-wrapper">
+                                            <input type="date" id="birth_date" name="birth_date" class="form-input" value="{{ old('birth_date') }}" required />
+                                            <svg class="calendar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="form-field">
+                                        <label for="birthplace" class="field-label">* Birthplace</label>
+                                        <input type="text" id="birthplace" name="birthplace" class="form-input" value="{{ old('birthplace') }}" required />
+                                    </div>
+                                    <div class="form-field">
+                                        <label for="citizenship_dropdown" class="field-label">* Citizenship</label>
+                                        <select id="citizenship_dropdown" name="citizenship_dropdown" class="form-select" required>
+                                            <option value="">Select citizenship</option>
+                                            <option value="Filipino" {{ old('citizenship_dropdown') == 'Filipino' ? 'selected' : '' }}>Filipino</option>
+                                            <option value="Dual Citizen" {{ old('citizenship_dropdown') == 'Dual Citizen' ? 'selected' : '' }}>Dual Citizen</option>
+                                            <option value="Foreigner" {{ old('citizenship_dropdown') == 'Foreigner' ? 'selected' : '' }}>Foreigner</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="additional-fields-row">
+                                <div class="form-field">
+                                    <label for="citizenship_input" class="field-label">* Citizenship</label>
+                                    <input type="text" id="citizenship_input" name="citizenship_input" class="form-input" value="{{ old('citizenship_input') }}" required />
+                                </div>
+                                <div class="form-field">
+                                    <label for="contact_number" class="field-label">* Contact Number</label>
+                                    <input type="tel" id="contact_number" name="contact_number" class="form-input" value="{{ old('contact_number') }}" placeholder="09XX XXX XXXX" required />
+                                </div>
+                            </div>
+
+                            <div class="form-field">
+                                <label class="field-label">Account Ownership:</label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="account_type" value="individual" {{ old('account_type', 'individual') == 'individual' ? 'checked' : '' }} />
+                                        <span class="radio-label">Individual</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="account_type" value="business" {{ old('account_type') == 'business' ? 'checked' : '' }} />
+                                        <span class="radio-label">Business</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Application Photo -->
+                        <div class="form-field">
+                            <label class="field-label">* Application Photo</label>
+                            <div class="photo-upload-area" id="photo-upload-area">
+                                <svg class="upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7,10 12,15 17,10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                <div class="upload-text">Click here to upload or drop media here</div>
+                                <input type="file" id="application_photo" name="application_photo" accept="image/*" style="display: none;" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Terms and Regulation -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Terms and Regulation</h2>
+                        </div>
+                        
+                        <p class="section-description">
+                            I hereby give my consent to the City Government of Bacoor to process my personal data in accordance with the Data Privacy Act of 2012 (Republic Act No. 10173) and its implementing rules and regulations.
+                        </p>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Next</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="tct-footer">
+            <p>Copyright © 2025 All Rights Reserved</p>
+        </footer>
+    </div>
+</body>
+</html>

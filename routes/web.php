@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\ForgotPasswordController;
@@ -82,6 +83,25 @@ Route::middleware(['jwt.web'])->prefix('transfer-apply')->group(function () {
     Route::post('/step3', [TransferApplyController::class, 'submitStep3'])->name('transfer-apply.step3.submit');
     Route::get('/status', [TransferApplyController::class, 'getApplicationStatus'])->name('transfer-apply.status');
     Route::post('/cancel', [TransferApplyController::class, 'cancelApplication'])->name('transfer-apply.cancel');
+});
+
+// TCT Routes
+Route::middleware(['jwt.web'])->prefix('tct')->group(function () {
+    Route::get('/step1', function (Request $request) {
+        // Get the authenticated user from JWT
+        $user = auth()->user();
+        
+        if (!$user) {
+            return redirect()->route('login.form')->with('error', 'Please log in to access this page');
+        }
+        
+        return view('pages.tct.step1', compact('user'));
+    })->name('tct.step1');
+    
+    Route::post('/step1', function () {
+        // Handle TCT step 1 submission
+        return redirect()->route('tct.step1')->with('success', 'TCT application submitted successfully!');
+    })->name('tct.step1.submit');
 });
 
 
